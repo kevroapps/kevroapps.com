@@ -8,14 +8,18 @@ Pure HTML5 + one CSS file. No framework, no build step, no JavaScript.
 
 ```
 .
-├── index.html       Home: hero + featured app + footer
-├── apps.html        Apps listing (currently one entry)
-├── privacy.html     Privacy policy (placeholder body — paste real content)
-├── css/styles.css   Single stylesheet, mobile-first
-├── images/          Logo and OG image (add files here as needed)
-├── CNAME            Custom domain for GitHub Pages
-└── README.md        This file
+├── index.html        Home: hero + featured app + footer
+├── apps/
+│   └── index.html    Apps listing (currently one entry)
+├── privacy/
+│   └── index.html    Privacy policy
+├── css/styles.css    Single stylesheet, mobile-first
+├── images/           Logo and OG image (add files here as needed)
+├── CNAME             Custom domain for GitHub Pages
+└── README.md         This file
 ```
+
+Subpages use folder-with-index pattern for clean URLs: `/apps`, `/privacy`.
 
 Total site weight: ~10KB.
 
@@ -67,10 +71,10 @@ If the IPs change, the current list is documented at GitHub's "Managing a custom
 
 ## Updating content
 
-- **Privacy policy:** open `privacy.html` and paste the policy text in place of the `<!-- Privacy policy content will be inserted here -->` comment. Update the `<em>to be filled in</em>` stub with the real "Last updated" date.
-- **Google Play link:** the featured-app button on both `index.html` and `apps.html` uses `href="#"`. Replace both with the real Play Store URL after launch.
+- **Privacy policy:** edit `privacy/index.html` directly when the policy needs updates.
+- **Google Play link:** the featured-app button on both `index.html` and `apps/index.html` uses `href="#"`. Replace both with the real Play Store URL after launch.
 - **OG image:** drop a 1200x630 PNG at `images/og-image.png`. The meta tags already point at that path.
 
 ## Adding a new app
 
-Copy the `<section class="featured">` block from `apps.html`, paste it below the existing one, and update the heading, description, and link. No CSS changes needed.
+Copy the `<section class="featured">` block from `apps/index.html`, paste it below the existing one, and update the heading, description, and link. No CSS changes needed.
