@@ -426,6 +426,62 @@ a:focus-visible {
   padding-bottom: 0;
 }
 
+/* Tester page — step emphasis (closed-test period) */
+.tester-alert {
+  background: #FFF6E6;
+  border-left: 4px solid #F5A623;
+  padding: 16px 20px;
+  margin: 24px 0;
+  border-radius: 4px;
+}
+
+.tester-alert p { margin: 0; }
+
+.step-minor h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.step-minor p { color: var(--muted); }
+
+.btn-secondary {
+  display: inline-block;
+  padding: 9px 16px;
+  background: transparent;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+  background: var(--accent-soft);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.step-main {
+  background: var(--accent-soft);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: var(--space-3);
+  margin: var(--space-3) 0;
+}
+
+.step-main h3 {
+  margin-top: 0;
+  font-size: 20px;
+  color: var(--primary);
+}
+
+.step-main .micro {
+  margin-bottom: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
 /* Desktop */
 @media (min-width: 700px) {
   .hero { padding: var(--space-6) 0 var(--space-5); }
