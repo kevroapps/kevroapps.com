@@ -67,11 +67,20 @@ a:focus-visible {
 }
 
 .wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-weight: 700;
   font-size: 17px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   color: var(--primary);
-  text-transform: uppercase;
+}
+
+.wordmark-logo {
+  width: 58px;
+  height: auto;
+  display: block;
+  flex-shrink: 0;
 }
 
 .wordmark:hover, .wordmark:focus { text-decoration: none; }
