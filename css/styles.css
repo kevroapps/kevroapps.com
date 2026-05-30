@@ -131,7 +131,14 @@ a:focus-visible {
 /* Featured app */
 .featured {
   padding: var(--space-4) 0 var(--space-5);
-  border-top: 1px solid var(--hairline);
+}
+
+.app-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  padding: var(--space-3);
+  box-shadow: 0 12px 32px rgba(10, 37, 64, 0.08);
 }
 
 .eyebrow {
@@ -425,6 +432,7 @@ a:focus-visible {
   .hero h1 { font-size: 40px; }
   .featured { padding: var(--space-5) 0 var(--space-6); }
   .featured h2 { font-size: 28px; }
+  .app-card { padding: var(--space-4); }
   .about { padding: var(--space-5) 0 var(--space-6); }
   .about h2 { font-size: 28px; }
   .values { grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
