@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCMAS — Mental Math & Abacus Education Center | Doha, Qatar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   KEVRO APPS — Education Center Page
+   UCMAS Doha — Mental Math & Abacus Learning
+   ============================================ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, sans-serif; color: #1a1a2e; line-height: 1.6; }
+
+/* --- Colors --- */
+:root {
+  --primary: #6c5ce7;
+  --primary-dark: #5a4bd1;
+  --primary-light: #a29bfe;
+  --accent: #00cec9;
+  --accent-dark: #00b5b0;
+  --bg-light: #f8f9ff;
+  --bg-dark: #1a1a2e;
+  --text: #1a1a2e;
+  --text-light: #6c757d;
+  --white: #ffffff;
+  --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  --shadow-lg: 0 12px 40px rgba(108,92,231,0.18);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+/* --- Hero --- */
+.hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #16213e 50%, #0f3460 100%);
+  color: var(--white);
+  padding: 80px 24px 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(108,92,231,0.15) 0%, transparent 60%),
+              radial-gradient(circle at 80% 30%, rgba(0,206,201,0.1) 0%, transparent 50%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.hero-badge {
+  display: inline-block;
+  background: rgba(108,92,231,0.2);
+  border: 1px solid rgba(108,92,231,0.3);
+  color: var(--primary-light);
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+}
+.hero h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+.hero h1 span { color: var(--primary-light); }
+.hero p { font-size: 1.15rem; color: rgba(255,255,255,0.75); max-width: 520px; margin: 0 auto 36px; }
+.hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 32px; border-radius: 50px;
+  font-weight: 600; font-size: 1rem;
+  text-decoration: none; cursor: pointer;
+  transition: all 0.3s ease; border: none;
+}
+.btn-primary { background: var(--primary); color: var(--white); }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108,92,231,0.35); }
+.btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.25); }
+.btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+.btn-accent { background: var(--accent); color: var(--bg-dark); }
+.btn-accent:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,206,201,0.35); }
+.btn-sm { padding: 10px 22px; font-size: 0.9rem; }
+
+/* --- Stats Bar --- */
+.stats-bar {
+  background: var(--white);
+  padding: 40px 24px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  z-index: 2;
+  margin: -50px 24px 0;
+  border-radius: var(--radius);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+.stat-number { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+.stat-label { font-size: 0.85rem; color: var(--text-light); margin-top: 4px; }
+
+/* --- Sections --- */
+.section { padding: 80px 24px; }
+.section-alt { background: var(--bg-light); }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  display: inline-block;
+  background: rgba(108,92,231,0.1);
+  color: var(--primary);
+  padding: 5px 16px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.section-sub {
+  text-align: center;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto 48px;
+  font-size: 1.05rem;
+}
+.section.centered-text { text-align: center; }
+
+/* --- About --- */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.about-image {
+  background: linear-gradient(135deg, var(--primary-light), var(--accent));
+  border-radius: var(--radius);
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 3rem;
+  font-weight: 700;
+}
+.about-content h3 { font-size: 1.6rem; margin-bottom: 16px; }
+.about-content p { color: var(--text-light); margin-bottom: 20px; }
+.feature-list { list-style: none; }
+.feature-list li {
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text);
+}
+.feature-list li::before {
+  content: '✓';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; height: 24px;
+  background: rgba(0,206,201,0.15);
+  color: var(--accent-dark);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* --- Programs --- */
+.programs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.program-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(108,92,231,0.06);
+}
+.program-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.program-icon {
+  width: 52px; height: 52px;
+  background: rgba(108,92,231,0.1);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+}
+.program-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.program-card p { color: var(--text-light); font-size: 0.92rem; margin-bottom: 16px; }
+.program-link {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.program-link:hover { gap: 10px; }
+
+/* --- Why Us --- */
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.why-card {
+  text-align: center;
+  padding: 36px 24px;
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+.why-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.why-icon {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  font-size: 1.5rem;
+  color: var(--white);
+}
+.why-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.why-card p { color: var(--text-light); font-size: 0.9rem; }
+
+/* --- Testimonials --- */
+.testimonials-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.testimonial-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(108,92,231,0.06);
+}
+.testimonial-stars { color: #fbbf24; font-size: 1.1rem; margin-bottom: 14px; letter-spacing: 2px; }
+.testimonial-text { color: var(--text); font-style: italic; margin-bottom: 18px; line-height: 1.7; font-size: 0.95rem; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-light), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.testimonial-name { font-weight: 600; font-size: 0.9rem; }
+.testimonial-role { color: var(--text-light); font-size: 0.8rem; }
+
+/* --- CTA --- */
+.cta-section {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #16213e 50%, #0f3460 100%);
+  color: var(--white);
+  text-align: center;
+  padding: 80px 24px;
+}
+.cta-section h2 { font-size: 2rem; margin-bottom: 16px; color: var(--white); }
+.cta-section p { color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto 32px; font-size: 1.05rem; }
+.cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* --- Contact --- */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+.contact-info h3 { font-size: 1.3rem; margin-bottom: 16px; }
+.contact-info p { color: var(--text-light); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+.contact-info strong { color: var(--text); }
+.contact-info a { color: var(--primary); text-decoration: none; }
+.contact-info a:hover { text-decoration: underline; }
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+  transition: border-color 0.2s;
+  background: var(--white);
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
+}
+.contact-form textarea { height: 110px; resize: vertical; }
+.contact-form button { width: 100%; }
+
+/* --- Footer --- */
+footer {
+  background: var(--bg-dark);
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 32px 24px;
+  font-size: 0.85rem;
+}
+footer a { color: var(--primary-light); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* --- WhatsApp Float --- */
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #25D366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+  text-decoration: none;
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(37,211,102,0.45); }
+.whatsapp-float svg { width: 30px; height: 30px; fill: white; }
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 1.8rem; }
+  .hero p { font-size: 1rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .stat-number { font-size: 1.4rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .about-image { height: 220px; }
+  .programs-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .section { padding: 60px 20px; }
+  .stats-bar { margin: -40px 16px 0; padding: 24px 16px; }
+}
+
+/* --- Utility --- */
+.text-center { text-align: center; }
+.mt-2 { margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<!-- ============================
+     HERO SECTION
+     ============================ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🧮 UCMAS — Licensed &amp; Trusted Since 2002</div>
+    <h1>
+      Unlock Your Child's<br>
+      <span>Mental Math Potential</span>
+    </h1>
+    <p>
+      UCMAS abacus-based mental arithmetic program for children aged 4–14 in Doha, Qatar.
+      Build speed, accuracy, and confidence in math.
+    </p>
+    <div class="hero-buttons">
+      <a href="https://wa.me/974XXXXXXXX?text=Hi!%20I'm%20interested%20in%20UCMAS%20programs%20in%20Doha" class="btn btn-accent">&#x1F4AC; Enquire on WhatsApp</a>
+      <a href="#programs" class="btn btn-outline">Our Programs ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     STATS BAR
+     ============================ -->
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div><div class="stat-number">1M+</div><div class="stat-label">Students Worldwide</div></div>
+    <div><div class="stat-number">90+</div><div class="stat-label">Countries</div></div>
+    <div><div class="stat-number">23+</div><div class="stat-label">Years Experience</div></div>
+    <div><div class="stat-number">4.9</div><div class="stat-label">Parent Rating</div></div>
+  </div>
+</div>
+
+<!-- ============================
+     ABOUT
+     ============================ -->
+<section class="section" id="about">
+  <div class="container about-grid">
+    <div class="about-image">
+      🧮
+    </div>
+    <div class="about-content">
+      <div class="section-label">About UCMAS</div>
+      <h3>World's Leading Mental Math Program</h3>
+      <p>
+        UCMAS (Universal Concept of Mental Arithmetic System) is a globally
+        recognized after-school program that uses the abacus to help children
+        develop exceptional mental math skills, concentration, and cognitive
+        abilities. Our Doha center brings this proven methodology to students
+        across Qatar.
+      </p>
+      <ul class="feature-list">
+        <li>Proven abacus-based mental math methodology</li>
+        <li>Small group classes for personalized attention</li>
+        <li>Boost concentration, memory &amp; problem-solving</li>
+        <li>Regular progress assessments &amp; parent reports</li>
+        <li>Free trial class — experience the difference</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     PROGRAMS
+     ============================ -->
+<section class="section section-alt" id="programs">
+  <div class="container">
+    <div class="section-label text-center">Our Programs</div>
+    <h2>UCMAS Courses in Doha</h2>
+    <p class="section-sub">
+      Age-appropriate programs designed to develop mental arithmetic and cognitive skills.
+    </p>
+    <div class="programs-grid">
+      <div class="program-card">
+        <div class="program-icon">🧮</div>
+        <h3>Basic Abacus (Ages 4–6)</h3>
+        <p>Introduction to the abacus — foundational number sense, motor skills, and early math confidence through fun, hands-on activities.</p>
+        <a href="#" class="program-link">Learn more &rarr;</a>
+      </div>
+      <div class="program-card">
+        <div class="program-icon">⚡</div>
+        <h3>Mental Math (Ages 7–10)</h3>
+        <p>Transition from physical abacus to mental visualization. Students perform rapid calculations without the abacus — building speed and accuracy.</p>
+        <a href="#" class="program-link">Learn more &rarr;</a>
+      </div>
+      <div class="program-card">
+        <div class="program-icon">🏆</div>
+        <h3>Advanced &amp; Competition (Ages 11–14)</h3>
+        <p>Master-level mental arithmetic, multi-digit operations, and preparation for UCMAS national and international competitions.</p>
+        <a href="#" class="program-link">Learn more &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     WHY US
+     ============================ -->
+<section class="section" id="why-us">
+  <div class="container">
+    <div class="section-label text-center">Why UCMAS</div>
+    <h2>What Makes UCMAS Different</h2>
+    <p class="section-sub">
+      Not just math — we build life-long cognitive skills through the power of the abacus.
+    </p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🧠</div>
+        <h3>Whole-Brain Development</h3>
+        <p>UCMAS activates both left and right hemispheres — improving logic, creativity, memory, and spatial reasoning simultaneously.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📈</div>
+        <h3>Proven Results</h3>
+        <p>Over 1 million graduates worldwide. Students consistently show dramatic improvements in math speed, accuracy, and academic confidence.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">👩‍🏫</div>
+        <h3>Certified Instructors</h3>
+        <p>All UCMAS instructors are fully trained and certified in the UCMAS methodology, ensuring the highest quality instruction.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">👥</div>
+        <h3>Small Batches</h3>
+        <p>Limited class sizes ensure every child gets individual attention and support from the instructor.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🏅</div>
+        <h3>International Competitions</h3>
+        <p>Students have the opportunity to participate in national and international UCMAS competitions, showcasing their skills globally.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📍</div>
+        <h3>Convenient Location</h3>
+        <p>Centrally located in Doha with easy access, parking, and a child-friendly learning environment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     TESTIMONIALS
+     ============================ -->
+<section class="section section-alt" id="testimonials">
+  <div class="container">
+    <div class="section-label text-center">Testimonials</div>
+    <h2>What Parents Say</h2>
+    <p class="section-sub">
+      Real feedback from families who have experienced the UCMAS difference.
+    </p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "My daughter used to struggle with math. After just 6 months of UCMAS,
+          she's doing calculations in her head faster than I can on a calculator!
+          Her confidence has soared."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">NM</div>
+          <div>
+            <div class="testimonial-name">Noor M.</div>
+            <div class="testimonial-role">Parent — Age 8</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "UCMAS has been incredible for my son's concentration and focus. His
+          teachers at school have noticed the improvement too. Highly recommend
+          this program to every parent."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AK</div>
+          <div>
+            <div class="testimonial-name">Ahmed K.</div>
+            <div class="testimonial-role">Parent — Age 10</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     CTA SECTION
+     ============================ -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Give Your Child the UCMAS Advantage</h2>
+    <p>
+      Book a free trial class today — no obligation, no fees.
+      See the difference mental math mastery makes.
+    </p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/974XXXXXXXX?text=Hi!%20I'm%20interested%20in%20UCMAS%20programs%20in%20Doha" class="btn btn-accent">&#x1F4AC; Book Free Trial on WhatsApp</a>
+      <a href="#contact" class="btn btn-outline">Contact Us &darr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     CONTACT
+     ============================ -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-label text-center">Get in Touch</div>
+    <h2>Contact UCMAS Doha</h2>
+    <p class="section-sub">
+      Have questions about our programs? We're here to help.
+    </p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Visit or Call</h3>
+        <p>📍 <strong>Location:</strong> [Your Area], Doha, Qatar</p>
+        <p>📞 <strong>Phone:</strong> <a href="tel:+974XXXXXXXX">+974 XXXX XXXX</a></p>
+        <p>📧 <strong>Email:</strong> <a href="mailto:ucmas.doha@kevroapps.com">ucmas.doha@kevroapps.com</a></p>
+        <p>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/974XXXXXXXX?text=Hi!%20I'm%20interested%20in%20UCMAS%20programs%20in%20Doha">Click to chat</a></p>
+        <p style="margin-top:20px;font-size:0.9rem;color:var(--text-light);">
+          <strong>Hours:</strong><br>
+          Sat–Thu: 9:00 AM – 8:00 PM<br>
+          Friday: Closed
+        </p>
+      </div>
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! We will get back to you shortly.');">
+        <input type="text" placeholder="Your Name" required>
+        <input type="tel" placeholder="Phone Number" required>
+        <input type="email" placeholder="Email Address">
+        <textarea placeholder="Message — tell us about your child's age and needs..."></textarea>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     FOOTER
+     ============================ -->
+<footer>
+  <div class="container">
+    <p>&copy; 2026 <strong>UCMAS Doha</strong>. All rights reserved.</p>
+    <p style="margin-top:6px;">Website by <a href="https://kevroapps.com">Kevro Apps</a></p>
+  </div>
+</footer>
+
+<!-- ============================
+     WHATSAPP FLOATING BUTTON
+     ============================ -->
+<a href="https://wa.me/974XXXXXXXX?text=Hi!%20I'm%20interested%20in%20UCMAS%20programs%20in%20Doha" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+</body>
+</html>
