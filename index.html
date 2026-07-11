@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kevro Apps — Thoughtfully designed mobile apps</title>
+  <title>Kevro Apps: Thoughtfully designed mobile apps</title>
   <meta name="description" content="Kevro Apps builds thoughtfully designed mobile apps for learning, creativity, and everyday life. Calm, ad-free experiences that respect your time and privacy.">
   <meta name="theme-color" content="#0A2540">
 
@@ -22,58 +22,185 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/home.css?v=3">
 </head>
 <body>
+
+  <!-- ===================== HEADER ===================== -->
   <header class="site-header">
-    <div class="container header-row">
-      <a href="/" class="wordmark" aria-label="Kevro Apps home"><img src="/images/kevro-apps-logo-transparent-for-white-header.png" alt="" class="wordmark-logo" width="76" height="46"><span>Kevro Apps</span></a>
-      <nav aria-label="Primary">
-        <a href="/apps/">Apps</a>
-        <a href="/#contact">Contact</a>
+    <div class="wrap header-row">
+      <a href="#top" class="brand" aria-label="Kevro Apps home">
+        <img src="/images/kevro-apps-logo-transparent-for-white-header.png" alt="" class="brand-logo" width="56" height="34">
+        <span class="brand-name">Kevro Apps</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#apps" class="btn btn-nav">Discover our apps →</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <h1>Thoughtfully designed&nbsp;apps<br>for learning, creativity, and&nbsp;everyday life.</h1>
-        <p class="lede">We build small, focused apps that respect your time and your privacy.</p>
-      </div>
-    </section>
 
-    <section class="featured" aria-labelledby="featured-heading">
-      <div class="container">
-        <div class="app-card">
-          <div class="card-head">
-            <img src="images/app_icon.png" alt="Islamic Coloring for Kids app icon" class="app-icon" width="88" height="88">
-            <div class="card-head-text">
-              <p class="eyebrow">Available now</p>
-              <h2 id="featured-heading">Islamic Coloring for Kids</h2>
+    <!-- ===================== HERO ===================== -->
+    <section id="top" class="hero">
+      <div class="hero-glow" aria-hidden="true">
+        <span class="glow-blue"></span>
+        <span class="glow-teal"></span>
+      </div>
+      <div class="wrap hero-inner">
+        <div>
+          <div class="badge">
+            <span class="dot"></span>
+            Independent app studio
+          </div>
+          <h1>Thoughtfully designed apps for learning, creativity &amp; everyday life.</h1>
+          <p class="hero-sub">We build small, focused apps that respect your time and your privacy. No ads, no clutter, just calm and useful experiences.</p>
+          <div class="hero-cta">
+            <a href="#apps" class="btn btn-accent">Explore our apps →</a>
+            <a href="#contact" class="btn btn-secondary">Get in touch</a>
+          </div>
+          <div class="trust">
+            <span><span class="dot"></span>Ad-free</span>
+            <span><span class="dot"></span>Privacy-first</span>
+            <span><span class="dot"></span>Made for families</span>
+          </div>
+        </div>
+
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="/images/screenshots/hero-shot.png" alt="Islamic Coloring for Kids app showing a mosque coloring page" width="300" height="633">
             </div>
           </div>
-          <p class="app-desc">A calm, ad-free coloring app with Islamic themes, designed for young children. Simple to use, gentle on the eyes, and built with families in mind.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring" class="btn-primary" target="_blank" rel="noopener">Get it on Google Play →</a>
         </div>
       </div>
     </section>
 
-    <section class="about" aria-labelledby="about-heading">
-      <div class="container">
-        <p class="eyebrow">About</p>
-        <h2 id="about-heading">About Kevro Apps</h2>
-        <p>An independent software studio focused on safe, respectful, and thoughtfully designed mobile experiences for learning, creativity, and everyday life.</p>
+    <!-- ===================== FEATURED APP ===================== -->
+    <section id="apps" class="apps">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Our apps</p>
+            <h2>Small apps, made with care</h2>
+          </div>
+          <p class="lead">We release slowly and deliberately, with each app focused on doing one thing well.</p>
+        </div>
+
+        <div class="spotlight">
+          <div>
+            <p class="eyebrow">Available now</p>
+            <div class="app-head">
+              <span class="app-icon">
+                <img src="/images/app_icon.png" alt="Islamic Coloring for Kids app icon" width="76" height="76">
+              </span>
+              <h2>Islamic Coloring<br>for Kids</h2>
+            </div>
+            <p class="app-desc">A calm, ad-free coloring app with Islamic themes, designed for young children. Simple to use, gentle on the eyes, and built with families in mind.</p>
+            <div class="chips">
+              <span class="chip">🎨 Ad-free</span>
+              <span class="chip">📴 Works offline</span>
+              <span class="chip">👶 Made for little hands</span>
+            </div>
+            <div class="rating">
+              <span class="stars">
+                <span class="glyphs" aria-hidden="true">★★★★★</span>
+                <span class="score">5.0</span>
+              </span>
+              <span class="sep" aria-hidden="true"></span>
+              <span class="age">Ages 3–12</span>
+            </div>
+            <p class="rating-note">Every review so far is 5 stars ★</p>
+            <a href="https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring" class="btn btn-navy" target="_blank" rel="noopener">Get it on Google Play →</a>
+          </div>
+
+          <div class="shots">
+            <div class="shot raised">
+              <img src="/images/screenshots/shot-1.png" alt="Category picker screen with Free Draw, Kaaba, Mosques, and more" width="300" height="633">
+            </div>
+            <div class="shot center">
+              <img src="/images/screenshots/shot-2.jpg" alt="Free Draw canvas with colorful glitter pen strokes" width="300" height="633">
+            </div>
+            <div class="shot raised">
+              <img src="/images/screenshots/shot-3.png" alt="A fruit basket coloring page, fully colored in" width="300" height="633">
+            </div>
+          </div>
+        </div>
+
+        <div class="more-apps">
+          <div class="left">
+            <div class="more-tile" aria-hidden="true"><span></span></div>
+            <div>
+              <h3>More apps in the works</h3>
+              <p>New apps for learning, creativity, and everyday life are on the way.</p>
+            </div>
+          </div>
+          <a href="#contact" class="more-link">Get notified →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TESTIMONIALS ===================== -->
+    <section class="testimonials" aria-labelledby="testimonials-heading">
+      <div class="wrap">
+        <div class="section-intro">
+          <p class="eyebrow">Loved by families</p>
+          <h2 id="testimonials-heading">What parents are saying</h2>
+        </div>
+        <div class="quotes">
+          <figure class="quote-card">
+            <blockquote>"My kids absolutely love this Islamic colouring app! It's easy for them to use, has a wonderful variety of pictures to colour... I really appreciate that the illustrations don't contain facial images, which is something that's very important to us. Also, there are no ads... It's a fun, safe, and creative app, and I highly recommend it."</blockquote>
+            <figcaption>
+              <span class="avatar blue">UM</span>
+              <span class="quote-name">Umm Maryam</span>
+            </figcaption>
+          </figure>
+          <figure class="quote-card">
+            <blockquote>"I tried this app with my 2.5-year-old, and it kept him entertained while also encouraging creativity. I love how simple and easy it is for young children to use independently... I also appreciate the faceless illustrations, variety of colouring modes, no ads, and offline use."</blockquote>
+            <figcaption>
+              <span class="avatar teal">UQ</span>
+              <span class="quote-name">Umm Qays</span>
+            </figcaption>
+          </figure>
+          <figure class="quote-card">
+            <blockquote>"I downloaded this app for my daughter, and she absolutely loved it. She had so much fun coloring mosques, Islamic dresses, and other pictures. Her favorite feature was the glitter colors... The app is very easy for young children to use, with simple controls and a child friendly interface."</blockquote>
+            <figcaption>
+              <span class="avatar blue">AU</span>
+              <span class="quote-name">Alper U.</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section id="about" class="about" aria-labelledby="about-heading">
+      <div class="wrap">
+        <div class="section-intro">
+          <p class="eyebrow">About</p>
+          <h2 id="about-heading">About Kevro Apps</h2>
+          <p class="about-lead">An independent software studio focused on safe, respectful, and thoughtfully designed mobile experiences for learning, creativity, and everyday life.</p>
+        </div>
         <div class="values">
           <div class="value">
+            <div class="value-tile blue"><span class="mark-square"></span></div>
             <h3>Small by design</h3>
             <p>Clear purpose, fewer distractions, and interfaces that stay easy to understand.</p>
           </div>
           <div class="value">
+            <div class="value-tile teal"><span class="mark-circle"></span></div>
             <h3>Family aware</h3>
             <p>Built with calm pacing, gentle visuals, and everyday usability in mind.</p>
           </div>
           <div class="value">
+            <div class="value-tile blue"><span class="mark-diamond"></span></div>
             <h3>Privacy first</h3>
             <p>Respectful defaults and minimal data needs whenever possible.</p>
           </div>
@@ -81,19 +208,61 @@
       </div>
     </section>
 
-    <section class="contact" id="contact" aria-labelledby="contact-heading">
-      <div class="container contact-row">
-        <h2 id="contact-heading">Have a question?</h2>
-        <p class="contact-email"><a href="mailto:support@kevroapps.com">support@kevroapps.com</a></p>
+    <!-- ===================== PRIVACY STRIP ===================== -->
+    <section class="privacy" aria-labelledby="privacy-heading">
+      <div class="wrap privacy-grid">
+        <div>
+          <p class="eyebrow">Privacy</p>
+          <h2 id="privacy-heading">Privacy you can actually trust</h2>
+          <p class="privacy-lead">No fine print, no surprises. Our apps are built to need as little from you as possible, and here's exactly what that means.</p>
+        </div>
+        <div class="checks">
+          <div class="check">
+            <span class="check-badge" aria-hidden="true">✓</span>
+            <span class="label">No ads or pop-ups</span>
+          </div>
+          <div class="check">
+            <span class="check-badge" aria-hidden="true">✓</span>
+            <span class="label">No tracking or profiling</span>
+          </div>
+          <div class="check">
+            <span class="check-badge" aria-hidden="true">✓</span>
+            <span class="label">No data sold to third parties</span>
+          </div>
+        </div>
       </div>
     </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="contact" aria-labelledby="contact-heading">
+      <div class="wrap">
+        <div class="contact-panel">
+          <div class="glow" aria-hidden="true"></div>
+          <div class="inner">
+            <h2 id="contact-heading">Have a question?</h2>
+            <p>We'd love to hear from you: feedback, ideas, or just to say hello.</p>
+            <a href="mailto:support@kevroapps.com" class="btn btn-accent">support@kevroapps.com</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
+  <!-- ===================== FOOTER ===================== -->
   <footer class="site-footer">
-    <div class="container footer-row">
-      <p>&copy; 2026 Kevro Apps</p>
-      <p><a href="/privacy/">Privacy Policy</a></p>
+    <div class="wrap footer-row">
+      <div class="footer-brand">
+        <img src="/images/kevro-apps-footer-mark.png" alt="" class="footer-mark" width="34" height="34">
+        <span class="footer-name">Kevro Apps</span>
+      </div>
+      <div class="footer-links">
+        <span class="copy">© 2026 Kevro Apps</span>
+        <a href="https://kevroapps.com/privacy/">Privacy Policy</a>
+        <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>
+      </div>
     </div>
   </footer>
+
 </body>
 </html>
