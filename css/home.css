@@ -91,6 +91,20 @@ img { max-width: 100%; display: block; }
   -webkit-backdrop-filter: blur(12px);
   background: rgba(255, 255, 255, 0.82);
   border-bottom: 1px solid var(--border);
+  /* hide-on-scroll-down / show-on-scroll-up: JS toggles .header-hidden */
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+.site-header.header-hidden { transform: translateY(-100%); }
+
+/* Anchor targets clear the sticky header when jumped to via nav links. Header
+   height ≈ 66px on desktop; leave breathing room so the heading lands fully. */
+section[id] { scroll-margin-top: 86px; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* No slide: header stays sticky and always visible (JS no-ops too). */
+  .site-header { transition: none; }
+  .site-header.header-hidden { transform: none; }
 }
 
 .header-row {
@@ -306,6 +320,96 @@ img { max-width: 100%; display: block; }
   object-fit: cover;
 }
 
+/* hero slideshow */
+.hero-figure { width: 300px; position: relative; }
+.slides { position: absolute; inset: 0; }
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.slide.is-active { opacity: 1; }
+
+/* caption chip: centered (H + V) inside the app's bottom cream band, i.e. the
+   gap below the palette/tools. Cream band spans the lower ~16.8% of the screen,
+   so its center sits 8.4% up from the bottom. */
+.slide-label {
+  position: absolute;
+  left: 50%;
+  bottom: 8.4%;
+  transform: translate(-50%, 50%);
+  z-index: 4;
+  margin: 0;
+  max-width: calc(100% - 32px);
+  background: var(--ink);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 4px 14px -6px rgba(10, 37, 64, 0.55);
+}
+
+/* dots sit just below the phone but out of flow, so the hero copy centers
+   against the phone mockup itself rather than the phone + dots */
+.hero-caption {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+}
+.slide-dots {
+  display: none;            /* revealed by JS; without JS, slide 1 shows statically */
+  gap: 9px;
+}
+.js-slideshow .slide-dots { display: flex; }
+/* scoped to .slide-dots so the teal badge/trust dots keep their own styling */
+.slide-dots .dot {
+  width: 10px; height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #94A5BD;      /* visible when inactive, not washed out */
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.slide-dots .dot:hover { background: #6E819B; }
+.slide-dots .dot.is-active,
+.slide-dots .dot.is-active:hover { background: var(--accent); transform: scale(1.15); }
+
+/* premium, restrained hover lift shared across card types */
+.value, .check, .quote-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.value:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 16px 30px -14px rgba(10, 37, 64, 0.18);
+}
+.check:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 22px 42px -18px rgba(10, 37, 64, 0.4);
+}
+.quote-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 18px 36px -18px rgba(10, 37, 64, 0.22);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide { transition: none; }
+  .value, .check, .quote-card { transition: none; }
+  .value:hover, .check:hover, .quote-card:hover { transform: none; }
+}
+
 /* ============================ FEATURED / APPS ============================ */
 .apps {
   background: var(--surface);
@@ -452,8 +556,9 @@ img { max-width: 100%; display: block; }
   margin-top: 52px;
   padding: 40px;
   border-radius: 20px;
-  border: 1.5px dashed var(--dashed);
-  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border);
+  background: #fff;
+  box-shadow: 0 2px 10px -6px rgba(10, 37, 64, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -464,21 +569,6 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   gap: 20px;
-}
-.more-tile {
-  width: 60px; height: 60px;
-  border-radius: 16px;
-  background: var(--tint-blue-3);
-  border: 1.5px dashed var(--dashed-2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.more-tile span {
-  width: 16px; height: 16px;
-  background: #B7C4D6;
-  border-radius: 5px;
 }
 .more-apps h3 {
   font-size: 20px;
@@ -514,10 +604,65 @@ img { max-width: 100%; display: block; }
   color: var(--ink);
 }
 
-.quotes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+/* carousel head: heading on the left, arrow controls on the right */
+.testimonials .section-intro.tc-head {
+  max-width: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 24px;
+  flex-wrap: wrap;
+}
+/* Side chevrons: bare arrowhead marks pinned to the carousel's outer edges,
+   vertically centered against the card row. No button chrome — just the mark,
+   wrapped in a generous invisible tap target. Hidden until JS marks .tc-ready
+   and hidden entirely on mobile (swipe + dots take over). */
+.tc-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px;              /* invisible clickable area around the mark */
+  border: none;
+  background: none;
+  color: #B4C0D0;                  /* muted grey at rest */
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transform: translateY(-50%);
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.tc-ready .tc-arrow { display: inline-flex; }
+.tc-arrow svg { width: 28px; height: 47px; display: block; }
+.tc-arrow[data-dir="-1"] { left: -10px; }
+.tc-arrow[data-dir="1"]  { right: -10px; }
+.tc-arrow:hover {
+  color: var(--ink);              /* ink navy #0A2540 */
+  transform: translateY(-50%) scale(1.12);
+}
+.tc-arrow:active { transform: translateY(-50%) scale(1.04); }
+.tc-arrow:focus-visible { color: var(--ink); }
+
+/* carousel: track of cards translated by JS; overflow-hidden clips the peek */
+.tcarousel { position: relative; }
+.tc-viewport {
+  overflow: hidden;
+  padding: 18px 0;            /* headroom for the card hover-lift + shadow */
+  touch-action: pan-y;        /* let vertical page scroll through; we own horizontal */
+}
+.tc-ready .tc-viewport { cursor: grab; }
+.tc-ready .tc-viewport:active { cursor: grabbing; }
+.tc-track {
+  display: flex;
   gap: 24px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  user-select: none;
+}
+.tc-track .quote-card {
+  flex: 0 0 var(--tc-w, 30%);
+  max-width: var(--tc-w, 30%);
 }
 .quote-card {
   margin: 0;
@@ -525,6 +670,32 @@ img { max-width: 100%; display: block; }
   border-radius: 20px;
   background: var(--surface);
   border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.tc-dots {
+  display: none;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 26px;
+}
+.tc-ready .tc-dots { display: flex; }
+.tc-dot {
+  width: 10px; height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #94A5BD;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.tc-dot:hover { background: #6E819B; }
+.tc-dot.is-active,
+.tc-dot.is-active:hover { background: var(--accent); transform: scale(1.15); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tc-track { transition: none; }
 }
 .quote-card blockquote {
   font-size: 19px;
@@ -538,6 +709,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   gap: 13px;
+  margin-top: auto;   /* pin name+avatar to the bottom so all three align */
 }
 .avatar {
   width: 44px; height: 44px;
@@ -757,12 +929,16 @@ img { max-width: 100%; display: block; }
     margin: 6px 9px;
   }
   .btn-nav { font-size: 13px; padding: 9px 15px; }
+  /* two-row header is taller here, so anchor targets need a deeper offset */
+  section[id] { scroll-margin-top: 128px; }
 }
 
 @media (max-width: 560px) {
   :root { --pad: 20px; }
   .apps .wrap { padding-top: 64px; padding-bottom: 64px; }
   .testimonials .wrap { padding-top: 64px; }
+  /* mobile: drop the side chevrons; swipe + dots carry navigation */
+  .tc-ready .tc-arrow { display: none; }
   .contact .wrap { padding-top: 64px; padding-bottom: 64px; }
   .contact-panel { padding: 48px 26px; }
   .more-apps { padding: 28px; }

@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/home.css?v=3">
+  <link rel="stylesheet" href="/css/home.css?v=8">
 </head>
 <body>
 
@@ -73,10 +73,28 @@
         </div>
 
         <div class="phone-wrap">
-          <div class="phone">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <img src="/images/screenshots/hero-shot.png" alt="Islamic Coloring for Kids app showing a mosque coloring page" width="300" height="633">
+          <div class="hero-figure" id="hero-slideshow">
+            <div class="phone">
+              <div class="phone-notch"></div>
+              <div class="phone-screen">
+                <div class="slides">
+                  <img class="slide is-active" src="/images/screenshots/hero-1.png" alt="Mosque coloring page, colored in" width="594" height="1254">
+                  <img class="slide" data-src="/images/screenshots/hero-2.png" alt="Grand mosque with palm trees, colored in" width="594" height="1254">
+                  <img class="slide" data-src="/images/screenshots/hero-3.png" alt="Lakeside cabin nature scene, colored in" width="594" height="1254">
+                  <img class="slide" data-src="/images/screenshots/hero-4.png" alt="Fruit basket coloring page, colored in" width="594" height="1254">
+                  <img class="slide" data-src="/images/screenshots/hero-5.png" alt="Sunflower coloring page, colored in" width="594" height="1254">
+                </div>
+                <p class="slide-label" id="hero-label">Beautiful Islamic scenes to color</p>
+              </div>
+            </div>
+            <div class="hero-caption">
+              <div class="slide-dots" id="hero-dots" aria-label="Choose a slide">
+                <button class="dot is-active" type="button" aria-label="Show slide 1" aria-current="true"></button>
+                <button class="dot" type="button" aria-label="Show slide 2"></button>
+                <button class="dot" type="button" aria-label="Show slide 3"></button>
+                <button class="dot" type="button" aria-label="Show slide 4"></button>
+                <button class="dot" type="button" aria-label="Show slide 5"></button>
+              </div>
             </div>
           </div>
         </div>
@@ -126,7 +144,7 @@
               <img src="/images/screenshots/shot-1.png" alt="Category picker screen with Free Draw, Kaaba, Mosques, and more" width="300" height="633">
             </div>
             <div class="shot center">
-              <img src="/images/screenshots/shot-2.jpg" alt="Free Draw canvas with colorful glitter pen strokes" width="300" height="633">
+              <img src="/images/screenshots/shot-2.png" alt="Kaaba coloring page, colored in" width="300" height="633">
             </div>
             <div class="shot raised">
               <img src="/images/screenshots/shot-3.png" alt="A fruit basket coloring page, fully colored in" width="300" height="633">
@@ -136,13 +154,12 @@
 
         <div class="more-apps">
           <div class="left">
-            <div class="more-tile" aria-hidden="true"><span></span></div>
             <div>
               <h3>More apps in the works</h3>
               <p>New apps for learning, creativity, and everyday life are on the way.</p>
             </div>
           </div>
-          <a href="#contact" class="more-link">Get notified →</a>
+          <a href="mailto:support@kevroapps.com?subject=Notify%20me%20about%20new%20Kevro%20apps" class="more-link">Get notified →</a>
         </div>
       </div>
     </section>
@@ -150,32 +167,81 @@
     <!-- ===================== TESTIMONIALS ===================== -->
     <section class="testimonials" aria-labelledby="testimonials-heading">
       <div class="wrap">
-        <div class="section-intro">
-          <p class="eyebrow">Loved by families</p>
-          <h2 id="testimonials-heading">What parents are saying</h2>
+        <div class="section-intro tc-head">
+          <div>
+            <p class="eyebrow">Loved by families</p>
+            <h2 id="testimonials-heading">What parents are saying</h2>
+          </div>
         </div>
-        <div class="quotes">
-          <figure class="quote-card">
-            <blockquote>"My kids absolutely love this Islamic colouring app! It's easy for them to use, has a wonderful variety of pictures to colour... I really appreciate that the illustrations don't contain facial images, which is something that's very important to us. Also, there are no ads... It's a fun, safe, and creative app, and I highly recommend it."</blockquote>
-            <figcaption>
-              <span class="avatar blue">UM</span>
-              <span class="quote-name">Umm Maryam</span>
-            </figcaption>
-          </figure>
-          <figure class="quote-card">
-            <blockquote>"I tried this app with my 2.5-year-old, and it kept him entertained while also encouraging creativity. I love how simple and easy it is for young children to use independently... I also appreciate the faceless illustrations, variety of colouring modes, no ads, and offline use."</blockquote>
-            <figcaption>
-              <span class="avatar teal">UQ</span>
-              <span class="quote-name">Umm Qays</span>
-            </figcaption>
-          </figure>
-          <figure class="quote-card">
-            <blockquote>"I downloaded this app for my daughter, and she absolutely loved it. She had so much fun coloring mosques, Islamic dresses, and other pictures. Her favorite feature was the glitter colors... The app is very easy for young children to use, with simple controls and a child friendly interface."</blockquote>
-            <figcaption>
-              <span class="avatar blue">AU</span>
-              <span class="quote-name">Alper U.</span>
-            </figcaption>
-          </figure>
+
+        <div class="tcarousel" id="tcarousel">
+          <button class="tc-arrow" type="button" data-dir="-1" aria-label="Previous review">
+            <svg viewBox="0 0 24 40" fill="none" aria-hidden="true"><path d="M17 5 L7 20 L17 35" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="tc-arrow" type="button" data-dir="1" aria-label="Next review">
+            <svg viewBox="0 0 24 40" fill="none" aria-hidden="true"><path d="M7 5 L17 20 L7 35" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="tc-viewport">
+            <div class="tc-track">
+              <figure class="quote-card">
+                <blockquote>"My kids absolutely love this Islamic colouring app! It's easy for them to use, has a wonderful variety of pictures to colour... I really appreciate that the illustrations don't contain facial images, which is something that's very important to us. Also, there are no ads... It's a fun, safe, and creative app, and I highly recommend it. Allahumma baarik!"</blockquote>
+                <figcaption>
+                  <span class="avatar blue">UM</span>
+                  <span class="quote-name">Umm Maryam</span>
+                </figcaption>
+              </figure>
+              <figure class="quote-card">
+                <blockquote>"I tried this app with my 2.5-year-old, and it kept him entertained while also encouraging creativity. I love how simple and easy it is for young children to use independently... I also appreciate the faceless illustrations, variety of colouring modes, no ads, and offline use."</blockquote>
+                <figcaption>
+                  <span class="avatar teal">UQ</span>
+                  <span class="quote-name">Umm Qays</span>
+                </figcaption>
+              </figure>
+              <figure class="quote-card">
+                <blockquote>"My kids absolutely love this app, and honestly, so do I! It's refreshing to find an Islamic app that's so thoughtfully made and free of ads. I love that my kids can color while also learning the Arabic alphabet... May Allah reward the person who put so much time and effort into creating this wonderful app."</blockquote>
+                <figcaption>
+                  <span class="avatar blue">FM</span>
+                  <span class="quote-name">Fatima M</span>
+                </figcaption>
+              </figure>
+              <figure class="quote-card">
+                <blockquote>"This app is very simple and easy to use. My favorite feature of the app is being able to lock it so that my child doesn't go to anything else on my phone. And the fact that it's completely ad free and you can use it offline is absolutely amazing!... they seem to be enjoying this one a lot!"</blockquote>
+                <figcaption>
+                  <span class="avatar teal">UY</span>
+                  <span class="quote-name">Umm Yunus</span>
+                </figcaption>
+              </figure>
+              <figure class="quote-card">
+                <blockquote>"I downloaded this app for my daughter, and she absolutely loved it. She had so much fun coloring mosques, Islamic dresses, and other pictures. Her favorite feature was the glitter colors... The app is very easy for young children to use, with simple controls and a child friendly interface."</blockquote>
+                <figcaption>
+                  <span class="avatar blue">AU</span>
+                  <span class="quote-name">Alper U.</span>
+                </figcaption>
+              </figure>
+              <figure class="quote-card">
+                <blockquote>"Love this app Allaahumma baarek! The child lock feature is fantastic, and the layout is simple and very easy to use. My kids, aged 2 to 10, all love it. The Islamic colouring pages are wonderful, the glitter pens are so much fun, and my youngest especially loves the pop balloons. Highly recommend this app!"</blockquote>
+                <figcaption>
+                  <span class="avatar teal">UA</span>
+                  <span class="quote-name">Umm A</span>
+                </figcaption>
+              </figure>
+              <figure class="quote-card">
+                <blockquote>"Amazing app Allaahumma baarik!! Beautiful pictures and easy to use! I can tell this was thoughtfully created by someone that truly cares about children having fun in a beneficial way, and I love that it's ad free!... Highly recommend!"</blockquote>
+                <figcaption>
+                  <span class="avatar blue">SM</span>
+                  <span class="quote-name">Sadia M</span>
+                </figcaption>
+              </figure>
+              <figure class="quote-card">
+                <blockquote>"Only just had a quick try at colouring but already loving the layout, options and lovely glitter pens... I would definitely be willing to pay for the premium subscription for my grandkids."</blockquote>
+                <figcaption>
+                  <span class="avatar teal">UK</span>
+                  <span class="quote-name">Umm K</span>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="tc-dots" id="tc-dots" aria-label="Choose a review"></div>
         </div>
       </div>
     </section>
@@ -263,6 +329,258 @@
       </div>
     </div>
   </footer>
+
+  <script>
+  /* Hero slideshow: auto-advance with crossfade. Interaction (hover / tap / dot)
+     PAUSES it; it resumes when the pointer leaves, or after ~7s of no
+     interaction even if the pointer stays. Respects reduced-motion. Slides 2+
+     lazy-load. Without JS, slide 1 shows statically and the dots stay hidden. */
+  (function () {
+    var root = document.getElementById('hero-slideshow');
+    if (!root) return;
+    var slides = [].slice.call(root.querySelectorAll('.slide'));
+    var dots = [].slice.call(root.querySelectorAll('.dot'));
+    var label = document.getElementById('hero-label');
+    if (slides.length < 2) return;
+
+    var LABELS = [
+      'Beautiful Islamic scenes to color',
+      'Mosques, Kaaba, and more',
+      'Calm nature and everyday scenes',
+      'Dozens of pages to explore',
+      'Simple pages for little hands'
+    ];
+    var AUTO = 4000, IDLE = 7000;
+    var i = 0, timer = null, idle = null;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    root.classList.add('js-slideshow');
+
+    function load(n) {
+      var img = slides[n];
+      if (img && !img.getAttribute('src') && img.getAttribute('data-src')) {
+        img.src = img.getAttribute('data-src');
+      }
+    }
+    function show(n) {
+      n = (n % slides.length + slides.length) % slides.length;
+      load(n);
+      load((n + 1) % slides.length);   // preload next for a smooth crossfade
+      slides[i].classList.remove('is-active');
+      dots[i].classList.remove('is-active');
+      dots[i].removeAttribute('aria-current');
+      i = n;
+      slides[i].classList.add('is-active');
+      dots[i].classList.add('is-active');
+      dots[i].setAttribute('aria-current', 'true');
+      if (label) label.textContent = LABELS[i] || label.textContent;
+    }
+    function play() { if (reduce || timer) return; timer = setInterval(function () { show(i + 1); }, AUTO); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    function resume() { if (idle) { clearTimeout(idle); idle = null; } play(); }
+    function pause() { stop(); if (idle) clearTimeout(idle); idle = setTimeout(resume, IDLE); }
+
+    dots.forEach(function (d, idx) {
+      d.addEventListener('click', function () { pause(); show(idx); });
+    });
+    root.addEventListener('mouseenter', pause);
+    root.addEventListener('mousemove', pause);   // stays paused while active; resumes ~7s after movement stops
+    root.addEventListener('mouseleave', resume);
+    root.addEventListener('touchstart', pause, { passive: true });
+
+    load(1);   // begin fetching slide 2 in the background
+    play();
+  })();
+  </script>
+
+  <script>
+  /* Testimonials carousel: shows 3 cards (1 on mobile) with the next peeking.
+     Auto-advances one card every 7s with a smooth slide; ANY interaction
+     (hover, arrow, dot, drag/swipe) pauses it, and it resumes only after 10s
+     of no interaction so it never fights the user. Loops seamlessly by cloning
+     every card before and after the reals, then snapping (transition off) back
+     into the canonical range once a slide lands — the clones are exact copies,
+     so the reset is invisible. Reduced-motion: no auto-advance, instant manual
+     nav. Without JS the first cards show statically and controls stay hidden. */
+  (function () {
+    var root = document.getElementById('tcarousel');
+    if (!root) return;
+    var section = root.closest('.testimonials') || root.parentNode;
+    var viewport = root.querySelector('.tc-viewport');
+    var track = root.querySelector('.tc-track');
+    var dotsWrap = document.getElementById('tc-dots');
+    var arrows = [].slice.call(section.querySelectorAll('.tc-arrow'));
+    var reals = [].slice.call(track.children);
+    var N = reals.length;
+    if (!N) return;
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var AUTO = 7000, IDLE = 10000;
+
+    // Clone all cards before and after the reals for a seamless loop.
+    var head = document.createDocumentFragment(), tail = document.createDocumentFragment();
+    reals.forEach(function (c) {
+      var a = c.cloneNode(true), b = c.cloneNode(true);
+      a.setAttribute('aria-hidden', 'true'); b.setAttribute('aria-hidden', 'true');
+      head.appendChild(a); tail.appendChild(b);
+    });
+    track.insertBefore(head, track.firstChild);
+    track.appendChild(tail);
+
+    var BASE = N;          // real card 0 sits at track index N (after the prepended clones)
+    var pos = BASE;        // index of the left-most card currently shown
+    var step = 0;          // px advanced per card (card width + gap)
+
+    var dots = [];
+    for (var d = 0; d < N; d++) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'tc-dot';
+      dot.setAttribute('aria-label', 'Show review ' + (d + 1));
+      (function (idx) { dot.addEventListener('click', function () { pause(); goTo(idx); }); })(d);
+      dotsWrap.appendChild(dot);
+      dots.push(dot);
+    }
+
+    function realIndex(p) { return ((p - BASE) % N + N) % N; }
+    function normalize(p) { while (p < BASE) p += N; while (p >= BASE + N) p -= N; return p; }
+
+    function layout() {
+      var vpW = viewport.clientWidth;
+      var gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 24;
+      var mobile = window.matchMedia('(max-width: 560px)').matches;
+      var visible = mobile ? 1 : 3;
+      var peek = mobile ? 0.22 : 0.16;                 // fraction of a card left peeking
+      var W = (vpW - visible * gap) / (visible + peek);
+      track.style.setProperty('--tc-w', W + 'px');
+      step = W + gap;
+      setX(pos, false);
+    }
+
+    function setX(p, animate) {
+      pos = p;
+      track.style.transition = animate ? '' : 'none';
+      track.style.transform = 'translate3d(' + (-p * step) + 'px,0,0)';
+      if (!animate) { track.getBoundingClientRect(); track.style.transition = ''; }  // flush
+      updateDots();
+    }
+
+    function commit(target) {
+      if (reduce) setX(normalize(target), false);      // instant, already canonical
+      else setX(target, true);                         // animate, normalize on transitionend
+    }
+
+    function updateDots() {
+      var r = realIndex(pos);
+      for (var k = 0; k < dots.length; k++) {
+        var on = k === r;
+        dots[k].classList.toggle('is-active', on);
+        if (on) dots[k].setAttribute('aria-current', 'true'); else dots[k].removeAttribute('aria-current');
+      }
+    }
+
+    function goTo(idx) {
+      var cur = realIndex(pos);
+      var fwd = (idx - cur + N) % N;                   // 0..N-1
+      var delta = (fwd * 2 <= N) ? fwd : fwd - N;      // shortest path, |delta| <= N/2
+      pos = BASE + cur;                                // anchor canonical so the target stays within clones
+      commit(pos + delta);
+    }
+    function moveBy(dir) { pos = BASE + realIndex(pos); commit(pos + dir); }
+
+    track.addEventListener('transitionend', function (e) {
+      if (e.propertyName !== 'transform') return;
+      var n = normalize(pos);
+      if (n !== pos) setX(n, false);
+    });
+
+    // ---- auto-advance + pause/resume ----
+    var timer = null, idle = null;
+    function play() { if (reduce || timer) return; timer = setInterval(function () { commit(pos + 1); }, AUTO); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    function resume() { if (idle) { clearTimeout(idle); idle = null; } play(); }
+    function pause() { stop(); if (idle) clearTimeout(idle); idle = setTimeout(resume, IDLE); }
+
+    arrows.forEach(function (a) {
+      a.addEventListener('click', function () { pause(); moveBy(parseInt(a.getAttribute('data-dir'), 10)); });
+    });
+    root.addEventListener('mouseenter', pause);
+    root.addEventListener('mousemove', pause);
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { pause(); moveBy(1); }
+      else if (e.key === 'ArrowLeft') { pause(); moveBy(-1); }
+    });
+
+    // ---- drag / swipe ----
+    var dragging = false, startX = 0, startPos = 0, dx = 0;
+    viewport.addEventListener('pointerdown', function (e) {
+      dragging = true; startX = e.clientX; startPos = BASE + realIndex(pos); dx = 0;
+      pos = startPos;
+      pause();
+      track.style.transition = 'none';
+      try { viewport.setPointerCapture(e.pointerId); } catch (_) {}
+    });
+    viewport.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      dx = e.clientX - startX;
+      track.style.transform = 'translate3d(' + (-startPos * step + dx) + 'px,0,0)';
+    });
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      var steps = Math.max(-4, Math.min(4, Math.round(-dx / step)));
+      track.style.transition = '';
+      commit(startPos + steps);
+      pause();                                         // restart the 10s idle window
+    }
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
+
+    window.addEventListener('resize', layout);
+
+    section.classList.add('tc-ready');   // on the section: reveals both the side chevrons and the dots
+    layout();
+    play();
+  })();
+  </script>
+
+  <script>
+  /* Header hide-on-scroll: slide the header up when scrolling DOWN, bring it
+     back on any upward scroll, and always show it near the very top. A small
+     threshold debounces jitter so tiny scroll wobbles never flicker it, and
+     reads are batched into requestAnimationFrame. Reduced-motion: no-op, so
+     the header stays sticky and always visible. */
+  (function () {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    var TOP_ZONE = 12;    // px from top where the header is always shown
+    var THRESHOLD = 6;    // ignore movements smaller than this (jitter debounce)
+    var lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      if (y <= TOP_ZONE) {                       // at/near the top: always visible
+        header.classList.remove('header-hidden');
+        lastY = y;
+        return;
+      }
+      var dy = y - lastY;
+      if (Math.abs(dy) < THRESHOLD) return;      // too small to act on; keep lastY
+      if (dy > 0) header.classList.add('header-hidden');     // scrolling down: hide
+      else header.classList.remove('header-hidden');         // scrolling up: show
+      lastY = y;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+    }, { passive: true });
+  })();
+  </script>
 
 </body>
 </html>
