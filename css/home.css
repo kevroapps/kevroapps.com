@@ -551,6 +551,31 @@ section[id] { scroll-margin-top: 86px; }
 .shot.raised { transform: translateY(14px); }
 .shot.center { box-shadow: 0 24px 46px -22px rgba(10, 37, 64, 0.4); }
 
+/* Mobile/tablet: the 3-across desktop grid crushes and (in older cached CSS)
+   overflowed the tall phone mockups. Below 768px, turn the row into a tidy
+   horizontal swipe strip — each phone a comfortable size, snap-scrolled, with
+   the next one peeking to signal there's more. Never overlaps or overflows the
+   page (the strip owns its own horizontal scroll). */
+@media (max-width: 768px) {
+  .shots {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding: 0 var(--pad);
+    padding-bottom: 10px;                 /* room for the drop shadows */
+    scrollbar-width: none;                /* Firefox */
+  }
+  .shots::-webkit-scrollbar { display: none; }   /* WebKit */
+  .shot {
+    flex: 0 0 auto;
+    width: min(62vw, 240px);
+    scroll-snap-align: center;
+  }
+  .shot.raised { transform: none; }       /* no vertical stagger in the strip */
+}
+
 /* more apps scaffold */
 .more-apps {
   margin-top: 52px;
@@ -942,7 +967,4 @@ section[id] { scroll-margin-top: 86px; }
   .contact .wrap { padding-top: 64px; padding-bottom: 64px; }
   .contact-panel { padding: 48px 26px; }
   .more-apps { padding: 28px; }
-  /* keep the three store screenshots readable rather than crushing them */
-  .shots { grid-template-columns: repeat(2, 1fr); }
-  .shot.raised { transform: none; }
 }
