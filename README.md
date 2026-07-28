@@ -19,7 +19,8 @@ The site serves two related audiences:
 
 ```
 .
-├── index.html          Home: hero, featured app, testimonials, about, privacy strip
+├── index.html          Home: hero, featured app, services bridge, testimonials,
+│                       about, privacy strip
 ├── 404.html            Not-found page (GitHub Pages serves this automatically)
 ├── about/              Studio story and how-we-work values
 ├── services/           Service tiers with starting prices, inclusions, payment terms
