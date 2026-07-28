@@ -12,8 +12,8 @@ header); every other page is static.
 The site serves two related audiences:
 
 - **App users** — the homepage showcases *Islamic Coloring for Kids* (live on Google Play).
-- **Service clients** — small businesses in Qatar and the Gulf buying websites,
-  landing pages, and small automation. Covered by `/about/`, `/services/`, and `/contact/`.
+- **Service clients** — small businesses buying websites, landing pages, and
+  automation. Covered by `/about/`, `/services/`, and `/contact/`.
 
 ## File structure
 
