@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /ucmas/
+Disallow: /demo/
+Disallow: /demo2/
+Disallow: /tester/

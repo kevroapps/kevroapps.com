@@ -37,8 +37,16 @@ The site serves two related audiences:
 │   └── styles.css      Older stylesheet — apps, privacy, tester
 ├── images/             Logos, favicons, OG image, app screenshots
 ├── CNAME               Custom domain for GitHub Pages
+├── robots.txt          Allows everything except the sample/pitch pages
 └── README.md           This file
 ```
+
+`ucmas/`, `demo/`, `demo2/`, and `tester/` are kept out of search results: each carries
+`<meta name="robots" content="noindex, nofollow">` and each is listed in `robots.txt`.
+They stay reachable by direct link — nothing on the site links to them. `ucmas/` and
+`demo2/` are speculative concepts for real businesses, so both open with a notice saying
+so, and any figure or review on them that is not independently sourced is marked as a
+placeholder. Keep it that way when editing them.
 
 Subpages use the folder-with-index pattern for clean URLs: `/about`, `/services`,
 `/contact`, `/privacy`.

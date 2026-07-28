@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UCMAS — Mental Math & Abacus Education Center | Doha, Qatar</title>
+<meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ============================================
@@ -32,6 +33,24 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: #1a1a2e; line-hei
   --radius: 16px;
   --radius-sm: 10px;
 }
+
+/* --- Concept notice --- */
+.concept-banner {
+  background: #12122a;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 10px 24px;
+  text-align: center;
+}
+.concept-banner p {
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.5);
+}
+.concept-banner strong { color: rgba(255,255,255,0.75); font-weight: 600; }
+.concept-banner a { color: rgba(255,255,255,0.75); text-decoration: underline; }
+.concept-banner a:hover { color: var(--white); }
 
 /* --- Hero --- */
 .hero {
@@ -96,7 +115,17 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: #1a1a2e; line-hei
 }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
 .stat-number { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+.stat-number.is-placeholder { color: #b9b6d6; }
 .stat-label { font-size: 0.85rem; color: var(--text-light); margin-top: 4px; }
+.stats-note {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(108,92,231,0.12);
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-light);
+}
 
 /* --- Sections --- */
 .section { padding: 80px 24px; }
@@ -348,6 +377,17 @@ footer a:hover { text-decoration: underline; }
 <body>
 
 <!-- ============================
+     CONCEPT NOTICE
+     ============================ -->
+<div class="concept-banner">
+  <p>
+    <strong>Website concept.</strong> An independent mockup by
+    <a href="https://kevroapps.com">Kevro Apps</a> — not an official UCMAS site, and not
+    affiliated with or endorsed by UCMAS. Content shown is illustrative.
+  </p>
+</div>
+
+<!-- ============================
      HERO SECTION
      ============================ -->
 <section class="hero">
@@ -374,10 +414,14 @@ footer a:hover { text-decoration: underline; }
 <div class="stats-bar">
   <div class="stats-grid">
     <div><div class="stat-number">1M+</div><div class="stat-label">Students Worldwide</div></div>
-    <div><div class="stat-number">90+</div><div class="stat-label">Countries</div></div>
-    <div><div class="stat-number">23+</div><div class="stat-label">Years Experience</div></div>
-    <div><div class="stat-number">4.9</div><div class="stat-label">Parent Rating</div></div>
+    <div><div class="stat-number is-placeholder">00+</div><div class="stat-label">Countries</div></div>
+    <div><div class="stat-number is-placeholder">00+</div><div class="stat-label">Years Experience</div></div>
+    <div><div class="stat-number is-placeholder">0.0</div><div class="stat-label">Parent Rating</div></div>
   </div>
+  <p class="stats-note">
+    Sample figures. Only the worldwide student count is a published UCMAS statistic — the
+    greyed placeholders are replaced with the centre's own verified numbers before launch.
+  </p>
 </div>
 
 <!-- ============================
@@ -495,36 +539,34 @@ footer a:hover { text-decoration: underline; }
     <div class="section-label text-center">Testimonials</div>
     <h2>What Parents Say</h2>
     <p class="section-sub">
-      Real feedback from families who have experienced the UCMAS difference.
+      Placeholder cards showing the layout — the centre's own parent reviews go here.
     </p>
     <div class="testimonials-grid">
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
         <p class="testimonial-text">
-          "My daughter used to struggle with math. After just 6 months of UCMAS,
-          she's doing calculations in her head faster than I can on a calculator!
-          Her confidence has soared."
+          "Sample review — your real parent testimonials appear here. Two or three
+          sentences in a parent's own words, about what changed for their child."
         </p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">NM</div>
+          <div class="testimonial-avatar">SR</div>
           <div>
-            <div class="testimonial-name">Noor M.</div>
-            <div class="testimonial-role">Parent — Age 8</div>
+            <div class="testimonial-name">Sample Name</div>
+            <div class="testimonial-role">Placeholder review</div>
           </div>
         </div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
         <p class="testimonial-text">
-          "UCMAS has been incredible for my son's concentration and focus. His
-          teachers at school have noticed the improvement too. Highly recommend
-          this program to every parent."
+          "Sample review — your real parent testimonials appear here. Replace this
+          text with a genuine quote before the site goes live."
         </p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">AK</div>
+          <div class="testimonial-avatar">SR</div>
           <div>
-            <div class="testimonial-name">Ahmed K.</div>
-            <div class="testimonial-role">Parent — Age 10</div>
+            <div class="testimonial-name">Sample Name</div>
+            <div class="testimonial-role">Placeholder review</div>
           </div>
         </div>
       </div>
