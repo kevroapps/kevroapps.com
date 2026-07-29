@@ -15,6 +15,33 @@ The site serves two related audiences:
 - **Service clients** — small businesses buying websites, landing pages, and
   automation. Covered by `/about/`, `/services/`, and `/contact/`.
 
+## Brand rules
+
+**No facial imagery.** Kevro Apps products and marketing use no faces — not in
+illustrations, not in icons, not in photography, and **not in emoji**. This is a
+deliberate choice our audience values, not an oversight or a gap to be helpfully
+filled in. Several Google Play reviews quoted on the homepage praise us for it.
+
+The emoji case is the one that slips through, because emoji get treated as
+punctuation rather than imagery. It is imagery. A baby emoji (`👶`) reached the
+homepage feature chips this way and had to be replaced with a crayon (`🖍️`).
+
+- **Not allowed:** any emoji depicting a face, a person, or a body part —
+  `👶 😀 🙂 😊 👦 👧 👨 👩 🧒 👪 👥 👀 🤩 😍 🥰 🙋 👋 👩‍🏫 💪` and anything similar.
+- **Fine:** object, symbol, and abstract emoji — `🎨 📴 🖍️ 🧮 ⚡ 🏆 📈 📍 ✓ ★`.
+
+Before publishing a copy change, sweep for violations by codepoint range rather
+than by eye — a literal-emoji `grep` silently fails in some shells:
+
+```
+rg -o '[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}\x{1F000}-\x{1F2FF}]' --glob '*.html'
+```
+
+Note that `demo/` and `ucmas/` are client-facing concept mockups for other
+businesses, so they are not bound by Kevro's own brand rules — both currently use
+`👩‍🏫` and `👥` deliberately. Leave that decision to the client work; the rule
+above governs Kevro Apps' own pages.
+
 ## File structure
 
 ```
