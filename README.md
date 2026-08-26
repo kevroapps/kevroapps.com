@@ -53,7 +53,7 @@ above governs Kevro Apps' own pages.
 ├── services/           Service tiers with starting prices, inclusions, payment terms
 ├── contact/            Contact form (Web3Forms) + direct contact details
 ├── thanks/             Post-submit confirmation, form redirects here
-├── apps/               Apps listing (currently one entry)
+├── apps/               Product page for Islamic Coloring for Kids
 ├── privacy/            Privacy policy for Islamic Coloring for Kids
 ├── tester/             Closed-test recruitment page (noindex)
 ├── demo/               Education-centre demo template for prospective clients
@@ -83,10 +83,10 @@ do not depend on either stylesheet.
 
 ## Cache busting
 
-`home.css` is linked with a query string (`/css/home.css?v=10`). **Bump that number in
+`home.css` is linked with a query string (`/css/home.css?v=11`). **Bump that number in
 every page that links it whenever you edit `home.css`**, otherwise returning visitors
-keep the old cached stylesheet. Pages currently on `v=10`: `index.html`, `404.html`,
-`about/`, `services/`, `contact/`, `thanks/`.
+keep the old cached stylesheet. Pages currently on `v=11`: `index.html`, `404.html`,
+`about/`, `apps/`, `services/`, `contact/`, `thanks/`.
 
 ## Local preview
 
@@ -157,7 +157,8 @@ domain for your GitHub Pages site" docs page has the current list.
 - **Testimonials:** the carousel in `index.html` clones cards for looping — add new
   `<figure class="quote-card">` blocks to the track and the JS handles the rest.
 
-## Adding a new app
+## Updating the app page
 
-Copy the `<section class="featured">` block in `apps/index.html`, paste it below the
-existing one, and update the heading, description, and Play Store link. No CSS changes needed.
+`apps/index.html` is currently a product page for Islamic Coloring for Kids. Keep
+facts aligned with the public Google Play listing before adding ratings, counts,
+pricing details, or store claims.
