@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opening the app &middot; Kevro Apps</title>
+  <meta name="description" content="Finishing sign in and opening your Kevro Apps app.">
+  <meta name="theme-color" content="#0A2540">
+
+  <!-- Nothing here should be indexed or shared: every visit carries a one time
+       sign in token in the address. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/home.css?v=12">
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a href="/" class="brand" aria-label="Kevro Apps home">
+        <img src="/images/kevro-apps-logo-transparent-for-white-header.png" alt="" class="brand-logo" width="56" height="34">
+        <span class="brand-name">Kevro Apps</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== OPENING THE APP =====================
+         Supabase sends confirmation and password reset links here rather than
+         straight to the app, because an app:// link is not tappable in Gmail
+         and several other mail clients. This page is the bridge: it hands the
+         same one time token on to the app.
+
+         The token arrives either in the URL fragment (#access_token=...) or as
+         a query code (?code=...) depending on the flow, so both are passed
+         through untouched. The fragment never reaches this server, which is
+         part of why a plain static page is safe to use for this.
+    -->
+    <section class="page-hero centered">
+      <div class="wrap">
+        <div class="status-mark ok" id="mark">→</div>
+        <h1 id="heading">Opening the app</h1>
+        <p class="page-lead" id="lead">One moment, we are handing you back to the app.</p>
+
+        <div class="link-row">
+          <a href="#" class="btn btn-accent" id="open">Open the app</a>
+          <a href="/" class="btn btn-secondary">Back to home</a>
+        </div>
+
+        <p class="page-lead" id="help" style="margin-top:1.5rem;font-size:0.95rem;opacity:0.85">
+          If nothing happens, make sure the app is installed on this phone, then
+          tap Open the app. Opening this link on a computer will not work: it
+          has to be the phone with the app on it.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <div class="footer-brand">
+        <img src="/images/kevro-apps-footer-mark.png" alt="" class="footer-mark" width="34" height="34">
+        <span class="footer-name">Kevro Apps</span>
+      </div>
+      <div class="footer-links">
+        <span class="copy">© 2026 Kevro Apps</span>
+        <a href="/about/">About</a>
+        <a href="https://kevroapps.com/privacy/">Privacy Policy</a>
+        <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // Every Kevro app that uses email sign in registers its scheme here. The
+    // app is chosen by ?app=, so one page serves all of them and a new app is
+    // one line rather than a new page.
+    var SCHEMES = {
+      quranhomework: 'com.kevroapps.quranhomework://auth'
+    };
+    var DEFAULT_APP = 'quranhomework';
+
+    var params = new URLSearchParams(window.location.search);
+    var requested = (params.get('app') || DEFAULT_APP).toLowerCase();
+    // Only names listed above count; anything else (including names that
+    // happen to exist on every object, like constructor) falls back.
+    var scheme = Object.prototype.hasOwnProperty.call(SCHEMES, requested)
+      ? SCHEMES[requested] : SCHEMES[DEFAULT_APP];
+
+    // Hand on everything the app needs, and nothing it does not. `app` is ours
+    // and stays behind; the rest is Supabase's and travels.
+    params.delete('app');
+    var query = params.toString();
+    var fragment = window.location.hash.replace(/^#/, '');
+
+    var target = scheme;
+    if (query) target += (target.indexOf('?') === -1 ? '?' : '&') + query;
+    if (fragment) target += '#' + fragment;
+
+    var openLink = document.getElementById('open');
+    openLink.setAttribute('href', target);
+
+    // Supabase puts a failure in the same place as a success, so say so plainly
+    // rather than sending someone into the app to meet a blank screen.
+    var problem = params.get('error_description') || params.get('error') ||
+      (/error/.test(fragment) ? decodeURIComponent(
+        (fragment.match(/error_description=([^&]*)/) || [])[1] || ''
+      ).replace(/\+/g, ' ') : '');
+
+    if (problem) {
+      document.getElementById('mark').textContent = '!';
+      document.getElementById('heading').textContent = 'That link did not work';
+      document.getElementById('lead').textContent =
+        problem.charAt(0).toUpperCase() + problem.slice(1) +
+        '. Ask for a new email and try again.';
+      openLink.style.display = 'none';
+      return;
+    }
+
+    // Nothing to hand on means somebody opened the page directly, so leave the
+    // button and say nothing alarming.
+    if (!query && !fragment) {
+      document.getElementById('heading').textContent = 'Open the app';
+      document.getElementById('lead').textContent =
+        'This page finishes signing you in after you tap a link in your email.';
+      return;
+    }
+
+    // Try immediately. If the app is there, Android hands over and this page is
+    // left behind; if it is not, the button is still waiting.
+    window.setTimeout(function () {
+      window.location.href = target;
+    }, 400);
+
+    // A phone that never left this page probably has no app installed.
+    window.setTimeout(function () {
+      if (document.visibilityState === 'visible') {
+        document.getElementById('lead').textContent =
+          'If the app did not open, tap the button below.';
+      }
+    }, 2500);
+  })();
+  </script>
+
+</body>
+</html>
