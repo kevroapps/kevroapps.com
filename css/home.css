@@ -1397,3 +1397,18 @@ section[id] { scroll-margin-top: 86px; }
   .terms { padding: 22px; }
   .form-actions .btn { width: 100%; justify-content: center; }
 }
+
+/* Apps page: the "more from Kevro Apps" row holds two panels, not three.
+   Below 900px the .feature-grid rule above already stacks them. */
+@media (min-width: 901px) {
+  .feature-grid.two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.feature-panel .panel-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin-top: 18px;
+}
