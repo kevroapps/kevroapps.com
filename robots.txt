@@ -3,3 +3,9 @@ Disallow: /ucmas/
 Disallow: /demo/
 Disallow: /demo2/
 Disallow: /tester/
+Disallow: /auth/
+Disallow: /kaaba-render.html
+Disallow: /kaaba-test.html
+Disallow: /kaaba_professional.svg
+
+Sitemap: https://kevroapps.com/sitemap.xml
