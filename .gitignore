@@ -8,3 +8,8 @@ Thumbs.db
 *.swo
 .vscode/
 .idea/
+
+# Worker
+worker/node_modules/
+worker/.wrangler/
+worker/.dev.vars

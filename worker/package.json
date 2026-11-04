@@ -1,0 +1,19 @@
+{
+  "name": "kevro-chat-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker behind the kevroapps.com chat assistant. Holds the API keys; the site itself stays plain HTML.",
+  "scripts": {
+    "build:knowledge": "node scripts/build-knowledge.mjs",
+    "test": "node --test",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.4.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.157.0"
+  }
+}

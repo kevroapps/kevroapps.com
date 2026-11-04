@@ -1,0 +1,20 @@
+name = "kevro-chat"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+# Plain settings. Secrets (ANTHROPIC_API_KEY, RESEND_API_KEY) are NOT here:
+# Captain adds them in the Cloudflare dashboard (Workers, kevro-chat, Settings,
+# Variables and Secrets). See docs/chat_agent_setup.md.
+[vars]
+ALLOWED_ORIGINS = "https://kevroapps.com,https://www.kevroapps.com"
+CHAT_ENABLED = "true"
+CLAUDE_MODEL = "claude-opus-5-5"
+SUPPORT_EMAIL = "support@kevroapps.com"
+FROM_EMAIL = "Kevro Apps website <chat@send.kevroapps.com>"
+
+# Cloudflare's rate limiting binding: counts requests per key, stores nothing of ours.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 20, period = 60 }
