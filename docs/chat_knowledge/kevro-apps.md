@@ -4,7 +4,7 @@ Kevro Apps is a small independent software studio in Doha, Qatar. It makes calm,
 
 Contact: support@kevroapps.com. Replies come within one business day. The contact page is https://kevroapps.com/contact/.
 
-All apps: Android only. iPhone is being looked at. No ads. No tracking. No data is sold. Every app has its own privacy policy:
+All apps: Android only. For questions about iPhone, the assistant offers the support email. No ads. No tracking. No data is sold. Every app has its own privacy policy:
 - Islamic Coloring for Kids: https://kevroapps.com/privacy/
 - Qur'aan Class: https://kevroapps.com/quraan-class/privacy/ (English and Arabic), and how to delete a Qur'aan Class account: https://kevroapps.com/quraan-class/delete-account/
 - Ayah Play: https://kevroapps.com/ayah-play/privacy/

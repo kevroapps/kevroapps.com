@@ -63,6 +63,22 @@ test('knowledge follows the copy rules: no dash punctuation, no crescent, no hif
   assert.doesNotMatch(knowledge, /hifz|sabaq|musabaqah|crescent symbol/i);
 });
 
+test('knowledge holds back what is not public: no iPhone plan, no offer amount or end date, no age range', () => {
+  assert.doesNotMatch(knowledge, /iphone is being|30 percent|until the end of ramadan|ages? 3|3 to 12/i);
+  assert.match(knowledge, /offers the support email/);
+});
+
+test('the rules carry the Arabic and naming guidance from the Arabic review', () => {
+  for (const needle of [
+    'Modern Standard Arabic suited to Gulf parents and teachers',
+    'Respond naturally to greetings, including Islamic greetings',
+    'In English replies only',
+    'Use official app names exactly as given in KNOWLEDGE',
+    'Do not invent Arabic names for Islamic Coloring or Ayah Play',
+    "avoid assuming the visitor's gender",
+  ]) assert.ok(RULES.includes(needle), needle);
+});
+
 test('the rules cover each of the required behaviours', () => {
   for (const needle of ['only', 'Never state a price', 'release date', "child's name", 'passwords', 'language the visitor writes', HANDOFF_MARKER, 'Never invent links', 'AI assistant']) {
     assert.ok(RULES.includes(needle), needle);
