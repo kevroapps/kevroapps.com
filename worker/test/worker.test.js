@@ -41,7 +41,8 @@ test.beforeEach(() => resetLimits());
 // ---------- knowledge and prompt ----------
 
 test('knowledge.js is in step with docs/chat_knowledge', () => {
-  assert.equal(readFileSync(new URL('../src/knowledge.js', import.meta.url), 'utf8'), buildKnowledge());
+  const onDisk = readFileSync(new URL('../src/knowledge.js', import.meta.url), 'utf8').split(String.fromCharCode(13)).join('');
+  assert.equal(onDisk, buildKnowledge());
 });
 
 test('knowledge covers every app and the studio, with a Source line each', () => {
