@@ -68,6 +68,11 @@ test('knowledge holds back what is not public: no iPhone plan, no offer amount o
   assert.match(knowledge, /offers the support email/);
 });
 
+test('knowledge says Islamic Coloring is for kids, not for Muslim kids', () => {
+  assert.doesNotMatch(knowledge, /muslim (kids|children|child)/i);
+  assert.match(knowledge, /learning app for kids/);
+});
+
 test('the rules carry the Arabic and naming guidance from the Arabic review', () => {
   for (const needle of [
     'Modern Standard Arabic suited to Gulf parents and teachers',
