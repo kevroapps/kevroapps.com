@@ -1653,3 +1653,13 @@ section[id] { scroll-margin-top: 86px; }
 .lede { margin: 0 0 8px; font-size: 19px; line-height: 1.6; color: var(--body); }
 .legal .lede { color: var(--body); }
 label.field { cursor: text; }
+
+/* hero label sits under the phone, not over the app's tool bar */
+.hero-caption .slide-label {
+  position: static;
+  transform: none;
+  max-width: 100%;
+  box-shadow: none;
+}
+
+.hero-inner { padding-bottom: clamp(112px, 12vw, 136px); }

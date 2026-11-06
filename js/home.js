@@ -13,11 +13,11 @@
     if (slides.length < 2) return;
 
     var LABELS = [
-      'Beautiful Islamic scenes to color',
-      'Mosques, Kaaba, and more',
-      'Calm nature and everyday scenes',
-      'Dozens of pages to explore',
-      'Simple pages for little hands'
+      'Color with glitter and a brush',
+      'Five collections to color',
+      'All 28 Arabic letters, free',
+      'Picture puzzles in six worlds',
+      'Jigsaw or sliding tiles'
     ];
     var AUTO = 4000, IDLE = 7000;
     var i = 0, timer = null, idle = null;
