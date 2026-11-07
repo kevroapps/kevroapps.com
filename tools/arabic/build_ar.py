@@ -6,6 +6,11 @@ from ar_content import A
 
 PLAY = "https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring"
 SITE = "https://kevroapps.com"
+# Arabic app names (Captain, 7 Nov 2026; the same as the Play listings). The Latin name goes in brackets at the first mention on each page.
+IC_AR = "تلوين إسلامي للأطفال"
+AP_AR = "آيات للصغار"
+ICL = "Islamic Coloring for Kids"
+APL = "Ayah Play"
 CSS_V = "18"
 LTR = lambda s: f'<span class="ltr">{s}</span>'
 
@@ -200,7 +205,7 @@ def home():
         <div class="feature-grid">
           <article class="feature-panel app-card">
             <span class="app-icon"><img src="/images/islamic-coloring-icon.webp" alt="" width="64" height="64" loading="lazy"></span>
-            <h3 class="card-title">Islamic Coloring for Kids</h3>
+            <h3 class="card-title">{IC_AR}</h3>
             <p>{A["h_card"]}</p>
             <ul class="ticks tight">
 {li(["h_c1", "h_c2", "h_c3", "h_c4", "h_c5"])}            </ul>
@@ -213,7 +218,7 @@ def home():
             <div class="panel-links"><span class="chip">{A["status_testing_play"]}</span><a href="/ar/quraan-class/" class="more-link">{A["see_qc"]}</a></div>
           </article>
           <article class="feature-panel">
-            <h3>Ayah Play</h3>
+            <h3>{AP_AR}</h3>
             <p>{A["h_ap"]}</p>
             <div class="panel-links"><span class="chip">{A["status_soon"]}</span><a href="/ar/ayah-play/" class="more-link">{A["see_ap"]}</a></div>
           </article>
@@ -264,7 +269,7 @@ def home():
 def apps():
     cards = f'''          <article class="feature-panel app-card">
             <span class="app-icon"><img src="/images/islamic-coloring-icon.webp" alt="" width="64" height="64" loading="lazy"></span>
-            <h2 class="card-title">Islamic Coloring for Kids</h2>
+            <h2 class="card-title">{IC_AR}</h2>
             <p>{A["a_ic"]}</p>
             <div class="panel-links"><span class="chip">{A["status_play"]}</span><a href="/ar/islamic-coloring/" class="more-link">{A["see_app"]}</a></div>
           </article>
@@ -274,7 +279,7 @@ def apps():
             <div class="panel-links"><span class="chip">{A["status_testing"]}</span><a href="/ar/quraan-class/" class="more-link">{A["see_qc"]}</a></div>
           </article>
           <article class="feature-panel app-card">
-            <h2 class="card-title">Ayah Play: Quran for Kids</h2>
+            <h2 class="card-title">{AP_AR}</h2>
             <p>{A["a_ap"]}</p>
             <div class="panel-links"><span class="chip">{A["status_soon"]}</span><a href="/ar/ayah-play/" class="more-link">{A["see_ap"]}</a></div>
           </article>'''
@@ -304,7 +309,7 @@ def apps():
 def islamic_coloring():
     pairs = [("i_q1", "i_a1"), ("i_q2", "i_a2"), ("i_q3", "i_a3"), ("i_q4", "i_a4"), ("i_q5", "i_a5"), ("i_q6", "i_a6")]
     main = f'''  <main id="main">
-{crumb_nav("Islamic Coloring for Kids")}    <section class="app-hero" aria-labelledby="app-title">
+{crumb_nav(IC_AR)}    <section class="app-hero" aria-labelledby="app-title">
       <div class="wrap app-hero-grid">
         <div class="app-hero-copy">
           <p class="eyebrow">{A["i_eyebrow"]}</p>
@@ -312,7 +317,7 @@ def islamic_coloring():
             <span class="app-icon app-icon-large">
               <img src="/images/islamic-coloring-icon.webp" alt="{esc(A["alt_icon"])}" width="112" height="112">
             </span>
-            <h1 id="app-title">Islamic Coloring for Kids</h1>
+            <h1 id="app-title">{IC_AR}</h1>
           </div>
           <p class="page-lead">{A["i_lead"]}</p>
           <p class="offer">{A["h_offer"]}</p>
@@ -388,15 +393,15 @@ def islamic_coloring():
       <div class="wrap">
         <p class="eyebrow">{A["more_eyebrow"]}</p>
         <h2 id="more-title">{A["more_title"]}</h2>
-{more_cards([(QC_H3, A["i_more_qc"], A["status_testing"], "/ar/quraan-class/", A["see_qc"]), ("Ayah Play: Quran for Kids", A["i_more_ap"], A["status_soon"], "/ar/ayah-play/", A["see_ap"])])}      </div>
+{more_cards([(QC_H3, A["i_more_qc"], A["status_testing"], "/ar/quraan-class/", A["see_qc"]), (AP_AR, A["i_more_ap"], A["status_soon"], "/ar/ayah-play/", A["see_ap"])])}      </div>
     </section>
   </main>
 '''
-    ld = [{"@context": "https://schema.org", "@type": "MobileApplication", "name": "Islamic Coloring for Kids", "inLanguage": "ar",
+    ld = [{"@context": "https://schema.org", "@type": "MobileApplication", "name": ICL, "alternateName": IC_AR, "inLanguage": "ar",
            "operatingSystem": "Android", "applicationCategory": "EducationalApplication", "description": A["i_desc"],
            "url": SITE + "/ar/islamic-coloring/", "installUrl": PLAY, "image": SITE + "/images/islamic-coloring-icon.png",
            "publisher": {"@type": "Organization", "name": "Kevro Apps", "alternateName": A["brand"], "url": SITE + "/"}},
-          crumbs("Islamic Coloring for Kids", "/ar/islamic-coloring/"), faq_ld(pairs)]
+          crumbs(IC_AR, "/ar/islamic-coloring/"), faq_ld(pairs)]
     return shell("/ar/islamic-coloring/", "/islamic-coloring/", A["i_title"], A["i_desc"], "/images/og-apps.png", A["i_title"], main, ld)
 
 
@@ -466,7 +471,7 @@ def quraan_class():
       <div class="wrap">
         <p class="eyebrow">{A["more_eyebrow"]}</p>
         <h2 id="more-title">{A["more_title"]}</h2>
-{more_cards([("Islamic Coloring for Kids", A["q_more_ic"], A["status_play"], "/ar/islamic-coloring/", A["see_app"]), ("Ayah Play: Quran for Kids", A["q_more_ap"], A["status_soon"], "/ar/ayah-play/", A["see_ap"])])}      </div>
+{more_cards([(IC_AR, A["q_more_ic"], A["status_play"], "/ar/islamic-coloring/", A["see_app"]), (AP_AR, A["q_more_ap"], A["status_soon"], "/ar/ayah-play/", A["see_ap"])])}      </div>
     </section>
   </main>
 '''
@@ -478,11 +483,11 @@ def quraan_class():
 def ayah_play():
     pairs = [(f"p_q{i}", f"p_a{i}") for i in range(1, 5)]
     main = f'''  <main id="main">
-{crumb_nav("Ayah Play")}    <section class="app-hero" aria-labelledby="app-title">
+{crumb_nav(AP_AR)}    <section class="app-hero" aria-labelledby="app-title">
       <div class="wrap app-hero-grid">
         <div class="app-hero-copy">
           <p class="eyebrow">{A["p_eyebrow"]}</p>
-          <h1 id="app-title">Ayah Play: Quran for Kids</h1>
+          <h1 id="app-title">{AP_AR}</h1>
           <p class="page-lead">{A["p_lead"]}</p>
           <div class="hero-cta">
             <a href="/ayah-play/privacy/" class="btn btn-secondary" lang="en" hreflang="en">{A["privacy_btn"]}</a>
@@ -507,11 +512,11 @@ def ayah_play():
       <div class="wrap">
         <p class="eyebrow">{A["more_eyebrow"]}</p>
         <h2 id="more-title">{A["more_title"]}</h2>
-{more_cards([("Islamic Coloring for Kids", A["p_more_ic"], A["status_play"], "/ar/islamic-coloring/", A["see_app"]), (QC_H3, A["p_more_qc"], A["status_testing"], "/ar/quraan-class/", A["see_qc"])])}      </div>
+{more_cards([(IC_AR, A["p_more_ic"], A["status_play"], "/ar/islamic-coloring/", A["see_app"]), (QC_H3, A["p_more_qc"], A["status_testing"], "/ar/quraan-class/", A["see_qc"])])}      </div>
     </section>
   </main>
 '''
-    ld = [crumbs("Ayah Play", "/ar/ayah-play/"), faq_ld(pairs)]
+    ld = [crumbs(AP_AR, "/ar/ayah-play/"), faq_ld(pairs)]
     return shell("/ar/ayah-play/", "/ayah-play/", A["p_title"], A["p_desc"], "/images/og-image.png", A["p_title"], main, ld)
 
 
@@ -587,13 +592,38 @@ def wrap_latin(html):
     return head + sep + "".join(parts)
 
 
+
+CRUMBS = re.compile(r'<nav class="crumbs wrap"[\s\S]*?</nav>')
+
+
+def add_latin_first_mention(html):
+    """The Latin name goes in brackets at the first mention of each Arabic app name in a page's text (Chody's rule, as for the
+    studio name). The breadcrumb is skipped, so the bracket lands on the page's own first mention."""
+    head, sep, body = html.partition("<body")
+    crumbs = CRUMBS.search(body)
+    held = None
+    if crumbs:
+        held = crumbs.group(0)
+        body = body.replace(held, "@@CRUMBS@@", 1)
+    parts = re.split(r"(<script[\s\S]*?</script>|<[^>]+>)", body)
+    for arabic, latin in ((IC_AR, ICL), (AP_AR, APL)):
+        for i, part in enumerate(parts):
+            if part.startswith("<") or arabic not in part:
+                continue
+            parts[i] = part.replace(arabic, arabic + ' (<bdi dir="ltr">' + latin + "</bdi>)", 1)
+            break
+    body = "".join(parts)
+    if held:
+        body = body.replace("@@CRUMBS@@", held, 1)
+    return head + sep + body
+
 PAGES = {"ar/index.html": home, "ar/apps/index.html": apps, "ar/islamic-coloring/index.html": islamic_coloring,
          "ar/quraan-class/index.html": quraan_class, "ar/ayah-play/index.html": ayah_play, "ar/about/index.html": about, "ar/contact/index.html": contact}
 
 for path, fn in PAGES.items():
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with io.open(path, "w", encoding="utf-8", newline="\n") as f:
-        f.write(wrap_latin(fn()))
+        f.write(add_latin_first_mention(wrap_latin(fn())))
     print("wrote", path)
 
 

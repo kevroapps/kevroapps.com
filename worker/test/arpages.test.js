@@ -66,17 +66,37 @@ test('arabic pages: the studio name appears in Arabic, with the Latin form in br
   }
 });
 
-test("arabic pages: app names stay as agreed (Latin for Islamic Coloring and Ayah Play, Arabic for Qur'aan Class)", () => {
+test("arabic pages: app names are the Arabic Play listing names, with the Latin name in brackets at the first mention", () => {
+  const IC = 'تلوين إسلامي للأطفال';
+  const AP = 'آيات للصغار';
   assert.ok(read('ar/quraan-class/index.html').includes('حلقة القرآن'));
-  assert.match(read('ar/islamic-coloring/index.html'), /<h1 id="app-title"><bdi dir="ltr">Islamic Coloring for Kids<\/bdi><\/h1>/);
-  assert.match(read('ar/ayah-play/index.html'), /<bdi dir="ltr">Ayah Play: Quran for Kids<\/bdi>/);
+  assert.ok(read('ar/islamic-coloring/index.html').includes('<h1 id="app-title">' + IC + ' (<bdi dir="ltr">Islamic Coloring for Kids</bdi>)</h1>'));
+  assert.ok(read('ar/ayah-play/index.html').includes('<h1 id="app-title">' + AP + ' (<bdi dir="ltr">Ayah Play</bdi>)</h1>'));
+  for (const file of ['ar/index.html', 'ar/apps/index.html', 'ar/about/index.html']) {
+    const html = read(file);
+    assert.ok(html.includes(IC + ' (<bdi dir="ltr">Islamic Coloring for Kids</bdi>)'), file + ' IC first mention');
+    assert.ok(html.includes(AP + ' (<bdi dir="ltr">Ayah Play</bdi>)'), file + ' AP first mention');
+  }
+  // the bracket is added once per page, not on every mention
+  for (const file of Object.keys(AR)) {
+    const text = read(file);
+    assert.ok((text.match(/\(<bdi dir="ltr">Islamic Coloring for Kids<\/bdi>\)/g) || []).length <= 1, file + ' IC bracket once');
+    assert.ok((text.match(/\(<bdi dir="ltr">Ayah Play<\/bdi>\)/g) || []).length <= 1, file + ' AP bracket once');
+  }
 });
 
 test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
   const corrections = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
   const source = read('tools/arabic/ar_content.py');
   assert.equal(Object.keys(corrections).length, 74);
-  for (const [key, arabic] of Object.entries(corrections)) {
+  // The Arabic app names (Captain, 7 Nov evening) replace the Latin names inside a few of Chody's strings.
+  const withNames = (text) => text.replace('Ayah Play: Quran for Kids', 'آيات للصغار').replace('Islamic Coloring for Kids', 'تلوين إسلامي للأطفال').replace('Ayah Play', 'آيات للصغار');
+  for (const [key, original] of Object.entries(corrections)) {
+    let arabic = withNames(original);
+    if (['h_desc', 'a_desc', 'i_desc', 'p_desc'].includes(key)) {
+      // descriptions carry the Latin name in brackets at the first mention (they are not in the page text the builder processes)
+      arabic = arabic.replace('تلوين إسلامي للأطفال', 'تلوين إسلامي للأطفال (Islamic Coloring for Kids)').replace('آيات للصغار', 'آيات للصغار (Ayah Play)');
+    }
     const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
     assert.ok(row, key + ' row exists');
     assert.ok(row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');

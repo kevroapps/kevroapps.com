@@ -2,13 +2,14 @@
 # Reviewed by Chody (7 Nov 2026): his 74 corrections are applied byte for byte; strings he did not list are approved as drafted.
 # Style: Modern Standard Arabic, plural respectful address, no assumed gender, no dashes as punctuation.
 # Studio name: كيفرو آبس, with (Kevro Apps) in Latin letters at its first body mention on each page.
-# Islamic Coloring for Kids and Ayah Play stay in Latin letters; حلقة القرآن stays Arabic.
+# App names (Captain, 7 Nov 2026, same as the Play listings): تلوين إسلامي للأطفال (Islamic Coloring for Kids), آيات للصغار (Ayah Play), حلقة القرآن; the Latin name goes in brackets at the first mention on each page (added by build_ar.py).
 
 SECTIONS = []  # (title, [(key, english, arabic), ...])
 
 
 def section(title, rows):
     SECTIONS.append((title, rows))
+
 
 
 section("Every page: header, footer, shared words", [
@@ -37,14 +38,14 @@ section("Every page: header, footer, shared words", [
     ("status_soon", "Coming to Google Play", "قريبًا على Google Play"),
     ("see_app", "See the app →", "اطّلعوا على التطبيق ←"),
     ("see_qc", "See Qur'aan Class →", "اطّلعوا على حلقة القرآن ←"),
-    ("see_ap", "See Ayah Play →", "اطّلعوا على Ayah Play ←"),
+    ("see_ap", "See Ayah Play →", "اطّلعوا على آيات للصغار ←"),
 ])
 
 section("Home page (/ar/)", [
-    ("h_title", "Page title", "كيفرو آبس · Islamic Coloring for Kids وحلقة القرآن"),
-    ("h_desc", "Page description", "كيفرو آبس (Kevro Apps) استوديو مستقل في الدوحة. Islamic Coloring for Kids على Google Play، وحلقة القرآن لمعلمي القرآن قيد الاختبار المغلق، وAyah Play قريبًا على Google Play."),
+    ("h_title", "Page title", "كيفرو آبس · تلوين إسلامي للأطفال وحلقة القرآن"),
+    ("h_desc", "Page description", "كيفرو آبس (Kevro Apps) استوديو مستقل في الدوحة. تلوين إسلامي للأطفال (Islamic Coloring for Kids) على Google Play، وحلقة القرآن لمعلمي القرآن قيد الاختبار المغلق، وآيات للصغار (Ayah Play) قريبًا على Google Play."),
     ("h_badge", "On Google Play", "على Google Play"),
-    ("h_h1", "Islamic Coloring for Kids is live on Google Play.", "Islamic Coloring for Kids متوفر الآن على Google Play."),
+    ("h_h1", "Islamic Coloring for Kids is live on Google Play.", "تلوين إسلامي للأطفال متوفر الآن على Google Play."),
     ("h_lead", "A calm coloring and learning app for children, built around Islamic art, Arabic letters, numbers, Islamic months, and picture puzzles.", "تطبيق هادئ للتلوين والتعلّم للأطفال، قائم على الفن الإسلامي والحروف العربية والأرقام والأشهر الهجرية وألغاز الصور."),
     ("h_details", "View app details", "تفاصيل التطبيق"),
     ("h_f1", "No ads", "بلا إعلانات"),
@@ -52,7 +53,7 @@ section("Home page (/ar/)", [
     ("h_f3", "Works offline", "يعمل دون إنترنت"),
     ("h_eyebrow", "Our app on Google Play", "تطبيقنا على Google Play"),
     ("h_h2", "A quiet creative space for families", "مساحة إبداعية هادئة للعائلات"),
-    ("h_p", "Islamic Coloring for Kids combines coloring pages, Arabic learning, and puzzle play in a child-friendly app with no advertising. Android only.", "يجمع Islamic Coloring for Kids بين صفحات التلوين وتعلّم العربية وألعاب الألغاز في تطبيق مناسب للأطفال دون أي إعلانات. لأجهزة أندرويد فقط."),
+    ("h_p", "Islamic Coloring for Kids combines coloring pages, Arabic learning, and puzzle play in a child-friendly app with no advertising. Android only.", "يجمع تلوين إسلامي للأطفال بين صفحات التلوين وتعلّم العربية وألعاب الألغاز في تطبيق مناسب للأطفال دون أي إعلانات. لأجهزة أندرويد فقط."),
     ("h_card", "More than 80 coloring pages, all 28 Arabic letters with tap-to-hear pronunciation, 10 Arabic numbers, the 12 Islamic months, and Puzzle Studio with sliding tile and jigsaw modes.", "أكثر من 80 صفحة تلوين، والحروف العربية الثمانية والعشرون مع نطق كل حرف عند لمسه، و10 أرقام عربية، والأشهر الهجرية الاثنا عشر، واستوديو الألغاز (Puzzle Studio) بنمطي البلاطات المنزلقة والصور المقطّعة."),
     ("h_c1", "No account or sign-in", "بلا حساب أو تسجيل دخول"),
     ("h_c2", "Phones and tablets", "للهواتف والأجهزة اللوحية"),
@@ -85,7 +86,7 @@ section("Home page (/ar/)", [
 
 section("Apps overview (/ar/apps/)", [
     ("a_title", "Page title", "التطبيقات · كيفرو آبس"),
-    ("a_desc", "Page description", "تطبيقات كيفرو آبس (Kevro Apps): Islamic Coloring for Kids على Google Play، وحلقة القرآن لمعلمي القرآن قيد الاختبار المغلق، وAyah Play قريبًا على Google Play. بلا إعلانات. لأجهزة أندرويد فقط."),
+    ("a_desc", "Page description", "تطبيقات كيفرو آبس (Kevro Apps): تلوين إسلامي للأطفال (Islamic Coloring for Kids) على Google Play، وحلقة القرآن لمعلمي القرآن قيد الاختبار المغلق، وآيات للصغار (Ayah Play) قريبًا على Google Play. بلا إعلانات. لأجهزة أندرويد فقط."),
     ("a_eyebrow", "Apps", "التطبيقات"),
     ("a_h1", "Calm apps for families, children and teachers", "تطبيقات هادئة للعائلات والأطفال والمعلمين"),
     ("a_lead", "Every Kevro app starts at home: no ads, no tracking, made by a dad in Doha for his own kids first. All apps are Android only.", "تبدأ تطبيقات كيفرو آبس (Kevro Apps) من البيت: بلا إعلانات ولا تتبّع، ويصنعها أب في الدوحة لأطفاله أولًا. جميع التطبيقات لأجهزة أندرويد فقط."),
@@ -96,8 +97,8 @@ section("Apps overview (/ar/apps/)", [
 ])
 
 section("Islamic Coloring for Kids page (/ar/islamic-coloring/)", [
-    ("i_title", "Page title", "Islamic Coloring for Kids · كيفرو آبس"),
-    ("i_desc", "Page description", "Islamic Coloring for Kids تطبيق هادئ للتلوين والتعلّم على Google Play: أكثر من 80 صفحة، والحروف العربية الثمانية والعشرون، وألغاز الصور. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت. لأجهزة أندرويد فقط."),
+    ("i_title", "Page title", "تلوين إسلامي للأطفال · كيفرو آبس"),
+    ("i_desc", "Page description", "تلوين إسلامي للأطفال (Islamic Coloring for Kids) تطبيق هادئ للتلوين والتعلّم على Google Play: أكثر من 80 صفحة، والحروف العربية الثمانية والعشرون، وألغاز الصور. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت. لأجهزة أندرويد فقط."),
     ("i_eyebrow", "Available now on Google Play", "متوفر الآن على Google Play"),
     ("i_lead", "A calm coloring and learning app for children, built around Islamic art, Arabic letters, numbers, Islamic months, and picture puzzles. Android only.", "تطبيق هادئ للتلوين والتعلّم للأطفال، قائم على الفن الإسلامي والحروف العربية والأرقام والأشهر الهجرية وألغاز الصور. لأجهزة أندرويد فقط."),
     ("i_f1", "Everyone", "للجميع"),
@@ -113,7 +114,7 @@ section("Islamic Coloring for Kids page (/ar/islamic-coloring/)", [
     ("i_do3t", "Build picture puzzles", "تركيب ألغاز الصور"),
     ("i_do3", "Puzzle Studio has 36 pictures across six worlds, with sliding tiles or classic jigsaw play and difficulty options from 4 pieces up to 36.", "في استوديو الألغاز (Puzzle Studio) 36 صورة موزعة على ستة عوالم، بنمط البلاطات المنزلقة أو الصور المقطّعة التقليدية، وبمستويات صعوبة من 4 قطع إلى 36 قطعة."),
     ("i_fam_h2", "Made for family devices", "مصمَّم لأجهزة العائلة"),
-    ("i_fam_sub", "Islamic Coloring for Kids works on phones and tablets in portrait or landscape. It works completely offline, collects no personal information, and does not share data with third parties.", "يعمل Islamic Coloring for Kids على الهواتف والأجهزة اللوحية بالوضعين الطولي والعرضي. ويعمل دون إنترنت تمامًا، ولا يجمع أي معلومات شخصية، ولا يشارك بيانات مع أطراف ثالثة."),
+    ("i_fam_sub", "Islamic Coloring for Kids works on phones and tablets in portrait or landscape. It works completely offline, collects no personal information, and does not share data with third parties.", "يعمل تلوين إسلامي للأطفال على الهواتف والأجهزة اللوحية بالوضعين الطولي والعرضي. ويعمل دون إنترنت تمامًا، ولا يجمع أي معلومات شخصية، ولا يشارك بيانات مع أطراف ثالثة."),
     ("i_par_h3", "Parent-friendly details", "تفاصيل تهم الأهل"),
     ("i_par1", "No advertising of any kind", "بلا إعلانات من أي نوع"),
     ("i_par2", "No account or sign-in", "بلا حساب أو تسجيل دخول"),
@@ -125,7 +126,7 @@ section("Islamic Coloring for Kids page (/ar/islamic-coloring/)", [
     ("i_shots_h2", "A look inside the app", "نظرة داخل التطبيق"),
     ("i_shots_lead", "Screens from the app as it is on Google Play today.", "شاشات من التطبيق كما هو على Google Play اليوم."),
     ("i_faq_h2", "Questions parents ask", "أسئلة يطرحها الأهل"),
-    ("i_q1", "Is Islamic Coloring for Kids free?", "هل Islamic Coloring for Kids مجاني؟"),
+    ("i_q1", "Is Islamic Coloring for Kids free?", "هل تلوين إسلامي للأطفال مجاني؟"),
     ("i_a1", "42 items are free, including every Arabic letter, the Free Draw canvas, two pages in each of the five art collections, and the first item in every pack. Extra packs are one-time purchases: pay once and keep them. Nothing renews. For the prices, see the Google Play listing.", "42 عنصرًا مجانيًا، منها كل حرف عربي ولوحة الرسم الحر وصفحتان من كل واحدة من مجموعات الفن الخمس وأول عنصر في كل حزمة. الحزم الإضافية مشتريات لمرة واحدة: تدفعون مرة واحدة وتحتفظون بها، ولا توجد رسوم متجددة. وللاطلاع على الأسعار، راجعوا صفحة التطبيق في Google Play."),
     ("i_q2", "Are there ads?", "هل توجد إعلانات؟"),
     ("i_a2", "No. There are no ads of any kind, and no subscription.", "لا. لا توجد إعلانات من أي نوع، ولا اشتراك."),
@@ -196,8 +197,8 @@ section("Qur'aan Class page (/ar/quraan-class/)", [
 ])
 
 section("Ayah Play page (/ar/ayah-play/)", [
-    ("p_title", "Page title", "Ayah Play: Quran for Kids · كيفرو آبس"),
-    ("p_desc", "Page description", "Ayah Play تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. بلا إنترنت ولا إعلانات ولا حساب. قريبًا على Google Play، ولأجهزة أندرويد فقط."),
+    ("p_title", "Page title", "آيات للصغار · كيفرو آبس"),
+    ("p_desc", "Page description", "آيات للصغار (Ayah Play) تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. بلا إنترنت ولا إعلانات ولا حساب. قريبًا على Google Play، ولأجهزة أندرويد فقط."),
     ("p_eyebrow", "Coming to Google Play", "قريبًا على Google Play"),
     ("p_lead", "A calm Qur'aan app for the youngest children, around ages two to five. A short surah plays while the child taps a few gentle toys on the screen.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. تُشغَّل سورة قصيرة بينما يلمس الطفل بضع ألعاب لطيفة على الشاشة."),
     ("p_ask", "Ask a question", "اسألونا"),
@@ -207,7 +208,7 @@ section("Ayah Play page (/ar/ayah-play/)", [
     ("p_g4", "No account", "بلا حساب"),
     ("p_g5", "Settings sit behind a parent gate", "الإعدادات محمية بخطوة تحقّق للأهل"),
     ("p_faq_h2", "Questions", "أسئلة"),
-    ("p_q1", "When is Ayah Play on Google Play?", "متى سيتوفر Ayah Play على Google Play؟"),
+    ("p_q1", "When is Ayah Play on Google Play?", "متى سيتوفر آيات للصغار على Google Play؟"),
     ("p_a1", "It is coming to Google Play. There is no release date yet.", "سيصدر قريبًا على Google Play، ولا يوجد موعد إصدار بعد."),
     ("p_q2", "Who is it for?", "لمن صُمّم؟"),
     ("p_a2", "The youngest children, around ages two to five.", "لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا."),
@@ -226,7 +227,7 @@ section("About page (/ar/about/)", [
     ("b_h1", "About Kevro Apps", "عن كيفرو آبس (Kevro Apps)"),
     ("b_lead", "An independent software studio based in Doha, building thoughtful apps, websites, and automation for people and small businesses.", "استوديو برمجيات مستقل مقرّه الدوحة، يطوّر تطبيقات ومواقع وحلول أتمتة مصمّمة بعناية للأفراد وأصحاب الأعمال الصغيرة."),
     ("b_p1", "Kevro Apps is a small independent studio founded on the idea that software should be calm, focused, and respectful of your time. We release slowly and deliberately, and each product is built to do one thing well, with no ads, no tracking, and no clutter.", "كيفرو آبس استوديو مستقل صغير تأسّس على فكرة أن البرمجيات ينبغي أن تكون هادئة ومركّزة وتحترم وقتكم. نطرح منتجاتنا بتأنٍّ، ويُصمَّم كل منتج لأداء مهمة واحدة بإتقان، بلا إعلانات ولا تتبّع ولا ازدحام."),
-    ("b_p2", "Our first release, Islamic Coloring for Kids, is live on Google Play. It brings Islamic coloring pages, Arabic letters, numbers, Islamic months, and picture puzzles into a calm child-friendly app with no ads. Qur'aan Class, for Qur'aan teachers and the families who learn with them, is in closed testing on Google Play, and Ayah Play, a quiet Qur'aan app for the youngest children, is coming to Google Play.", "أول إصداراتنا، Islamic Coloring for Kids، متوفر على Google Play. ويجمع صفحات التلوين الإسلامية والحروف العربية والأرقام والأشهر الهجرية وألغاز الصور في تطبيق هادئ مناسب للأطفال بلا إعلانات. أما حلقة القرآن، للمعلّمين والمعلّمات والأسر التي تتعلّم معهم، فهو قيد الاختبار المغلق على Google Play. وسيُطرح Ayah Play، وهو تطبيق قرآني هادئ لأصغر الأطفال، على Google Play."),
+    ("b_p2", "Our first release, Islamic Coloring for Kids, is live on Google Play. It brings Islamic coloring pages, Arabic letters, numbers, Islamic months, and picture puzzles into a calm child-friendly app with no ads. Qur'aan Class, for Qur'aan teachers and the families who learn with them, is in closed testing on Google Play, and Ayah Play, a quiet Qur'aan app for the youngest children, is coming to Google Play.", "أول إصداراتنا، تلوين إسلامي للأطفال، متوفر على Google Play. ويجمع صفحات التلوين الإسلامية والحروف العربية والأرقام والأشهر الهجرية وألغاز الصور في تطبيق هادئ مناسب للأطفال بلا إعلانات. أما حلقة القرآن، للمعلّمين والمعلّمات والأسر التي تتعلّم معهم، فهو قيد الاختبار المغلق على Google Play. وسيُطرح آيات للصغار، وهو تطبيق قرآني هادئ لأصغر الأطفال، على Google Play."),
     ("b_p3", "We have also built websites, landing pages, and automation for small businesses. We are not taking new website clients at the moment.", "وقد بنينا أيضًا مواقع وصفحات هبوط وحلول أتمتة لأصحاب الأعمال الصغيرة. ولا نستقبل حاليًا مشاريع مواقع جديدة."),
     ("b_how_h2", "How we work", "كيف نعمل"),
     ("b_w1t", "Direct and transparent", "مباشرون وشفّافون"),
@@ -255,7 +256,7 @@ section("Contact page (/ar/contact/): short version, email and phone only", [
 
 section("Addendum: image descriptions (alt text) and small labels", [
     ("alt_hero", "Free Draw with colored and glitter brush strokes", "شاشة الرسم الحر مع ضربات فرشاة ملوّنة وأخرى لامعة"),
-    ("alt_icon", "Islamic Coloring for Kids app icon", "أيقونة تطبيق Islamic Coloring for Kids"),
+    ("alt_icon", "Islamic Coloring for Kids app icon", "أيقونة تطبيق تلوين إسلامي للأطفال"),
     ("alt_shot1", "Free Draw start screen with tips for fill, shape and brush", "شاشة بدء الرسم الحر مع نصائح للتعبئة والأشكال والفرشاة"),
     ("alt_shot2", "The Mosques collection with pages to choose from", "مجموعة المساجد مع صفحات للاختيار منها"),
     ("alt_shot3", "The Arabic Numbers collection with pages to choose from", "مجموعة الأرقام العربية مع صفحات للاختيار منها"),
