@@ -1791,6 +1791,9 @@ p.kc-note { margin: 0; padding: 0 14px 12px; font-size: 13px; line-height: 1.5; 
   .header-row { position: relative; }
   .nav > .theme-toggle { position: absolute; top: 6px; right: 14px; margin: 0; width: 40px; height: 40px; }
   [dir="rtl"] .nav > .theme-toggle { right: auto; left: 14px; }
+  /* the language link takes the opposite top corner, so the nav keeps its one row of links */
+  .nav > .lang-link { position: absolute; top: 14px; left: 14px; margin: 0; }
+  [dir="rtl"] .nav > .lang-link { left: auto; right: 14px; }
 }
 
 /* ===== App pages (islamic-coloring, quraan-class, ayah-play) and the apps overview ===== */

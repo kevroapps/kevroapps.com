@@ -43,3 +43,8 @@ html[lang="ar"] .kc-root { right: auto; left: 16px; }
 /* Decorative glows in the hero swap sides. */
 html[dir="rtl"] .hero-glow .glow-blue { left: auto; right: -120px; }
 html[dir="rtl"] .hero-glow .glow-teal { right: auto; left: -160px; }
+
+/* A Latin name inside an Arabic heading is set in another font; without this its line box grows and the heading looks loosely spaced. */
+html[lang="ar"] h1 bdi,
+html[lang="ar"] h2 bdi,
+html[lang="ar"] h3 bdi { line-height: 1; }
