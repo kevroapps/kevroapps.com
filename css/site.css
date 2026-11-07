@@ -1663,3 +1663,54 @@ label.field { cursor: text; }
 }
 
 .hero-inner { padding-bottom: clamp(112px, 12vw, 136px); }
+
+/* ===== Website assistant (js/chat.js). Built by the script; without JS nothing shows. ===== */
+.kc-root { position: fixed; right: 16px; bottom: 16px; z-index: 60; font-family: inherit; }
+.kc-open {
+  display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px;
+  border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--accent-btn); color: #fff; font: inherit; font-size: 16px; font-weight: 700;
+  box-shadow: 0 10px 28px -10px rgba(10, 37, 64, 0.55);
+}
+.kc-open:hover { filter: brightness(1.06); }
+.kc-open:focus-visible, .kc-btn:focus-visible, .kc-close:focus-visible, .kc-input:focus-visible,
+.kc-field input:focus-visible, .kc-field textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.kc-panel {
+  display: flex; flex-direction: column;
+  width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100vh - 32px)); height: min(560px, calc(100dvh - 32px));
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--border-btn); border-radius: 18px; overflow: hidden;
+  box-shadow: 0 24px 60px -20px rgba(10, 37, 64, 0.5);
+}
+.kc-panel[hidden], .kc-open[hidden] { display: none; }
+.kc-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 14px 12px 18px; background: var(--navy); color: var(--on-navy); }
+.kc-panel[dir="rtl"] .kc-head { padding: 12px 18px 12px 14px; }
+.kc-title { margin: 0; font-size: 17px; font-weight: 800; color: inherit; }
+.kc-close { width: 44px; height: 44px; border: 0; border-radius: 10px; background: transparent; color: inherit; font-size: 28px; line-height: 1; cursor: pointer; }
+.kc-close:hover { background: rgba(255, 255, 255, 0.14); }
+.kc-log { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); }
+.kc-msg { max-width: 88%; padding: 10px 14px; border-radius: 16px; font-size: 16px; line-height: 1.55; overflow-wrap: anywhere; white-space: pre-wrap; }
+.kc-bot { align-self: flex-start; background: var(--surface); color: var(--ink); border: 1px solid var(--border); }
+.kc-user { align-self: flex-end; background: var(--accent-btn); color: #fff; }
+.kc-note { align-self: center; max-width: 100%; padding: 4px 8px; font-size: 14px; color: var(--muted); text-align: center; }
+.kc-msg.kc-note { background: none; }
+.kc-msg a { color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.kc-bar { display: flex; gap: 8px; align-items: flex-end; padding: 10px 12px; border-top: 1px solid var(--border); background: var(--card); }
+.kc-input { flex: 1; min-height: 44px; max-height: 120px; resize: none; overflow-y: hidden; padding: 10px 12px; border: 1px solid var(--border-btn); border-radius: 12px; background: var(--bg); color: var(--ink); font: inherit; font-size: 16px; line-height: 1.4; }
+.kc-btn { min-height: 44px; padding: 0 18px; border: 0; border-radius: 12px; background: var(--accent-btn); color: #fff; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
+.kc-btn:disabled { opacity: 0.55; cursor: default; }
+p.kc-note { margin: 0; padding: 0 14px 12px; font-size: 13px; line-height: 1.5; color: var(--muted); text-align: start; background: var(--card); }
+.kc-form { align-self: stretch; padding: 14px; border: 1px solid var(--border-btn); border-radius: 14px; background: var(--card); display: flex; flex-direction: column; gap: 10px; }
+.kc-form-title { margin: 0; font-size: 16px; font-weight: 800; color: var(--ink); }
+.kc-field { display: flex; flex-direction: column; gap: 4px; }
+.kc-field label { font-size: 14px; font-weight: 700; color: var(--body); }
+.kc-field input, .kc-field textarea { padding: 10px 12px; min-height: 44px; border: 1px solid var(--border-btn); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; font-size: 16px; }
+.kc-form-msg { margin: 0; min-height: 0; font-size: 14px; color: var(--muted); }
+.kc-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+@media (max-width: 480px) {
+  .kc-root { right: 12px; bottom: 12px; }
+  .kc-panel { width: calc(100vw - 24px); height: calc(100vh - 24px); height: calc(100dvh - 24px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .kc-log { scroll-behavior: smooth; }
+}

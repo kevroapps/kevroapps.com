@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { handle } from '../src/index.js';
 import { parseChat, parseHandoff, LIMITS } from '../src/validate.js';
-import { readReply } from '../src/chat.js';
+import { readReply, MAX_TOKENS } from '../src/chat.js';
 import { buildEmail } from '../src/email.js';
 import { RULES, buildSystemPrompt, HANDOFF_MARKER } from '../src/prompt.js';
 import { resetLimits } from '../src/ratelimit.js';
@@ -80,7 +80,14 @@ test('the rules carry the Arabic and naming guidance from the Arabic review', ()
     'In English replies only',
     'Use official app names exactly as given in KNOWLEDGE',
     'Do not invent Arabic names for Islamic Coloring or Ayah Play',
-    "avoid assuming the visitor's gender",
+    'do not assume the gender of the visitor or of any parent, child, teacher or student mentioned',
+    'include the exact English feature label in parentheses',
+    'الحروف العربية الثمانية والعشرين',
+    'When replying only to a greeting',
+    'Do not list all the apps unless asked',
+    'summarize the most relevant points instead of listing every feature',
+    'no markdown symbols',
+    'Repeat privacy and safety claims only exactly as stated in confirmed KNOWLEDGE',
   ]) assert.ok(RULES.includes(needle), needle);
 });
 
@@ -138,6 +145,17 @@ test('readReply strips the handoff marker and flags it', () => {
   assert.deepEqual(readReply(okReply('Yes, it works offline.')), { reply: 'Yes, it works offline.', handoff: false });
 });
 
+test('readReply drops an unfinished last sentence when the token limit cut the reply', () => {
+  const full = 'This app has many pages to color and letters to learn. It works offline once installed. See https://play.google.com/store/apps/details?id=com.islam';
+  const r = readReply({ stop_reason: 'max_tokens', content: [{ type: 'text', text: full }] });
+  assert.equal(r.reply, 'This app has many pages to color and letters to learn. It works offline once installed.');
+  assert.equal(readReply({ stop_reason: 'end_turn', content: [{ type: 'text', text: full }] }).reply, full);
+});
+
+test('the token limit leaves room for Arabic replies', () => {
+  assert.ok(MAX_TOKENS >= 1200);
+});
+
 test('readReply turns a refusal or an empty reply into a handoff, without text', () => {
   assert.equal(readReply({ stop_reason: 'refusal', content: [] }).handoff, true);
   assert.equal(readReply(okReply('   ')).reply, '');
@@ -157,7 +175,7 @@ test('chat: calls the model with the cached system prompt, low effort, fallbacks
   assert.deepEqual(p.output_config, { effort: 'low' });
   assert.equal(p.fallbacks, 'default');
   assert.ok(p.betas.includes('server-side-fallback-2026-07-01'));
-  assert.ok(p.max_tokens <= 600);
+  assert.ok(p.max_tokens >= 1200 && p.max_tokens <= 2000);
   assert.equal('thinking' in p, false);
   assert.equal('temperature' in p, false);
   assert.equal(p.messages.at(-1).content, 'Is Islamic Coloring free?');

@@ -2,7 +2,9 @@ import Anthropic from '@anthropic-ai/sdk';
 import knowledge from './knowledge.js';
 import { buildSystemPrompt, HANDOFF_MARKER } from './prompt.js';
 
-export const MAX_TOKENS = 500;
+// Thinking is always on and counts toward this limit, and Arabic takes more tokens than English,
+// so 500 cut Arabic replies off mid sentence. The prompt keeps replies to a few sentences anyway.
+export const MAX_TOKENS = 1500;
 
 export function createAnthropic(apiKey) {
   return new Anthropic({ apiKey, timeout: 25_000, maxRetries: 1 });
@@ -18,7 +20,12 @@ export function readReply(message) {
     .join('')
     .trim();
   const handoff = text.includes(HANDOFF_MARKER);
-  const reply = text.split(HANDOFF_MARKER).join('').trim();
+  let reply = text.split(HANDOFF_MARKER).join('').trim();
+  // If the limit still cut the reply short, drop the unfinished last sentence so no half link or half word reaches a visitor.
+  if (message.stop_reason === 'max_tokens') {
+    const cut = Math.max(reply.lastIndexOf('. '), reply.lastIndexOf('.\n'), reply.lastIndexOf('؟'), reply.lastIndexOf('? '), reply.lastIndexOf('! '));
+    if (cut > 40) reply = reply.slice(0, cut + 1).trim();
+  }
   if (!reply) return { reply: '', handoff: true, refused: false };
   return { reply, handoff };
 }
