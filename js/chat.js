@@ -14,7 +14,7 @@
     en: {
       open: 'Questions? Ask here',
       title: 'Kevro, the Kevro Apps AI assistant',
-      hello: 'Assalamu alaikum, I am Kevro, the Kevro Apps AI assistant. Ask me about our apps and I will do my best to help.',
+      hello: 'Hello, I am Kevro, the Kevro Apps AI assistant. Ask me about our apps and I will do my best to help.',
       note: 'Kevro is an AI assistant. Please do not share personal details in the chat, such as family members’ names, passwords or payment details.',
       privacy: 'Privacy',
       ph: 'Type your question',
@@ -36,7 +36,7 @@
     ar: {
       open: 'هل لديكم سؤال؟',
       title: '«كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس (Kevro Apps)',
-      hello: 'السلام عليكم، أنا «كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.',
+      hello: 'مرحبًا، أنا «كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.',
       note: '«كيفرو» هو مساعد يعمل بالذكاء الاصطناعي. يُرجى عدم مشاركة تفاصيل شخصية في المحادثة، مثل أسماء أفراد العائلة أو كلمات المرور أو بيانات الدفع.',
       privacy: 'الخصوصية',
       ph: 'اكتبوا سؤالكم هنا',
