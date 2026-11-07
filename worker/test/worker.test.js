@@ -126,6 +126,61 @@ test('parseChat rejects bad input', () => {
   assert.equal(parseChat({ messages: [{ role: 'user', content: 'x'.repeat(LIMITS.maxMessageChars + 1) }] }).error, 'message_too_long');
 });
 
+test('parseChat: long earlier turns never refuse a short new message (the live "too long" defect)', () => {
+  const longAnswer = 'The Qur’aan Class app helps teachers. '.repeat(40); // about 1,500 characters, like a real answer
+  const messages = [
+    { role: 'user', content: 'Assalamu alaikum' },
+    { role: 'assistant', content: 'Wa alaikum assalam. How can I help?' },
+    { role: 'user', content: 'Do you have a Quran app?' },
+    { role: 'assistant', content: longAnswer },
+    { role: 'user', content: 'Yes please' },
+    { role: 'assistant', content: longAnswer },
+    { role: 'user', content: 'Can I be a partner?' },
+  ];
+  const r = parseChat({ messages });
+  assert.equal(r.error, undefined);
+  assert.equal(r.messages.at(-1).content, 'Can I be a partner?');
+  assert.equal(r.messages.at(-1).role, 'user');
+  assert.equal(r.messages[0].role, 'user');
+});
+
+test('parseChat: the per-message limit applies to the new message only; earlier turns are clipped', () => {
+  const huge = 'x'.repeat(LIMITS.maxHistoryMessageChars + 500);
+  const r = parseChat({ messages: [{ role: 'user', content: 'hi' }, { role: 'assistant', content: huge }, { role: 'user', content: 'ok' }] });
+  assert.equal(r.messages[1].content.length, LIMITS.maxHistoryMessageChars);
+  assert.equal(parseChat({ messages: [{ role: 'user', content: 'hi' }, { role: 'assistant', content: 'a' }, { role: 'user', content: 'x'.repeat(LIMITS.maxMessageChars + 1) }] }).error, 'message_too_long');
+});
+
+test('parseChat: a long history is trimmed from the oldest turns, keeping the new message and a visitor first turn', () => {
+  const messages = [];
+  for (let i = 0; i < 12; i++) messages.push({ role: i % 2 ? 'assistant' : 'user', content: String(i).padStart(2, '0') + 'y'.repeat(3000) });
+  messages.push({ role: 'user', content: 'Short new question' });
+  const r = parseChat({ messages });
+  const total = r.messages.reduce((n, m) => n + m.content.length, 0);
+  assert.ok(total <= LIMITS.maxHistoryChars);
+  assert.equal(r.messages.at(-1).content, 'Short new question');
+  assert.equal(r.messages[0].role, 'user');
+  assert.ok(r.messages.length < 12);
+});
+
+test('parseChat: an empty earlier turn is skipped, an empty new message is refused', () => {
+  const r = parseChat({ messages: [{ role: 'user', content: 'hi' }, { role: 'assistant', content: '  ' }, { role: 'user', content: 'ok' }] });
+  assert.equal(r.error, undefined);
+  assert.equal(parseChat({ messages: [{ role: 'user', content: 'hi' }, { role: 'assistant', content: 'a' }, { role: 'user', content: '  ' }] }).error, 'empty_message');
+});
+
+test('chat over HTTP: a conversation with long assistant answers still gets a reply', async () => {
+  const longAnswer = 'Qur’aan Class helps teachers and families. '.repeat(40);
+  const body = { messages: [
+    { role: 'user', content: 'Do you have a Quran app?' }, { role: 'assistant', content: longAnswer },
+    { role: 'user', content: 'Yes please' }, { role: 'assistant', content: longAnswer },
+    { role: 'user', content: 'Can I be a partner?' },
+  ] };
+  const res = await handle(post('/chat', body), baseEnv, deps(okReply('Please write to the studio.\n' + HANDOFF_MARKER)));
+  assert.equal(res.status, 200);
+  assert.deepEqual(await res.json(), { reply: 'Please write to the studio.', handoff: true });
+});
+
 test('parseHandoff cleans fields, rejects bad email, and flags the honeypot', () => {
   const ok = parseHandoff({ name: 'Aisha\r\nBcc: x@y.com', email: 'a@b.co', question: 'Is it on iPhone?', lang: 'ar', page: '/apps/' });
   assert.equal(ok.name, 'Aisha Bcc: x@y.com');
