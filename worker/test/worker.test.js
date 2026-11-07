@@ -91,6 +91,11 @@ test('the rules carry the Arabic and naming guidance from the Arabic review', ()
     'never say that a form will appear',
     'If the visitor says yes to your offer to pass their question on, end that reply with the marker',
     'at most once in a conversation',
+    'Your name is Kevro',
+    'say you are Kevro, the Kevro Apps AI assistant, and always say plainly that you are an AI assistant',
+    'set off as «Kevro» inside Arabic sentences',
+    'Partnership, reseller, press and other business questions are for the studio',
+    'do not bring up unrelated things such as the closed test',
   ]) assert.ok(RULES.includes(needle), needle);
 });
 

@@ -13,9 +13,10 @@
   var STR = {
     en: {
       open: 'Questions? Ask here',
-      title: 'Kevro Apps assistant',
-      hello: 'Hello, this is an AI assistant for Kevro Apps. Ask about our apps and I will do my best.',
-      note: 'This is an AI assistant. Please do not share a child’s name, passwords or payment details. What you type is sent to Claude, an AI service from Anthropic, to write the answer.',
+      title: 'Kevro, the Kevro Apps AI assistant',
+      hello: 'Assalamu alaikum, I am Kevro, the Kevro Apps AI assistant. Ask me about our apps and I will do my best to help.',
+      note: 'Kevro is an AI assistant. Please do not share personal details in the chat, such as family members’ names, passwords or payment details.',
+      privacy: 'Privacy',
       ph: 'Type your question',
       send: 'Send',
       wait: 'One moment',
@@ -34,9 +35,10 @@
     },
     ar: {
       open: 'هل لديكم سؤال؟',
-      title: 'مساعد Kevro Apps',
-      hello: 'السلام عليكم، أنا مساعد يعمل بالذكاء الاصطناعي لدى Kevro Apps. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.',
-      note: 'هذا مساعد يعمل بالذكاء الاصطناعي. يُرجى عدم مشاركة اسم أي طفل أو كلمات المرور أو بيانات الدفع. يُرسل ما تكتبونه إلى Claude، وهي خدمة ذكاء اصطناعي من Anthropic، لصياغة الإجابة.',
+      title: '«Kevro»، مساعد يعمل بالذكاء الاصطناعي لدى Kevro Apps',
+      hello: 'السلام عليكم، أنا «Kevro»، مساعد يعمل بالذكاء الاصطناعي لدى Kevro Apps. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.',
+      note: '«Kevro» هو مساعد يعمل بالذكاء الاصطناعي. يُرجى عدم مشاركة تفاصيل شخصية في المحادثة، مثل أسماء أفراد العائلة أو كلمات المرور أو بيانات الدفع.',
+      privacy: 'الخصوصية',
       ph: 'اكتبوا سؤالكم هنا',
       send: 'إرسال',
       wait: 'لحظة من فضلكم',
@@ -118,9 +120,13 @@
     els.input.placeholder = t('ph');
     els.input.setAttribute('aria-label', t('ph'));
     els.sendBtn.textContent = t('send');
-    els.note.textContent = t('note');
+    els.noteText.textContent = t('note') + ' ';
+    els.noteLink.textContent = t('privacy');
     els.opener.firstChild.textContent = t('open');
-    if (els.hello) els.hello.textContent = t('hello');
+    if (els.hello) {
+      els.hello.textContent = t('hello');
+      els.hello.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    }
     if (els.form) {
       els.formTitle.textContent = t('formTitle');
       els.lName.textContent = t('fName');
@@ -326,7 +332,16 @@
     bar.appendChild(els.input);
     bar.appendChild(els.sendBtn);
 
-    els.note = el('p', 'kc-note', STR.en.note);
+    // The line under the box, then a one word link to the Website Assistant section of the privacy page
+    // (where the Claude and Anthropic sentence lives). It opens in a new tab so the chat is not lost.
+    els.note = el('p', 'kc-note');
+    els.noteText = el('span', null, STR.en.note + ' ');
+    els.noteLink = el('a', 'kc-privacy', STR.en.privacy);
+    els.noteLink.href = '/privacy/#website-assistant';
+    els.noteLink.target = '_blank';
+    els.noteLink.rel = 'noopener';
+    els.note.appendChild(els.noteText);
+    els.note.appendChild(els.noteLink);
 
     panel.appendChild(head);
     panel.appendChild(els.log);
