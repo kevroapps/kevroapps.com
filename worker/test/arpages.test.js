@@ -77,7 +77,7 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
   const source = read('tools/arabic/ar_content.py');
   assert.equal(Object.keys(corrections).length, 74);
   for (const [key, arabic] of Object.entries(corrections)) {
-    const row = source.split('\n').find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
     assert.ok(row, key + ' row exists');
     assert.ok(row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
   }
@@ -87,7 +87,7 @@ test("Chody's addendum change (hero image description) is in the Arabic text byt
   const addendum = JSON.parse(read('tools/arabic/chody_addendum_2026-11-07.json'));
   const source = read('tools/arabic/ar_content.py');
   for (const [key, arabic] of Object.entries(addendum)) {
-    const row = source.split(String.fromCharCode(10)).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
     assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key);
   }
   assert.ok(read('ar/index.html').includes('alt="شاشة الرسم الحر مع ضربات فرشاة ملوّنة وأخرى لامعة"'));
