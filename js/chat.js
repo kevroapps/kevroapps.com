@@ -57,8 +57,6 @@
   var lang = 'en';
   var history = [];          // { role: 'user' | 'assistant', content }
   var busy = false;
-  var handoffShown = false;
-  var handoffDone = false;
   var els = {};
 
   function t(key) { return STR[lang][key]; }
@@ -202,9 +200,26 @@
     return { wrap: wrap, label: label, input: input };
   }
 
+  // A reply like "yes pls" is no question for the studio: prefill with the latest real question instead.
+  function pickQuestion(latest) {
+    if (latest && latest.length >= 12) return latest;
+    for (var i = history.length - 1; i >= 0; i--) {
+      if (history[i].role === 'user' && history[i].content.length >= 12) return history[i].content;
+    }
+    return latest || '';
+  }
+
+  // Every time the assistant offers the studio, the form must appear, also a second time in one visit.
+  // If one is already open, bring it to the bottom and focus it instead of making another.
   function showForm(lastQuestion) {
-    if (handoffShown || handoffDone) return;
-    handoffShown = true;
+    if (els.form) {
+      els.log.appendChild(els.form);
+      els.log.scrollTop = els.log.scrollHeight;
+      var open = els.form.querySelector ? els.form.querySelector('input') : null;
+      if (open) open.focus();
+      return;
+    }
+    lastQuestion = pickQuestion(lastQuestion);
     var form = el('form', 'kc-form');
     form.noValidate = false;
     var title = el('p', 'kc-form-title');
@@ -233,7 +248,6 @@
         website: trap.value, lang: lang, page: location.pathname, transcript: transcript
       }).then(function (r) {
         if (r.res.ok && r.data && r.data.ok) {
-          handoffDone = true;
           form.remove();
           els.form = null;
           addMessage('note', t('thanks'));

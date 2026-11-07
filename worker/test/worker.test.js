@@ -88,6 +88,9 @@ test('the rules carry the Arabic and naming guidance from the Arabic review', ()
     'summarize the most relevant points instead of listing every feature',
     'no markdown symbols',
     'Repeat privacy and safety claims only exactly as stated in confirmed KNOWLEDGE',
+    'never say that a form will appear',
+    'If the visitor says yes to your offer to pass their question on, end that reply with the marker',
+    'at most once in a conversation',
   ]) assert.ok(RULES.includes(needle), needle);
 });
 
