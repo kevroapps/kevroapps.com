@@ -131,6 +131,27 @@ test("Chody's addendum change (hero image description) is in the Arabic text byt
   assert.ok(read('ar/index.html').includes('alt="شاشة الرسم الحر مع ضربات فرشاة ملوّنة وأخرى لامعة"'));
 });
 
+test("Chody's screenshot-section strings are in the Arabic text byte for byte, and the pages show the real screens", () => {
+  const strings = JSON.parse(read('tools/arabic/chody_shots_2026-11-07.json'));
+  const source = read('tools/arabic/ar_content.py');
+  assert.equal(Object.keys(strings).length, 10);
+  for (const [key, arabic] of Object.entries(strings)) {
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key);
+  }
+  const ap = read('ar/ayah-play/index.html');
+  const qc = read('ar/quraan-class/index.html');
+  for (const n of [1, 2]) assert.ok(ap.includes(`/images/screenshots/ayah-play-${n}.webp" alt="${strings['ap_alt' + n]}"`), 'ap ' + n);
+  for (const n of [1, 2, 3, 4]) assert.ok(qc.includes(`/images/screenshots/quraan-class-${n}.webp" alt="${strings['q_alt' + n]}"`), 'qc ' + n);
+  // image descriptions use the Arabic app name only, with no Latin bracket (Chody)
+  for (const key of ['ap_alt1', 'ap_alt2']) {
+    assert.ok(strings[key].endsWith('في آيات للصغار'), key);
+    assert.doesNotMatch(strings[key], /[A-Za-z]/, key);
+  }
+  assert.ok(ap.includes('>' + strings.ap_shots_eyebrow + '<') && ap.includes('>' + strings.ap_shots_h2 + '<'));
+  assert.ok(qc.includes('<p class="lead">' + strings.q_shots_note + '</p>'));
+});
+
 test('sitemap lists every Arabic page', () => {
   const map = read('sitemap.xml');
   for (const [, [ar]] of Object.entries(AR)) assert.ok(map.includes(`<loc>https://kevroapps.com${ar}</loc>`), ar);
