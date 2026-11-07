@@ -120,9 +120,9 @@ test('widget: replies are plain text, and only our own links are links', async (
 test('widget: the assistant is called Kevro, in English and in Chody\'s reviewed Arabic', () => {
   for (const exact of [
     "title: 'Kevro, the Kevro Apps AI assistant'",
-    "hello: 'Assalamu alaikum, I am Kevro, the Kevro Apps AI assistant. Ask me about our apps and I will do my best to help.'",
+    "hello: 'Hello, I am Kevro, the Kevro Apps AI assistant. Ask me about our apps and I will do my best to help.'",
     "title: '«كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس (Kevro Apps)'",
-    "hello: 'السلام عليكم، أنا «كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.'",
+    "hello: 'مرحبًا، أنا «كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.'",
   ]) assert.ok(SOURCE.includes(exact), exact);
 });
 
@@ -155,4 +155,10 @@ test('widget: on an Arabic page (html lang ar) the box starts in Arabic, right t
   assert.equal(w.byClass('kc-privacy').textContent, 'الخصوصية');
   const en = loadWidget([]);
   assert.equal(en.byClass('kc-panel').attrs.dir, 'ltr');
+});
+
+test('widget: the assistant opens with a plain hello, never an Islamic greeting', () => {
+  const hellos = (SOURCE.match(/hello: '[^']*'/g) || []).join(' ');
+  assert.ok(hellos.includes('Hello, I am Kevro'));
+  assert.doesNotMatch(hellos, /assalam|salaam|salam|السلام/i);
 });

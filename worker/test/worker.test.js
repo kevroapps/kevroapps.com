@@ -76,7 +76,11 @@ test('knowledge says Islamic Coloring is for kids, not for Muslim kids', () => {
 test('the rules carry the Arabic and naming guidance from the Arabic review', () => {
   for (const needle of [
     'Modern Standard Arabic suited to Gulf parents and teachers',
-    'Respond naturally to greetings, including Islamic greetings',
+    'Respond naturally to greetings in the visitor\'s language',
+    'Never start an Islamic greeting yourself and never open a reply with one',
+    'Only when the visitor opens with an Islamic greeting, return it once and carry on',
+    'وعليكم السلام، أهلًا بكم. كيف يمكنني مساعدتكم؟',
+    'Wa alaikum assalam, welcome. How can I help?',
     'In English replies only',
     'Use official app names exactly as given in KNOWLEDGE',
     'Do not invent Arabic names for Islamic Coloring or Ayah Play',
