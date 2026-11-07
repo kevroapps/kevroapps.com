@@ -517,23 +517,7 @@ def ayah_play():
       </div>
     </section>
 
-    <section class="section section-tint" aria-labelledby="look-title">
-      <div class="wrap">
-        <div class="section-head compact">
-          <div>
-            <p class="eyebrow">{A["ap_shots_eyebrow"]}</p>
-            <h2 id="look-title">{A["ap_shots_h2"]}</h2>
-          </div>
-          <p class="lead">{A["ap_shots_note"]}</p>
-        </div>
-        <div class="shots shots-two">
-          <div class="shot"><img src="/images/screenshots/ayah-play-1.webp" alt="{esc(A["ap_alt1"])}" width="594" height="1254" loading="lazy"></div>
-          <div class="shot"><img src="/images/screenshots/ayah-play-2.webp" alt="{esc(A["ap_alt2"])}" width="594" height="1254" loading="lazy"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="faq-title">
+    <section class="section section-tint" aria-labelledby="faq-title">
       <div class="wrap">
         <h2 id="faq-title">{A["p_faq_h2"]}</h2>
 {faq(pairs)}      </div>
