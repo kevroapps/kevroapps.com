@@ -48,3 +48,6 @@ html[dir="rtl"] .hero-glow .glow-teal { right: auto; left: -160px; }
 html[lang="ar"] h1 bdi,
 html[lang="ar"] h2 bdi,
 html[lang="ar"] h3 bdi { line-height: 1; }
+
+/* The blue heading gradient is for the English pages; in right to left text with Latin names mixed in it would colour random words, so Arabic headings stay solid. */
+html[dir="rtl"] { --h1-grad: none; --h1-fill: currentcolor; --h1-pad: 0; }
