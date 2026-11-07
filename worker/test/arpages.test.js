@@ -92,6 +92,7 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
   // The Arabic app names (Captain, 7 Nov evening) replace the Latin names inside a few of Chody's strings.
   const withNames = (text) => text.replace('Ayah Play: Quran for Kids', 'آيات للصغار').replace('Islamic Coloring for Kids', 'تلوين إسلامي للأطفال').replace('Ayah Play', 'آيات للصغار');
   for (const [key, original] of Object.entries(corrections)) {
+    if (key === 'b_p2') continue; // rewritten by Chody on 7 Nov evening, checked below
     let arabic = withNames(original);
     if (['h_desc', 'a_desc', 'i_desc', 'p_desc'].includes(key)) {
       // descriptions carry the Latin name in brackets at the first mention (they are not in the page text the builder processes)
@@ -101,6 +102,23 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
     assert.ok(row, key + ' row exists');
     assert.ok(row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
   }
+});
+
+test("Chody's three corrections for the Arabic app names are in the text byte for byte (and the pages carry them)", () => {
+  const names = JSON.parse(read('tools/arabic/chody_app_names_2026-11-07.json'));
+  const source = read('tools/arabic/ar_content.py');
+  assert.deepEqual(Object.keys(names).sort(), ['b_p2', 'h_h1', 'p_q1']);
+  for (const [key, arabic] of Object.entries(names)) {
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key);
+  }
+  // no doubled Latin bracket where Chody's own wording already carries it
+  const home = read('ar/index.html');
+  assert.ok(home.includes('تلوين إسلامي للأطفال (<bdi dir="ltr">Islamic Coloring for Kids</bdi>) متوفر الآن على'));
+  assert.ok(!home.includes('(<bdi dir="ltr">Islamic Coloring for Kids</bdi>) (<bdi'));
+  const about = read('ar/about/index.html');
+  assert.equal((about.match(/Islamic Coloring for Kids<\/bdi>\)/g) || []).length, 1);
+  assert.equal((about.match(/Ayah Play<\/bdi>\)/g) || []).length, 1);
 });
 
 test("Chody's addendum change (hero image description) is in the Arabic text byte for byte", () => {

@@ -610,6 +610,9 @@ def add_latin_first_mention(html):
         for i, part in enumerate(parts):
             if part.startswith("<") or arabic not in part:
                 continue
+            after = part[part.index(arabic) + len(arabic):] + "".join(parts[i + 1:])
+            if after.startswith(' (<bdi dir="ltr">' + latin + "</bdi>)"):
+                break   # the string already carries the Latin name at this first mention (Chody's own wording)
             parts[i] = part.replace(arabic, arabic + ' (<bdi dir="ltr">' + latin + "</bdi>)", 1)
             break
     body = "".join(parts)
