@@ -93,7 +93,10 @@ test('the rules carry the Arabic and naming guidance from the Arabic review', ()
     'at most once in a conversation',
     'Your name is Kevro',
     'say you are Kevro, the Kevro Apps AI assistant, and always say plainly that you are an AI assistant',
-    'set off as «Kevro» inside Arabic sentences',
+    'write the studio name as كيفرو آبس, with Kevro Apps in Latin letters in parentheses at its first mention',
+    "Write the assistant's own name as «كيفرو»",
+    'Use guillemets only around the assistant\'s name, never around the studio or app names',
+    'حلقة القرآن stays in Arabic',
     'Partnership, reseller, press and other business questions are for the studio',
     'do not bring up unrelated things such as the closed test',
   ]) assert.ok(RULES.includes(needle), needle);

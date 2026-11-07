@@ -35,9 +35,9 @@
     },
     ar: {
       open: 'هل لديكم سؤال؟',
-      title: '«Kevro»، مساعد يعمل بالذكاء الاصطناعي لدى Kevro Apps',
-      hello: 'السلام عليكم، أنا «Kevro»، مساعد يعمل بالذكاء الاصطناعي لدى Kevro Apps. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.',
-      note: '«Kevro» هو مساعد يعمل بالذكاء الاصطناعي. يُرجى عدم مشاركة تفاصيل شخصية في المحادثة، مثل أسماء أفراد العائلة أو كلمات المرور أو بيانات الدفع.',
+      title: '«كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس (Kevro Apps)',
+      hello: 'السلام عليكم، أنا «كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.',
+      note: '«كيفرو» هو مساعد يعمل بالذكاء الاصطناعي. يُرجى عدم مشاركة تفاصيل شخصية في المحادثة، مثل أسماء أفراد العائلة أو كلمات المرور أو بيانات الدفع.',
       privacy: 'الخصوصية',
       ph: 'اكتبوا سؤالكم هنا',
       send: 'إرسال',
@@ -113,7 +113,8 @@
     lang = l;
     els.panel.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
     els.panel.setAttribute('lang', lang);
-    els.title.textContent = t('title');
+    // Display only: a non breaking space keeps the Latin "(Kevro Apps)" from splitting across two lines.
+    els.title.textContent = t('title').replace('(Kevro Apps)', '(Kevro Apps)');
     els.panel.setAttribute('aria-label', t('title'));
     els.close.setAttribute('aria-label', t('close'));
     els.close.title = t('close');

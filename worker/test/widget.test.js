@@ -121,15 +121,15 @@ test('widget: the assistant is called Kevro, in English and in Chody\'s reviewed
   for (const exact of [
     "title: 'Kevro, the Kevro Apps AI assistant'",
     "hello: 'Assalamu alaikum, I am Kevro, the Kevro Apps AI assistant. Ask me about our apps and I will do my best to help.'",
-    "title: '«Kevro»، مساعد يعمل بالذكاء الاصطناعي لدى Kevro Apps'",
-    "hello: 'السلام عليكم، أنا «Kevro»، مساعد يعمل بالذكاء الاصطناعي لدى Kevro Apps. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.'",
+    "title: '«كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس (Kevro Apps)'",
+    "hello: 'السلام عليكم، أنا «كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.'",
   ]) assert.ok(SOURCE.includes(exact), exact);
 });
 
 test('widget: the short line under the box matches Captain\'s English and Chody\'s Arabic, with a Privacy link', () => {
   for (const exact of [
     "note: 'Kevro is an AI assistant. Please do not share personal details in the chat, such as family members’ names, passwords or payment details.'",
-    "note: '«Kevro» هو مساعد يعمل بالذكاء الاصطناعي. يُرجى عدم مشاركة تفاصيل شخصية في المحادثة، مثل أسماء أفراد العائلة أو كلمات المرور أو بيانات الدفع.'",
+    "note: '«كيفرو» هو مساعد يعمل بالذكاء الاصطناعي. يُرجى عدم مشاركة تفاصيل شخصية في المحادثة، مثل أسماء أفراد العائلة أو كلمات المرور أو بيانات الدفع.'",
     "privacy: 'Privacy'",
     "privacy: 'الخصوصية'",
   ]) assert.ok(SOURCE.includes(exact), exact);
@@ -145,6 +145,6 @@ test('widget: Arabic mode switches the title, the line, the link and the greetin
   const w = loadWidget([plainAnswer('أهلًا بكم')]);
   await w.say('السلام عليكم');
   assert.equal(w.byClass('kc-privacy').textContent, 'الخصوصية');
-  assert.ok(w.byClass('kc-title').textContent.startsWith('«Kevro»'));
+  assert.ok(w.byClass('kc-title').textContent.startsWith('«كيفرو»'));
   assert.equal(w.byClass('kc-panel').attrs.dir, 'rtl');
 });
