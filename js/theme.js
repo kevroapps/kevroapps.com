@@ -19,8 +19,10 @@
   var btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'theme-toggle';
-  btn.title = 'Dark mode';
-  btn.setAttribute('aria-label', 'Dark mode');
+  // The label comes from the page (data-theme-label on <html>, set on the Arabic pages) so it is in the page's language.
+  var label = root.getAttribute('data-theme-label') || 'Dark mode';
+  btn.title = label;
+  btn.setAttribute('aria-label', label);
   // A half filled disc: the usual light and dark symbol, nothing else.
   btn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"></path></svg>';
 
