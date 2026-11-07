@@ -71,7 +71,7 @@
   --btn2-shadow: 0 1px 2px rgba(10, 37, 64, 0.06), 0 8px 18px -12px rgba(10, 37, 64, 0.25);
   --phone-shadow: 0 60px 100px -44px rgba(26, 95, 224, 0.55), 0 30px 50px -28px rgba(10, 37, 64, 0.45), 0 0 0 1px rgba(10, 37, 64, 0.08);
   --lift: -3px;
-  --hero-dots: radial-gradient(rgba(10, 37, 64, 0.085) 1px, transparent 1.4px);
+  --hero-dots: none; /* the faint dot grid behind the hero was removed (Captain: it looked odd) */
   --h1-grad: linear-gradient(100deg, #0A2540 0%, #0A2540 38%, #1A5FE0 100%);
   --h1-fill: transparent;
   --h1-pad: 0.06em;
@@ -1909,3 +1909,19 @@ p.kc-note { margin: 0; padding: 0 14px 12px; font-size: 13px; line-height: 1.5; 
 /* Language link in the header (English and Arabic pages). */
 .nav .lang-link { font-weight: 600; }
 .nav .lang-link:hover { color: var(--ink); }
+
+/* The facts under the app description: one tidy grid instead of two groups that wrap differently. */
+.chips.chips-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 520px;
+}
+.chips-grid .chip {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  white-space: normal;
+  line-height: 1.3;
+}
+.chips-grid .chip-wide { grid-column: 1 / -1; }
