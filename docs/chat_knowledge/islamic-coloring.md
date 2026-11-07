@@ -1,5 +1,7 @@
 # Islamic Coloring for Kids
 
+Arabic name (the same as its Google Play Arabic listing): تلوين إسلامي للأطفال. In Arabic replies write it with the Latin name in parentheses at the first mention.
+
 A calm coloring book and learning app for kids, on Google Play for Android (phones and tablets, portrait or landscape). Link: https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring . Android only. For questions about iPhone, the assistant offers the support email. Made for young children. App page: https://kevroapps.com/islamic-coloring/ .
 
 What is in it:

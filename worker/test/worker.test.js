@@ -86,7 +86,8 @@ test('the rules carry the Arabic and naming guidance from the Arabic review', ()
     'Wa alaikum assalam wa rahmatullahi wa barakatuh, welcome. How can I help?',
     'In English replies only',
     'Use official app names exactly as given in KNOWLEDGE',
-    'Do not invent Arabic names for Islamic Coloring or Ayah Play',
+    'do not invent any other Arabic names for the apps',
+    'تلوين إسلامي للأطفال for Islamic Coloring for Kids, آيات للصغار for Ayah Play, and حلقة القرآن for Qur\'aan Class',
     'do not assume the gender of the visitor or of any parent, child, teacher or student mentioned',
     'include the exact English feature label in parentheses',
     'الحروف العربية الثمانية والعشرين',
@@ -103,7 +104,6 @@ test('the rules carry the Arabic and naming guidance from the Arabic review', ()
     'write the studio name as كيفرو آبس, with Kevro Apps in Latin letters in parentheses at its first mention',
     "Write the assistant's own name as «كيفرو»",
     'Use guillemets only around the assistant\'s name, never around the studio or app names',
-    'حلقة القرآن stays in Arabic',
     'Partnership, reseller, press and other business questions are for the studio',
     'do not bring up unrelated things such as the closed test',
   ]) assert.ok(RULES.includes(needle), needle);
