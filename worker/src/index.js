@@ -27,7 +27,8 @@ const mailReady = (env) => Boolean(env.RESEND_API_KEY && env.SUPPORT_EMAIL && en
 async function readJson(request) {
   try {
     const text = await request.text();
-    if (text.length > 20_000) return null;
+    // A chat request carries the conversation so far, with the assistant's own long answers: leave room.
+    if (text.length > 80_000) return null;
     return JSON.parse(text);
   } catch {
     return null;
