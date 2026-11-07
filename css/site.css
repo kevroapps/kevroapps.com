@@ -65,8 +65,9 @@
   --pad: 32px;
 }
 
+/* Dark mode: follows the device unless the visitor chose (the header button sets data-theme on <html>). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0B1322;
     --card: #131E31;
     --header-bg: rgba(11, 19, 34, 0.82);
@@ -109,6 +110,60 @@
     --shadow: 0, 0, 0;
   }
 }
+
+:root[data-theme="dark"] {
+  --bg: #0B1322;
+  --card: #131E31;
+  --header-bg: rgba(11, 19, 34, 0.82);
+  --navy: #16294A;
+  --navy-2: #1D3560;
+
+  --ink: #EAF0F8;
+  --body: #B2BFD0;
+  --card-body: #A9B7C9;
+  --muted: #9AA9BD;
+  --nav: #B9C6D8;
+  --quote: #D3DCE8;
+  --chip: #C7D2E0;
+  --accent: #7AA8FF;
+  --accent-btn: #2F6BEA;
+  --teal: #2CCBBC;
+  --teal-ink: #55E0D2;
+
+  --surface: #0F1A2D;
+  --surface-2: #0D1727;
+  --tint-blue: #172542;
+  --tint-blue-2: #1A2D52;
+  --tint-blue-3: #1B2A44;
+  --tint-blue-4: #15233C;
+  --tint-teal: #12302F;
+
+  --border: #213049;
+  --border-2: #25354F;
+  --border-chip: #2A3B57;
+  --border-btn: #3A4C69;
+  --dashed: #34465F;
+  --dashed-2: #3C4F6A;
+
+  --foot-copy: #8DA0B8;
+  --dot: #6C7F9C;
+  --dot-hover: #93A5BF;
+  --selection: #2B4A85;
+  --glow-1: rgba(47, 107, 234, 0.22);
+  --glow-2: rgba(44, 203, 188, 0.14);
+  --shadow: 0, 0, 0;
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+/* Two logos, one shown: the dark ink logo on light, the light logo on dark. */
+.logo-for-dark { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-for-light { display: none; }
+  :root:not([data-theme="light"]) .logo-for-dark { display: inline; }
+}
+:root[data-theme="dark"] .logo-for-light { display: none; }
+:root[data-theme="dark"] .logo-for-dark { display: inline; }
 
 * { box-sizing: border-box; }
 
@@ -1718,3 +1773,22 @@ p.kc-note { margin: 0; padding: 0 14px 12px; font-size: 13px; line-height: 1.5; 
 .kc-note .kc-privacy { color: var(--accent); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
 .kc-note .kc-privacy:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
 .kc-title { line-height: 1.25; }
+
+/* Light and dark button (js/theme.js adds it to the header nav). */
+.theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; padding: 0;
+  border: 1px solid var(--border-btn); border-radius: 11px;
+  background: transparent; color: var(--nav); cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.theme-toggle:hover { color: var(--ink); border-color: var(--nav); background: var(--tint-blue-4); }
+.theme-toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.theme-toggle svg { display: block; }
+
+/* On a phone the button sits in the top corner of the header instead of making a third row. */
+@media (max-width: 760px) {
+  .header-row { position: relative; }
+  .nav > .theme-toggle { position: absolute; top: 6px; right: 14px; margin: 0; width: 40px; height: 40px; }
+  [dir="rtl"] .nav > .theme-toggle { right: auto; left: 14px; }
+}
