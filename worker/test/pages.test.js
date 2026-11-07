@@ -125,9 +125,10 @@ test('every page that carries the stylesheet asks for the same version (so the n
 
 test('privacy policy covers iPhone and iPad: App Store purchase, add-only Photos, TestFlight, and keeps the no-account model', () => {
   const html = read('privacy/index.html');
-  for (const phrase of ["Apple's App Store", 'iPhone and iPad', 'TestFlight', 'add pictures to Photos', 'https://www.apple.com/legal/privacy/', 'IDFA']) assert.ok(html.includes(phrase), phrase);
+  for (const phrase of ["Apple's App Store", 'iPhone and iPad', 'TestFlight', 'add pictures to Photos', 'https://www.apple.com/legal/privacy/', 'IDFA', 'public link', 'content packs', 'Kids Category']) assert.ok(html.includes(phrase), phrase);
   assert.ok(html.includes('Short Privacy Summary (for the app stores)'));
   assert.ok(!html.includes('for Play Store'));
+  assert.ok(!/premium/i.test(html), 'five content packs, not one premium unlock');
   assert.ok(html.includes('The app does not require account registration'));
   assert.ok(!/Muslim kids|colour/i.test(html));
 });
