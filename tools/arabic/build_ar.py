@@ -11,7 +11,7 @@ IC_AR = "تلوين إسلامي للأطفال"
 AP_AR = "آيات للصغار"
 ICL = "Islamic Coloring for Kids"
 APL = "Ayah Play"
-CSS_V = "18"
+CSS_V = "19"
 LTR = lambda s: f'<span class="ltr">{s}</span>'
 
 # English path -> Arabic path (pages that exist in both languages)

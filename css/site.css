@@ -1925,3 +1925,4 @@ p.kc-note { margin: 0; padding: 0 14px 12px; font-size: 13px; line-height: 1.5; 
   line-height: 1.3;
 }
 .chips-grid .chip-wide { grid-column: 1 / -1; }
+.shots.shots-two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 560px; margin-inline: auto; }
