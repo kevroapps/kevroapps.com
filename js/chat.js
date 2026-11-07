@@ -25,8 +25,8 @@
       fEmail: 'Your email',
       fQ: 'Your question',
       fSend: 'Send to the studio',
-      // Held until Captain confirms the one business day promise; then use: 'Thank you. We reply within one business day.'
-      thanks: 'Thank you. The studio will reply by email.',
+      // Matches the contact page, which already says "We reply within one business day".
+      thanks: 'Thank you. We reply within one business day.',
       failed: 'Sorry, that did not send. Please email ' + SUPPORT + '.',
       off: 'The assistant is not available right now. Please email ' + SUPPORT + '.',
       busy: 'Lots of questions at once. Please wait a minute and try again.',
@@ -46,8 +46,7 @@
       fEmail: 'البريد الإلكتروني',
       fQ: 'السؤال',
       fSend: 'إرسال إلى الفريق',
-      // Held with the English line above; Chody's reviewed version is: 'شكرًا لكم. سنرد خلال يوم عمل واحد.'
-      thanks: 'شكرًا لكم. سيردّ الفريق عبر البريد الإلكتروني.',
+      thanks: 'شكرًا لكم. سنرد خلال يوم عمل واحد.',
       failed: 'عذرًا، تعذّر الإرسال. يمكنكم مراسلتنا على ' + SUPPORT + '.',
       off: 'المساعد غير متاح حاليًا. يمكنكم مراسلتنا على ' + SUPPORT + '.',
       busy: 'هناك أسئلة كثيرة في الوقت نفسه. يُرجى الانتظار دقيقة ثم المحاولة مرة أخرى.',

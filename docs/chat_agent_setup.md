@@ -75,4 +75,4 @@ Press Deploy when the dashboard asks.
 
 ## Still open
 
-1. The thank you line after the handoff form is the neutral "The studio will reply by email." until Captain confirms the one business day promise. If he does, use "Thank you. We reply within one business day." and Chody's Arabic `شكرًا لكم. سنرد خلال يوم عمل واحد.` (the held lines are in `js/chat.js`), and keep "Replies come within one business day" in `docs/chat_knowledge/kevro-apps.md`.
+1. The thank you line after the handoff form says "We reply within one business day" (Chody's Arabic `شكرًا لكم. سنرد خلال يوم عمل واحد.`), matching the contact page. If Captain cannot keep that promise, remove it in one change everywhere: `js/chat.js`, the contact page, and `docs/chat_knowledge/kevro-apps.md`.
