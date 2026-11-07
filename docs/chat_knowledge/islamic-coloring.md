@@ -1,6 +1,6 @@
 # Islamic Coloring for Kids
 
-A calm coloring book and learning app for kids, on Google Play for Android (phones and tablets, portrait or landscape). Link: https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring . Android only. For questions about iPhone, the assistant offers the support email. Made for young children.
+A calm coloring book and learning app for kids, on Google Play for Android (phones and tablets, portrait or landscape). Link: https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring . Android only. For questions about iPhone, the assistant offers the support email. Made for young children. App page: https://kevroapps.com/islamic-coloring/ .
 
 What is in it:
 - More than 80 coloring pages: the Kaaba, mosques, nature, fruits and clothing. Fill a shape with one tap or paint with the brush. Six simple tools: fill, brush, eraser, shapes, text and glitter. Free Draw gives a blank page.
