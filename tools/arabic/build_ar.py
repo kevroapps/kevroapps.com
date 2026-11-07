@@ -6,7 +6,7 @@ from ar_content import A
 
 PLAY = "https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring"
 SITE = "https://kevroapps.com"
-CSS_V = "16"
+CSS_V = "17"
 LTR = lambda s: f'<span class="ltr">{s}</span>'
 
 # English path -> Arabic path (pages that exist in both languages)
