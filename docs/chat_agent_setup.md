@@ -65,9 +65,14 @@ Press Deploy when the dashboard asks.
 - A visitor's message goes to the Claude API to get an answer, and an email handoff goes through Resend. Each of those services applies its own retention rules. The chat box tells visitors this and tells them not to share a child's name or any private details.
 - Cloudflare keeps its usual request counts and the rate limit works on the visitor's address without saving it.
 
-## Open points before it goes live
+## State, 7 Nov 2026
 
-1. Chody reviews the Arabic of the chat box and the rules in `worker/src/prompt.js`.
-2. VC checks the facts in `docs/chat_knowledge/` (each file ends with its source).
-3. The widget is added to the pages only after the modernisation PR is merged.
-4. Decide whether the site privacy page gets one sentence about the assistant (suggested wording will be in the widget PR).
+- The Worker is deployed at `https://kevro-chat.kevro-chat-worker.workers.dev` with both keys added. `/health` shows `chat` and `email` true.
+- Chody reviewed the Arabic (chat box words, privacy sentence and the assistant's rules); VC checked the facts in `docs/chat_knowledge/`.
+- The chat box is `js/chat.js` (all visitor words are in its `STR` table, English and Arabic) with styles at the end of `css/site.css`. It is loaded on the home, apps, about, contact, services and privacy pages.
+- The site privacy page has a section "The Website Assistant (kevroapps.com)" and a new effective date.
+- After changing `worker/` code, redeploy with `npx wrangler deploy` in the `worker/` folder.
+
+## Still open
+
+1. The thank you line after the handoff form is the neutral "The studio will reply by email." until Captain confirms the one business day promise. If he does, use "Thank you. We reply within one business day." and Chody's Arabic `شكرًا لكم. سنرد خلال يوم عمل واحد.` (the held lines are in `js/chat.js`), and keep "Replies come within one business day" in `docs/chat_knowledge/kevro-apps.md`.
