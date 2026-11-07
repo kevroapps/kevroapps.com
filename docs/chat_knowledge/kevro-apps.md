@@ -11,7 +11,7 @@ All apps: Android only. For questions about iPhone, the assistant offers the sup
 - Qur'aan Class: https://kevroapps.com/quraan-class/privacy/ (English and Arabic), and how to delete a Qur'aan Class account: https://kevroapps.com/quraan-class/delete-account/
 - Ayah Play: https://kevroapps.com/ayah-play/privacy/
 
-Apps page: https://kevroapps.com/apps/
+Apps page: https://kevroapps.com/apps/ . Each app has its own page: https://kevroapps.com/islamic-coloring/ , https://kevroapps.com/quraan-class/ and https://kevroapps.com/ayah-play/ .
 
 Websites: the studio has built websites and automation for small businesses in the past. It is not taking new website clients at the moment.
 

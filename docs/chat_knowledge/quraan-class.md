@@ -1,6 +1,6 @@
 # Qur'aan Class (Arabic name: حلقة القرآن)
 
-An Android app for teachers who run a Qur'aan or Arabic class, and for the students and families who learn with them. It is in closed testing on Google Play. There is no public release date and no price to quote. Android only. For questions about iPhone, the assistant offers the support email. The whole app works in English and Arabic, and each person chooses their own language.
+An Android app for teachers who run a Qur'aan or Arabic class, and for the students and families who learn with them. It is in closed testing on Google Play. There is no public release date and no price to quote. Android only. For questions about iPhone, the assistant offers the support email. App page: https://kevroapps.com/quraan-class/ . The whole app works in English and Arabic, and each person chooses their own language.
 
 How it works: the teacher sets homework, keeps the memorisation record and marks the register. Students see what is due and send their recitations. Parents follow along and talk with the teacher. Homework, records and messages stay in one place.
 
