@@ -8,8 +8,9 @@ import { join, dirname } from 'node:path';
 
 const SOURCE = readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'js', 'theme.js'), 'utf8');
 
-function page({ systemDark = false, saved = null, hasNav = true, storageThrows = false } = {}) {
+function page({ systemDark = false, saved = null, hasNav = true, storageThrows = false, label = null } = {}) {
   const attrs = {};
+  if (label) attrs['data-theme-label'] = label;
   if (saved) attrs['data-theme'] = saved;
   const metas = [{ attrs: { content: '#fff' }, setAttribute(k, v) { this.attrs[k] = v; } }, { attrs: { content: '#0B1322' }, setAttribute(k, v) { this.attrs[k] = v; } }];
   const nav = { children: [], appendChild(c) { this.children.push(c); } };
@@ -76,4 +77,9 @@ test('theme: every page that uses the stylesheet sets the saved theme before it 
     assert.ok(html.includes('/js/theme.js'), f + ' loads theme.js');
     assert.ok(html.includes('logo-for-light') && html.includes('logo-for-dark'), f + ' has both logos');
   }
+});
+
+test('theme: the button label comes from the page, so an Arabic page can set its own', () => {
+  assert.equal(page({}).button.attrs['aria-label'], 'Dark mode');
+  assert.equal(page({ label: 'LABEL FROM PAGE' }).button.attrs['aria-label'], 'LABEL FROM PAGE');
 });

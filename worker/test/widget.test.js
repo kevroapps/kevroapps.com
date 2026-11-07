@@ -29,10 +29,10 @@ class FakeNode {
 }
 
 // A page with the script loaded and a queue of canned Worker answers.
-function loadWidget(workerAnswers) {
+function loadWidget(workerAnswers, { pageLang = null } = {}) {
   const body = new FakeNode('body');
   const calls = [];
-  const document = { readyState: 'complete', body, createElement: (t) => new FakeNode(t), createTextNode: (s) => { const n = new FakeNode('#text'); n._text = s; return n; }, addEventListener() {} };
+  const document = { readyState: 'complete', body, documentElement: { getAttribute: (k) => (k === 'lang' ? pageLang : null) }, createElement: (t) => new FakeNode(t), createTextNode: (s) => { const n = new FakeNode('#text'); n._text = s; return n; }, addEventListener() {} };
   const fetch = async (url, opts) => {
     const path = new URL(url).pathname;
     calls.push({ path, body: JSON.parse(opts.body) });
@@ -147,4 +147,12 @@ test('widget: Arabic mode switches the title, the line, the link and the greetin
   assert.equal(w.byClass('kc-privacy').textContent, 'الخصوصية');
   assert.ok(w.byClass('kc-title').textContent.startsWith('«كيفرو»'));
   assert.equal(w.byClass('kc-panel').attrs.dir, 'rtl');
+});
+
+test('widget: on an Arabic page (html lang ar) the box starts in Arabic, right to left', () => {
+  const w = loadWidget([], { pageLang: 'ar' });
+  assert.equal(w.byClass('kc-panel').attrs.dir, 'rtl');
+  assert.equal(w.byClass('kc-privacy').textContent, 'الخصوصية');
+  const en = loadWidget([]);
+  assert.equal(en.byClass('kc-panel').attrs.dir, 'ltr');
 });

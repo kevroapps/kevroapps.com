@@ -365,7 +365,9 @@
     panel.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') { e.stopPropagation(); close(); }
     });
-    applyLang('en');
+    // On the Arabic pages (html lang="ar") the box starts in Arabic; elsewhere it starts in English and
+    // switches when the visitor writes Arabic.
+    applyLang(document.documentElement.getAttribute('lang') === 'ar' ? 'ar' : 'en');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);

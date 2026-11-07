@@ -1,0 +1,50 @@
+/* Arabic pages only (loaded after site.css on pages with lang="ar" dir="rtl"): the Arabic font,
+   spacing that suits joined letters, and the few places that must mirror. Nothing here touches
+   the English pages, so they carry no extra weight. */
+@font-face {
+  font-family: 'Noto Sans Arabic';
+  src: url('/fonts/noto-sans-arabic-var.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+200C-200F, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+/* Arabic letters first, Figtree for the Latin names inside Arabic sentences (Google Play and the app names),
+   then system Arabic fonts as the fallback while the font loads. */
+html[lang="ar"] body {
+  font-family: 'Noto Sans Arabic', 'Figtree', 'Segoe UI', Tahoma, 'Geeza Pro', 'SF Arabic', system-ui, sans-serif;
+  line-height: 1.75;
+}
+
+/* Joined Arabic letters must never be spaced out: the English headings use negative letter spacing. */
+html[lang="ar"] *,
+html[lang="ar"] *::before,
+html[lang="ar"] *::after { letter-spacing: 0 !important; }
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3 { line-height: 1.35; text-wrap: balance; }
+html[lang="ar"] h1 { font-weight: 800; }
+html[lang="ar"] .eyebrow { text-transform: none; font-size: 15px; }
+html[lang="ar"] .page-lead,
+html[lang="ar"] .section-sub,
+html[lang="ar"] p { line-height: 1.8; }
+
+/* The Latin names (Islamic Coloring for Kids, Google Play) keep their own direction inside Arabic text. */
+html[lang="ar"] .ltr { direction: ltr; unicode-bidi: isolate; }
+
+/* Mirror the floating chat button to the left on Arabic pages. */
+html[lang="ar"] .kc-root { right: auto; left: 16px; }
+@media (max-width: 480px) {
+  html[lang="ar"] .kc-root { left: 12px; }
+}
+
+/* Decorative glows in the hero swap sides. */
+html[dir="rtl"] .hero-glow .glow-blue { left: auto; right: -120px; }
+html[dir="rtl"] .hero-glow .glow-teal { right: auto; left: -160px; }
+
+/* A Latin name inside an Arabic heading is set in another font; without this its line box grows and the heading looks loosely spaced. */
+html[lang="ar"] h1 bdi,
+html[lang="ar"] h2 bdi,
+html[lang="ar"] h3 bdi { line-height: 1; }
