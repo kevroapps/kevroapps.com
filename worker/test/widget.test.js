@@ -116,3 +116,35 @@ test('widget: replies are plain text, and only our own links are links', async (
   assert.equal(links.length, 1);
   assert.ok(links[0].href.startsWith('https://play.google.com/'));
 });
+
+test('widget: the assistant is called Kevro, in English and in Chody\'s reviewed Arabic', () => {
+  for (const exact of [
+    "title: 'Kevro, the Kevro Apps AI assistant'",
+    "hello: 'Assalamu alaikum, I am Kevro, the Kevro Apps AI assistant. Ask me about our apps and I will do my best to help.'",
+    "title: '«Kevro»، مساعد يعمل بالذكاء الاصطناعي لدى Kevro Apps'",
+    "hello: 'السلام عليكم، أنا «Kevro»، مساعد يعمل بالذكاء الاصطناعي لدى Kevro Apps. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.'",
+  ]) assert.ok(SOURCE.includes(exact), exact);
+});
+
+test('widget: the short line under the box matches Captain\'s English and Chody\'s Arabic, with a Privacy link', () => {
+  for (const exact of [
+    "note: 'Kevro is an AI assistant. Please do not share personal details in the chat, such as family members’ names, passwords or payment details.'",
+    "note: '«Kevro» هو مساعد يعمل بالذكاء الاصطناعي. يُرجى عدم مشاركة تفاصيل شخصية في المحادثة، مثل أسماء أفراد العائلة أو كلمات المرور أو بيانات الدفع.'",
+    "privacy: 'Privacy'",
+    "privacy: 'الخصوصية'",
+  ]) assert.ok(SOURCE.includes(exact), exact);
+  assert.ok(!SOURCE.includes('sent to Claude'), 'the Claude and Anthropic sentence lives on the privacy page only');
+  const w = loadWidget([]);
+  const link = w.byClass('kc-privacy');
+  assert.equal(link.href, '/privacy/#website-assistant');
+  assert.equal(link.textContent, 'Privacy');
+  assert.equal(link.target, '_blank');
+});
+
+test('widget: Arabic mode switches the title, the line, the link and the greeting direction', async () => {
+  const w = loadWidget([plainAnswer('أهلًا بكم')]);
+  await w.say('السلام عليكم');
+  assert.equal(w.byClass('kc-privacy').textContent, 'الخصوصية');
+  assert.ok(w.byClass('kc-title').textContent.startsWith('«Kevro»'));
+  assert.equal(w.byClass('kc-panel').attrs.dir, 'rtl');
+});
