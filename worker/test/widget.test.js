@@ -10,6 +10,7 @@ import { join, dirname } from 'node:path';
 const SOURCE = readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'js', 'chat.js'), 'utf8');
 
 class FakeNode {
+  static active = null;
   constructor(tag) {
     this.tag = tag; this.children = []; this.parent = null; this.attrs = {}; this.handlers = {};
     this.className = ''; this._text = ''; this.value = ''; this.disabled = false; this.hidden = false; this.style = {};
@@ -21,25 +22,45 @@ class FakeNode {
   appendChild(c) { if (c.parent) c.remove(); c.parent = this; this.children.push(c); return c; }
   remove() { if (this.parent) { this.parent.children = this.parent.children.filter((x) => x !== this); this.parent = null; } }
   setAttribute(k, v) { this.attrs[k] = String(v); }
+  hasAttribute(k) { return k in this.attrs; }
+  removeAttribute(k) { delete this.attrs[k]; }
+  get classList() {
+    const self = this;
+    const list = () => self.className.split(' ').filter(Boolean);
+    return {
+      add: (c) => { if (!list().includes(c)) self.className = list().concat(c).join(' '); },
+      remove: (c) => { self.className = list().filter((x) => x !== c).join(' '); },
+      contains: (c) => list().includes(c),
+    };
+  }
+  get offsetParent() { for (let n = this; n; n = n.parent) if (n.hidden) return null; return {}; }
+  querySelectorAll() {
+    // what the box asks for: the things a keyboard can reach, in page order
+    return this.findAll((n) => ['a', 'button', 'textarea', 'input', 'select'].includes(n.tag) && n.tabIndex !== -1 && !n.disabled);
+  }
   addEventListener(type, fn) { (this.handlers[type] = this.handlers[type] || []).push(fn); }
-  focus() {}
+  focus() { FakeNode.active = this; }
   find(pred) { for (const c of this.children) { if (pred(c)) return c; const d = c.find(pred); if (d) return d; } return null; }
   findAll(pred, out = []) { for (const c of this.children) { if (pred(c)) out.push(c); c.findAll(pred, out); } return out; }
   querySelector(tag) { return this.find((n) => n.tag === tag); }
 }
 
 // A page with the script loaded and a queue of canned Worker answers.
-function loadWidget(workerAnswers, { pageLang = null } = {}) {
+function loadWidget(workerAnswers, { pageLang = null, path = '/apps/', phone = undefined, siblings = [], autoOpen = true } = {}) {
   const body = new FakeNode('body');
+  FakeNode.active = null;
+  for (const name of siblings) { const n = new FakeNode(name); body.appendChild(n); }
   const calls = [];
-  const document = { readyState: 'complete', body, documentElement: { getAttribute: (k) => (k === 'lang' ? pageLang : null) }, createElement: (t) => new FakeNode(t), createTextNode: (s) => { const n = new FakeNode('#text'); n._text = s; return n; }, addEventListener() {} };
+  const document = { readyState: 'complete', body, documentElement: { getAttribute: (k) => (k === 'lang' ? pageLang : null) }, createElement: (t) => new FakeNode(t), createTextNode: (s) => { const n = new FakeNode('#text'); n._text = s; return n; }, addEventListener() {}, querySelectorAll: () => [], get activeElement() { return FakeNode.active; } };
+  // phone: true or false stands for a window that matches (or not) the small-screen rule; leave it out for a page without these browser features
+  const win = phone === undefined ? undefined : { matchMedia: () => ({ matches: phone }), addEventListener() {}, innerWidth: 360, innerHeight: 800, visualViewport: null };
   const fetch = async (url, opts) => {
     const path = new URL(url).pathname;
     calls.push({ path, body: JSON.parse(opts.body) });
     const next = workerAnswers.shift() || { ok: true, data: { ok: true } };
     return { ok: next.ok !== false, status: next.status || 200, json: async () => next.data };
   };
-  vm.runInNewContext(SOURCE, { document, fetch, location: { pathname: '/apps/' }, URL, console });
+  vm.runInNewContext(SOURCE, { document, fetch, location: { pathname: path }, URL, console, ...(win ? { window: win } : {}) });
   const byClass = (cls, root = body) => root.find((n) => n.className.split(' ').includes(cls));
   const settle = async () => { for (let i = 0; i < 8; i++) await new Promise((r) => setImmediate(r)); };
   const api = {
@@ -59,7 +80,7 @@ function loadWidget(workerAnswers, { pageLang = null } = {}) {
       await settle();
     },
   };
-  api.open();
+  if (autoOpen) api.open();
   return api;
 }
 
@@ -161,4 +182,74 @@ test('widget: the assistant opens with a plain hello, never an Islamic greeting'
   const hellos = (SOURCE.match(/hello: '[^']*'/g) || []).join(' ');
   assert.ok(hellos.includes('Hello, I am Kevro'));
   assert.doesNotMatch(hellos, /assalam|salaam|salam|السلام/i);
+});
+
+// ---- Review pass of 14 Nov 2026: the box on a phone, and where the launcher is not shown ----
+const press = (panel, key, shiftKey = false) => { let stopped = false; panel.handlers.keydown[0]({ key, shiftKey, preventDefault() { stopped = true; }, stopPropagation() {} }); return stopped; };
+
+test('widget: on a phone the open box is a modal: the page is inert, Tab goes round inside it, Escape gives everything back', () => {
+  const w = loadWidget([], { phone: true, siblings: ['main', 'footer'] });
+  const [main, footer] = w.body.children;
+  const panel = w.byClass('kc-panel');
+  assert.equal(panel.attrs['aria-modal'], 'true');
+  assert.ok(main.hasAttribute('inert') && footer.hasAttribute('inert'), 'the page behind is inert');
+  assert.ok(!w.byClass('kc-root').hasAttribute('inert'), 'the box itself is not');
+  assert.ok(w.byClass('kc-root').classList.contains('kc-modal'), 'scrim class');
+  const items = panel.querySelectorAll();
+  assert.ok(items.length >= 4, 'close, text box, send and the Privacy link can be reached');
+  // from the last one, Tab goes to the first; from the first, Shift+Tab goes to the last
+  items[items.length - 1].focus();
+  assert.equal(press(panel, 'Tab'), true);
+  assert.equal(FakeNode.active, items[0]);
+  assert.equal(press(panel, 'Tab', true), true);
+  assert.equal(FakeNode.active, items[items.length - 1]);
+  // in the middle Tab is left to the browser
+  items[1].focus();
+  assert.equal(press(panel, 'Tab'), false);
+  press(panel, 'Escape');
+  assert.equal(panel.hidden, true);
+  assert.ok(!main.hasAttribute('inert') && !footer.hasAttribute('inert'), 'the page is usable again');
+  assert.ok(!('aria-modal' in panel.attrs));
+  assert.equal(FakeNode.active, w.byClass('kc-open'), 'focus is back on the launcher');
+});
+
+test('widget: a page element that was already inert stays inert after the box closes', () => {
+  const w = loadWidget([], { phone: true, siblings: ['main'] });
+  const main = w.body.children[0];
+  const panel = w.byClass('kc-panel');
+  press(panel, 'Escape');
+  main.setAttribute('inert', '');            // the page makes it inert for its own reasons
+  w.open();
+  assert.ok(main.hasAttribute('inert'));
+  press(panel, 'Escape');
+  assert.ok(main.hasAttribute('inert'), 'not ours to remove');
+});
+
+test('widget: on a wide screen the box is a floating box: not modal, the page is not touched', () => {
+  const w = loadWidget([], { phone: false, siblings: ['main'] });
+  const panel = w.byClass('kc-panel');
+  assert.ok(!('aria-modal' in panel.attrs));
+  assert.ok(!w.body.children[0].hasAttribute('inert'));
+  assert.equal(press(panel, 'Tab'), false, 'Tab is never held inside');
+  press(panel, 'Escape');
+  assert.equal(FakeNode.active, w.byClass('kc-open'));
+});
+
+test('widget: no launcher on the contact pages (the support form is the page); every other page has it', () => {
+  for (const path of ['/contact/', '/ar/contact/', '/contact']) {
+    const w = loadWidget([], { path, autoOpen: false });
+    assert.equal(w.byClass('kc-open'), null, path);
+  }
+  for (const path of ['/', '/apps/', '/islamic-coloring/', '/ar/', '/ar/quraan-class/']) {
+    const w = loadWidget([], { path, autoOpen: false });
+    assert.ok(w.byClass('kc-open'), path);
+  }
+});
+
+test('widget: the launcher keeps its words for screen readers and gets a round-button icon for small screens', () => {
+  const w = loadWidget([], { autoOpen: false });
+  const opener = w.byClass('kc-open');
+  assert.equal(opener.firstChild.className, 'kc-open-text');
+  assert.equal(opener.firstChild.textContent, 'Questions? Ask here');
+  assert.equal(opener.children[1].attrs['aria-hidden'], 'true');
 });

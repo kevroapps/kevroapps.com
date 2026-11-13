@@ -280,27 +280,142 @@
     els.input.style.overflowY = els.input.scrollHeight > 120 ? 'auto' : 'hidden';
   }
 
+  // On a phone the open box fills the screen, so it behaves as a modal dialog: the page behind it is inert, Tab stays
+  // inside, and the box follows the visible part of the screen when the on-screen keyboard is up. On a wide screen it is
+  // a small floating box and the page stays usable behind it. All of this is skipped where the browser lacks the pieces.
+  var inerted = [];
+  var modalOn = false;
+
+  function canModal() {
+    return typeof window !== 'undefined' && !!window.matchMedia && typeof document.querySelectorAll === 'function';
+  }
+  function wantsModal() { return canModal() && window.matchMedia('(max-width: 480px)').matches; }
+
+  function focusables() {
+    var list = els.panel.querySelectorAll('a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled])');
+    var out = [];
+    for (var i = 0; i < list.length; i++) { if (list[i].offsetParent !== null || list[i] === document.activeElement) out.push(list[i]); }
+    return out;
+  }
+
+  function fitVisible() {
+    var vv = window.visualViewport;
+    if (!vv || !modalOn) return;
+    els.root.style.top = (vv.offsetTop + 12) + 'px';
+    els.root.style.bottom = 'auto';
+    els.panel.style.height = Math.max(240, vv.height - 24) + 'px';
+  }
+
+  function setModal(on) {
+    if (on === modalOn) return;
+    modalOn = on;
+    var kids = document.body.children;
+    if (on) {
+      for (var i = 0; i < kids.length; i++) {
+        if (kids[i] === els.root) continue;
+        inerted.push({ node: kids[i], had: kids[i].hasAttribute('inert') });
+        kids[i].setAttribute('inert', '');
+      }
+      els.panel.setAttribute('aria-modal', 'true');
+      els.root.classList.add('kc-modal');
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', fitVisible);
+        window.visualViewport.addEventListener('scroll', fitVisible);
+      }
+      fitVisible();
+    } else {
+      inerted.forEach(function (x) { if (!x.had) x.node.removeAttribute('inert'); });
+      inerted = [];
+      els.panel.removeAttribute('aria-modal');
+      els.root.classList.remove('kc-modal');
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', fitVisible);
+        window.visualViewport.removeEventListener('scroll', fitVisible);
+      }
+      els.root.style.top = '';
+      els.root.style.bottom = '';
+      els.panel.style.height = '';
+    }
+  }
+
+  // The launcher steps aside while a page button or field is under it, or while a field on the page has the keyboard,
+  // so it never covers a download button, a form field or what the visitor is typing.
+  var away = { action: false, field: false };
+  var overlapping = [];
+  var watcher = null;
+
+  function applyAway() {
+    var hide = away.action || away.field;
+    if (els.opener.classList) els.opener.classList[hide ? 'add' : 'remove']('kc-away');
+  }
+
+  function watchOverlap() {
+    if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined' || typeof document.querySelectorAll !== 'function') return;
+    if (watcher) { watcher.disconnect(); overlapping = []; away.action = false; applyAway(); }
+    var r = els.opener.getBoundingClientRect();
+    if (!r.width) return;
+    var pad = 10;
+    var m = [8, 8, 8, 8];
+    var top = Math.max(0, r.top - pad), left = Math.max(0, r.left - pad);
+    var right = Math.max(0, window.innerWidth - r.right - pad), bottom = Math.max(0, window.innerHeight - r.bottom - pad);
+    m = [-top, -right, -bottom, -left];
+    watcher = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var i = overlapping.indexOf(en.target);
+        if (en.isIntersecting && i === -1) overlapping.push(en.target);
+        if (!en.isIntersecting && i !== -1) overlapping.splice(i, 1);
+      });
+      away.action = overlapping.length > 0;
+      applyAway();
+    }, { rootMargin: m.map(function (v) { return v + 'px'; }).join(' ') });
+    var nodes = document.querySelectorAll('main a.btn, main button, main input, main select, main textarea, main summary, .site-footer a');
+    for (var i = 0; i < nodes.length; i++) watcher.observe(nodes[i]);
+  }
+
+  function watchFields() {
+    if (typeof document.addEventListener !== 'function' || typeof window === 'undefined') return;
+    var isField = function (n) { return n && n.tagName && /^(INPUT|TEXTAREA|SELECT)$/.test(n.tagName) && !(n.closest && n.closest('.kc-root')); };
+    document.addEventListener('focusin', function (e) { if (isField(e.target)) { away.field = true; applyAway(); } });
+    document.addEventListener('focusout', function (e) { if (isField(e.target)) { away.field = false; applyAway(); } });
+    var queued = null;
+    window.addEventListener('resize', function () {
+      if (queued) return;
+      queued = setTimeout(function () { queued = null; watchOverlap(); }, 150);
+    });
+  }
+
   function open() {
     els.panel.hidden = false;
     els.opener.setAttribute('aria-expanded', 'true');
     els.opener.hidden = true;
+    if (wantsModal()) setModal(true);
     els.input.focus();
   }
   function close() {
+    if (canModal()) setModal(false);
     els.panel.hidden = true;
     els.opener.hidden = false;
     els.opener.setAttribute('aria-expanded', 'false');
+    // The launcher may have been stepped aside; show it again so focus can return to it.
+    if (els.opener.classList) els.opener.classList.remove('kc-away');
     els.opener.focus();
+    if (watcher) watchOverlap();
   }
 
   function build() {
     var root = el('div', 'kc-root');
+    els.root = root;
 
     var opener = el('button', 'kc-open');
     opener.type = 'button';
     opener.setAttribute('aria-expanded', 'false');
     opener.setAttribute('aria-controls', 'kc-panel');
     opener.appendChild(el('span', 'kc-open-text', STR.en.open));
+    // On a phone the launcher is a small round button: the label stays for screen readers (kc-open-text) and an icon shows.
+    var icon = el('span', 'kc-open-icon');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" focusable="false"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.6A.6.6 0 0 1 4.8 19V16A2.5 2.5 0 0 1 4 14.2z" fill="currentColor"/></svg>';
+    opener.appendChild(icon);
     els.opener = opener;
 
     var panel = el('section', 'kc-panel');
@@ -363,12 +478,25 @@
       if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); }
     });
     panel.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') { e.stopPropagation(); close(); }
+      if (e.key === 'Escape') { e.stopPropagation(); close(); return; }
+      // As a modal on a phone, Tab and Shift+Tab go round inside the box.
+      if (e.key === 'Tab' && modalOn) {
+        var items = focusables();
+        if (!items.length) return;
+        var first = items[0], last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     });
     // On the Arabic pages (html lang="ar") the box starts in Arabic; elsewhere it starts in English and
     // switches when the visitor writes Arabic.
     applyLang(document.documentElement.getAttribute('lang') === 'ar' ? 'ar' : 'en');
+    watchFields();
+    watchOverlap();
   }
+
+  // The contact pages are the support page already, so the launcher would only be a second, covering route there.
+  if (typeof location !== 'undefined' && /^\/(ar\/)?contact\/?$/.test(location.pathname || '')) return;
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
   else build();

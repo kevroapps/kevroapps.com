@@ -37,7 +37,7 @@
 
   <link rel="preload" href="/fonts/figtree-latin-var.woff2" as="font" type="font/woff2" crossorigin>
   <script>try{var t=localStorage.getItem("kevro-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-  <link rel="stylesheet" href="/css/site.css?v=20">
+  <link rel="stylesheet" href="/css/site.css?v=21">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kevro Apps","item":"https://kevroapps.com/"},{"@type":"ListItem","position":2,"name":"Apps","item":"https://kevroapps.com/apps/"},{"@type":"ListItem","position":3,"name":"Qur'aan Class","item":"https://kevroapps.com/quraan-class/"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Qur'aan Class available to download?","acceptedAnswer":{"@type":"Answer","text":"It is in closed testing on Google Play. There is no public release date yet. If you would like to help test it, the steps are on the tester page."}},{"@type":"Question","name":"Which languages does it use?","acceptedAnswer":{"@type":"Answer","text":"The whole app works in English and Arabic, and each person chooses their own language."}},{"@type":"Question","name":"How do students and parents join?","acceptedAnswer":{"@type":"Answer","text":"With a code from their teacher, so no email is needed for them."}},{"@type":"Question","name":"Are recordings kept?","acceptedAnswer":{"@type":"Answer","text":"Recordings are kept for a set time, then removed. A child under 16 can record only once a parent has turned recordings on."}},{"@type":"Question","name":"What can students and parents see?","acceptedAnswer":{"@type":"Answer","text":"A student never sees fees or a parent's contact details. There are no ads and no tracking."}},{"@type":"Question","name":"Is there an iPhone version?","acceptedAnswer":{"@type":"Answer","text":"Not at the moment. Kevro apps are Android only. For questions about iPhone, write to support@kevroapps.com."}}]}</script>
 </head>
@@ -56,7 +56,7 @@
         <a href="/about/" class="nav-link">About</a>
         <a href="/contact/" class="nav-link">Contact</a>
         <a href="/ar/quraan-class/" class="nav-link lang-link" lang="ar" hreflang="ar" aria-label="Language: Arabic">العربية</a>
-        <a href="https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring" class="btn btn-nav" target="_blank" rel="noopener">Get the app &rarr;</a>
+        <a href="/tester/" class="btn btn-nav">Help us test it &rarr;</a>
       </nav>
     </div>
   </header>
@@ -99,10 +99,22 @@
           <p class="lead">Screens from the app in closed testing. The names and data are made up for the test.</p>
         </div>
         <div class="shots shots-four">
-          <div class="shot"><img src="/images/screenshots/quraan-class-1.webp" alt="The attendance screen, where each student is marked present, late, absent or excused, with a Save attendance button" width="594" height="1333" loading="lazy"></div>
-          <div class="shot"><img src="/images/screenshots/quraan-class-2.webp" alt="A student's homework calendar for November, with the homework due on the chosen day" width="594" height="1333" loading="lazy"></div>
-          <div class="shot"><img src="/images/screenshots/quraan-class-3.webp" alt="A parent's page for their child, with the next lesson and its lesson link, and the homework due" width="594" height="1333" loading="lazy"></div>
-          <div class="shot"><img src="/images/screenshots/quraan-class-4.webp" alt="A child's Progress tab: homework accepted, the last lesson, the progress report, and stickers and certificates" width="594" height="1333" loading="lazy"></div>
+          <figure class="shot">
+            <a href="/images/screenshots/quraan-class-1.webp" data-zoom><img src="/images/screenshots/quraan-class-1.webp" alt="The attendance screen, where each student is marked present, late, absent or excused, with a Save attendance button" width="594" height="1333" loading="lazy"></a>
+            <figcaption>Teachers mark attendance</figcaption>
+          </figure>
+          <figure class="shot">
+            <a href="/images/screenshots/quraan-class-2.webp" data-zoom><img src="/images/screenshots/quraan-class-2.webp" alt="A student's homework calendar for November, with the homework due on the chosen day" width="594" height="1333" loading="lazy"></a>
+            <figcaption>Students see homework on a calendar</figcaption>
+          </figure>
+          <figure class="shot">
+            <a href="/images/screenshots/quraan-class-3.webp" data-zoom><img src="/images/screenshots/quraan-class-3.webp" alt="A parent's page for their child, with the next lesson and its lesson link, and the homework due" width="594" height="1333" loading="lazy"></a>
+            <figcaption>Parents see the next lesson and the homework</figcaption>
+          </figure>
+          <figure class="shot">
+            <a href="/images/screenshots/quraan-class-4.webp" data-zoom><img src="/images/screenshots/quraan-class-4.webp" alt="A child's Progress tab: homework accepted, the last lesson, the progress report, and stickers and certificates" width="594" height="1333" loading="lazy"></a>
+            <figcaption>Progress, stickers and certificates</figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -229,6 +241,7 @@
       </div>
     </div>
   </footer>
+  <script src="/js/gallery.js" defer></script>
   <script src="/js/chat.js" defer></script>
   <script src="/js/theme.js" defer></script>
 </body>

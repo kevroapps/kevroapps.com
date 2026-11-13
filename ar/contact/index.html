@@ -37,8 +37,8 @@
   <link rel="preload" href="/fonts/noto-sans-arabic-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/figtree-latin-var.woff2" as="font" type="font/woff2" crossorigin>
   <script>try{var t=localStorage.getItem("kevro-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-  <link rel="stylesheet" href="/css/site.css?v=20">
-  <link rel="stylesheet" href="/css/ar.css?v=20">
+  <link rel="stylesheet" href="/css/site.css?v=21">
+  <link rel="stylesheet" href="/css/ar.css?v=21">
 </head>
 <body>
   <a class="skip-link" href="#main">الانتقال إلى المحتوى</a>
@@ -55,7 +55,6 @@
         <a href="/ar/about/" class="nav-link">عن الاستوديو</a>
         <a href="/ar/contact/" class="nav-link" aria-current="page">التواصل معنا</a>
         <a href="/contact/" class="nav-link lang-link" lang="en" hreflang="en" aria-label="اللغة: English">English</a>
-        <a href="https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring" class="btn btn-nav" target="_blank" rel="noopener">حمّلوا التطبيق &larr;</a>
       </nav>
     </div>
   </header>
@@ -66,16 +65,54 @@
         <p class="eyebrow">التواصل معنا</p>
         <h1>تواصلوا معنا</h1>
         <p class="page-lead">مقرّنا في الدوحة. راسلونا ونرد خلال يوم عمل واحد.</p>
+        <p class="contact-direct"><a href="mailto:support@kevroapps.com" class="btn btn-secondary"><bdi dir="ltr">support@kevroapps.com</bdi></a></p>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section section-tint">
       <div class="wrap">
-        <h2>طرق التواصل</h2>
-        <div class="feature-grid">
-          <article class="feature-panel"><h3>البريد الإلكتروني</h3><p><a href="mailto:support@kevroapps.com"><bdi dir="ltr">support@kevroapps.com</bdi></a></p></article>
-          <article class="feature-panel"><h3>الهاتف</h3><p><a href="tel:+97433204084" dir="ltr">+974&nbsp;3320&nbsp;4084</a></p><p><a href="https://wa.me/97433204084" target="_blank" rel="noopener">تحدثوا معنا عبر واتساب</a></p></article>
-          <article class="feature-panel"><h3>الموقع</h3><p>الدوحة، قطر</p><p class="fine">مدة الرد: نرد خلال يوم عمل واحد.</p></article>
+        <div class="split form-split">
+          <div class="panel">
+            <form action="https://api.web3forms.com/submit" method="POST" class="support-form" data-thanks="/ar/thanks/" data-failed="عذرًا، تعذّر الإرسال. يمكنكم مراسلتنا على support@kevroapps.com.">
+              <input type="hidden" name="access_key" value="3707dba5-04f5-4f8a-a95a-b4da69c54841">
+              <input type="hidden" name="redirect" value="https://kevroapps.com/ar/thanks/">
+              <input type="hidden" name="subject" value="Kevro Apps website message (Arabic page)">
+              <input type="text" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+              <div class="form-grid">
+                <label class="field">
+                  <span>الاسم <span class="opt">*</span></span>
+                  <input type="text" name="name" autocomplete="name" required>
+                </label>
+                <label class="field">
+                  <span>البريد الإلكتروني <span class="opt">*</span></span>
+                  <input type="email" name="email" autocomplete="email" dir="ltr" required>
+                </label>
+                <label class="field full">
+                  <span>التطبيقات</span>
+                  <select name="app"><option value="Kevro Apps (general)" data-key="general">كيفرو آبس</option><option value="Islamic Coloring for Kids" data-key="islamic-coloring">تلوين إسلامي للأطفال (<bdi dir="ltr">Islamic Coloring for Kids</bdi>)</option><option value="Qur'aan Class" data-key="quraan-class">حلقة القرآن</option><option value="Ayah Play" data-key="ayah-play">آيات للصغار (<bdi dir="ltr">Ayah Play</bdi>)</option></select>
+                </label>
+                <label class="field full">
+                  <span>السؤال <span class="opt">*</span></span>
+                  <textarea name="message" rows="5" required></textarea>
+                </label>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-accent">إرسال إلى الفريق</button>
+                <p class="form-note">نرد خلال يوم عمل واحد.</p>
+              </div>
+              <p class="form-status" role="status" aria-live="polite"></p>
+              <p class="form-note"><a href="/privacy/" hreflang="en">سياسة الخصوصية</a> <span class="dest-lang" lang="en" dir="ltr">English</span></p>
+            </form>
+          </div>
+
+          <div class="panel plain">
+            <h2 class="panel-title">طرق التواصل</h2>
+            <p><a href="https://wa.me/97433204084" class="btn btn-secondary" target="_blank" rel="noopener">تحدثوا معنا عبر واتساب</a></p>
+            <p><strong>الهاتف</strong><br><a href="tel:+97433204084" dir="ltr">+974&nbsp;3320&nbsp;4084</a></p>
+            <p><strong>البريد الإلكتروني</strong><br><a href="mailto:support@kevroapps.com"><bdi dir="ltr">support@kevroapps.com</bdi></a></p>
+            <p><strong>الموقع</strong><br>الدوحة، قطر</p>
+            <p><strong>مدة الرد</strong><br>نرد خلال يوم عمل واحد.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -92,11 +129,12 @@
         <a href="/ar/apps/">التطبيقات</a>
         <a href="/ar/about/">عن الاستوديو</a>
         <a href="/ar/contact/">التواصل معنا</a>
-        <a href="/privacy/" lang="en" hreflang="en">سياسة الخصوصية</a>
+        <a href="/privacy/" hreflang="en">سياسة الخصوصية <span class="dest-lang" lang="en" dir="ltr">English</span></a>
         <a href="mailto:support@kevroapps.com"><bdi dir="ltr">support@kevroapps.com</bdi></a>
       </div>
     </div>
   </footer>
+  <script src="/js/contact.js" defer></script>
   <script src="/js/chat.js" defer></script>
   <script src="/js/theme.js" defer></script>
 </body>

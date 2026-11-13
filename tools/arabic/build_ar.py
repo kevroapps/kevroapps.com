@@ -11,8 +11,18 @@ IC_AR = "تلوين إسلامي للأطفال"
 AP_AR = "آيات للصغار"
 ICL = "Islamic Coloring for Kids"
 APL = "Ayah Play"
-CSS_V = "20"
+CSS_V = "21"
 LTR = lambda s: f'<span class="ltr">{s}</span>'
+# A small "English" tag after a link that opens an English-only page (the word is the approved language-link label).
+EN_TAG = f'<span class="dest-lang" lang="en" dir="ltr">{A["lang_to_en"]}</span>'
+GALLERY_JS = '  <script src="/js/gallery.js" defer></script>\n'
+CONTACT_JS = '  <script src="/js/contact.js" defer></script>\n'
+
+
+def fig(src, alt, w, h, lazy=False, extra=""):
+    """A screenshot that keeps its own proportions and opens larger (js/gallery.js; without script the link opens the image)."""
+    lz = ' loading="lazy"' if lazy else ""
+    return f'<figure class="shot{extra}"><a href="{src}" data-zoom><img src="{src}" alt="{esc(alt)}" width="{w}" height="{h}"{lz}></a></figure>'
 
 # English path -> Arabic path (pages that exist in both languages)
 PAIRS = {"/": "/ar/", "/apps/": "/ar/apps/", "/islamic-coloring/": "/ar/islamic-coloring/", "/quraan-class/": "/ar/quraan-class/",
@@ -40,10 +50,14 @@ def faq_ld(pairs):
             "mainEntity": [{"@type": "Question", "name": A[q], "acceptedAnswer": {"@type": "Answer", "text": A[a]}} for q, a in pairs]}
 
 
-def shell(path, en_path, title, desc, og_image, og_alt, main, jsonld=None, current="apps"):
+def shell(path, en_path, title, desc, og_image, og_alt, main, jsonld=None, current="apps", cta=None, scripts="", noindex=False):
     url = SITE + path
     ld = "".join('  <script type="application/ld+json">' + json.dumps(o, ensure_ascii=False, separators=(",", ":")) + "</script>\n" for o in (jsonld or []))
     cur = lambda k: ' aria-current="page"' if current == k else ""
+    # The header button stays on the task of the page: the store button on the coloring page, a question on Ayah Play, nothing elsewhere.
+    cta_html = {"play": f'\n        <a href="{PLAY}" class="btn btn-nav" target="_blank" rel="noopener">{A["nav_get"]} &larr;</a>',
+                "ask": f'\n        <a href="/ar/contact/?app=ayah-play" class="btn btn-nav">{A["p_ask"]} &larr;</a>'}.get(cta, "")
+    robots = '  <meta name="robots" content="noindex">\n' if noindex else ""
     return f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme-label="{esc(A["theme"])}">
 <head>
@@ -51,7 +65,7 @@ def shell(path, en_path, title, desc, og_image, og_alt, main, jsonld=None, curre
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(desc)}">
-  <meta name="color-scheme" content="light dark">
+{robots}  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0B1322" media="(prefers-color-scheme: dark)">
 
@@ -100,8 +114,7 @@ def shell(path, en_path, title, desc, og_image, og_alt, main, jsonld=None, curre
         <a href="/ar/apps/" class="nav-link"{cur("apps")}>{A["nav_apps"]}</a>
         <a href="/ar/about/" class="nav-link"{cur("about")}>{A["nav_about"]}</a>
         <a href="/ar/contact/" class="nav-link"{cur("contact")}>{A["nav_contact"]}</a>
-        <a href="{en_path}" class="nav-link lang-link" lang="en" hreflang="en" aria-label="{esc(A["lang_aria"])}: English">{A["lang_to_en"]}</a>
-        <a href="{PLAY}" class="btn btn-nav" target="_blank" rel="noopener">{A["nav_get"]} &larr;</a>
+        <a href="{en_path}" class="nav-link lang-link" lang="en" hreflang="en" aria-label="{esc(A["lang_aria"])}: English">{A["lang_to_en"]}</a>{cta_html}
       </nav>
     </div>
   </header>
@@ -118,12 +131,12 @@ def shell(path, en_path, title, desc, og_image, og_alt, main, jsonld=None, curre
         <a href="/ar/apps/">{A["nav_apps"]}</a>
         <a href="/ar/about/">{A["nav_about"]}</a>
         <a href="/ar/contact/">{A["nav_contact"]}</a>
-        <a href="/privacy/" lang="en" hreflang="en">{A["foot_privacy"]}</a>
+        <a href="/privacy/" hreflang="en">{A["foot_privacy"]} {EN_TAG}</a>
         <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>
       </div>
     </div>
   </footer>
-  <script src="/js/chat.js" defer></script>
+{scripts}  <script src="/js/chat.js" defer></script>
   <script src="/js/theme.js" defer></script>
 </body>
 </html>
@@ -185,7 +198,6 @@ def home():
         <div class="phone-wrap">
           <div class="hero-figure">
             <div class="phone">
-              <div class="phone-notch"></div>
               <div class="phone-screen">
                 <div class="slides">
                   <img class="slide is-active" src="/images/screenshots/hero-1.webp" alt="{esc(A["alt_hero"])}" width="594" height="1254" fetchpriority="high">
@@ -323,7 +335,7 @@ def islamic_coloring():
           <p class="offer">{A["h_offer"]}</p>
           <div class="hero-cta">
             <a href="{PLAY}" class="btn btn-accent" target="_blank" rel="noopener">{A["play_get"]}</a>
-            <a href="/privacy/" class="btn btn-secondary" lang="en" hreflang="en">{A["privacy_btn"]}</a>
+            <a href="/privacy/" class="btn btn-secondary" hreflang="en">{A["privacy_btn"]} {EN_TAG}</a>
           </div>
           <div class="app-facts app-facts-hero">
             <span>{A["i_f1"]}</span>
@@ -333,8 +345,8 @@ def islamic_coloring():
           </div>
         </div>
         <div class="app-hero-media">
-          <div class="shot raised"><img src="/images/screenshots/shot-1.webp" alt="{esc(A["alt_shot1"])}" width="300" height="633"></div>
-          <div class="shot center"><img src="/images/screenshots/shot-2.webp" alt="{esc(A["alt_shot2"])}" width="300" height="633"></div>
+          {fig("/images/screenshots/shot-1.webp", A["alt_shot1"], 300, 633, extra=" raised")}
+          {fig("/images/screenshots/shot-2.webp", A["alt_shot2"], 300, 633, extra=" center")}
         </div>
       </div>
     </section>
@@ -376,9 +388,9 @@ def islamic_coloring():
           <p class="lead">{A["i_shots_lead"]}</p>
         </div>
         <div class="shots app-gallery">
-          <div class="shot"><img src="/images/screenshots/shot-1.webp" alt="{esc(A["alt_shot1"])}" width="300" height="633" loading="lazy"></div>
-          <div class="shot"><img src="/images/screenshots/shot-2.webp" alt="{esc(A["alt_shot2"])}" width="300" height="633" loading="lazy"></div>
-          <div class="shot"><img src="/images/screenshots/shot-3.webp" alt="{esc(A["alt_shot3"])}" width="300" height="633" loading="lazy"></div>
+          {fig("/images/screenshots/shot-1.webp", A["alt_shot1"], 300, 633, lazy=True)}
+          {fig("/images/screenshots/shot-2.webp", A["alt_shot2"], 300, 633, lazy=True)}
+          {fig("/images/screenshots/shot-3.webp", A["alt_shot3"], 300, 633, lazy=True)}
         </div>
       </div>
     </section>
@@ -402,7 +414,7 @@ def islamic_coloring():
            "url": SITE + "/ar/islamic-coloring/", "installUrl": PLAY, "image": SITE + "/images/islamic-coloring-icon.png",
            "publisher": {"@type": "Organization", "name": "Kevro Apps", "alternateName": A["brand"], "url": SITE + "/"}},
           crumbs(IC_AR, "/ar/islamic-coloring/"), faq_ld(pairs)]
-    return shell("/ar/islamic-coloring/", "/islamic-coloring/", A["i_title"], A["i_desc"], "/images/og-apps.png", A["i_title"], main, ld)
+    return shell("/ar/islamic-coloring/", "/islamic-coloring/", A["i_title"], A["i_desc"], "/images/og-apps.png", A["i_title"], main, ld, cta="play", scripts=GALLERY_JS)
 
 
 def quraan_class():
@@ -411,7 +423,7 @@ def quraan_class():
     # the two links inside sentences keep their position by splitting on the link texts
     test_p = A["q_test_p"].replace(A["q_test_link"], f'<a href="/tester/" lang="en" hreflang="en">{A["q_test_link"]}</a>')
     del_p = A["q_del"]
-    qc_shots = "".join(f'          <div class="shot"><img src="/images/screenshots/quraan-class-{n}.webp" alt="{esc(A[f"q_alt{n}"])}" width="594" height="1333" loading="lazy"></div>\n' for n in range(1, 5))
+    qc_shots = "".join(f'          {fig(f"/images/screenshots/quraan-class-{n}.webp", A[f"q_alt{n}"], 594, 1333, lazy=True)}\n' for n in range(1, 5))
     main = f'''  <main id="main">
 {crumb_nav(QC_H3)}    <section class="app-hero" aria-labelledby="app-title">
       <div class="wrap app-hero-grid">
@@ -420,8 +432,8 @@ def quraan_class():
           <h1 id="app-title">{QC_NAME}</h1>
           <p class="page-lead">{A["q_lead"]}</p>
           <div class="hero-cta">
-            <a href="/tester/" class="btn btn-accent" lang="en" hreflang="en">{A["q_test_btn"]}</a>
-            <a href="/quraan-class/privacy/" class="btn btn-secondary" lang="en" hreflang="en">{A["privacy_btn"]}</a>
+            <a href="/tester/" class="btn btn-accent" hreflang="en">{A["q_test_btn"]} {EN_TAG}</a>
+            <a href="/quraan-class/privacy/#ar" class="btn btn-secondary" hreflang="en">{A["privacy_btn"]}</a>
           </div>
         </div>
         <aside class="panel at-a-glance" aria-label="{esc(A["glance"])}">
@@ -466,12 +478,12 @@ def quraan_class():
         <div>
           <h2>{A["q_priv_h2"]}</h2>
           <p class="section-sub">{A["q_priv_sub"]}</p>
-          <a href="/quraan-class/privacy/" class="btn btn-navy" lang="en" hreflang="en">{A["q_priv_btn"]}</a>
+          <a href="/quraan-class/privacy/#ar" class="btn btn-navy" hreflang="en">{A["q_priv_btn"]}</a>
         </div>
-        <div class="panel">
+        <div class="panel" id="test">
           <h3>{A["q_test_h3"]}</h3>
           <p>{test_p}</p>
-          <p class="fine"><a href="/quraan-class/delete-account/" lang="en" hreflang="en">{del_p}</a></p>
+          <p class="fine"><a href="/quraan-class/delete-account/#ar" hreflang="en">{del_p}</a></p>
         </div>
       </div>
     </section>
@@ -492,7 +504,7 @@ def quraan_class():
 '''
     ld = [crumbs("q_name", "/ar/quraan-class/"), faq_ld(pairs)]
     ld[0]["itemListElement"][2]["name"] = QC_NAME
-    return shell("/ar/quraan-class/", "/quraan-class/", A["q_title"], A["q_desc"], "/images/og-image.png", A["q_title"], main, ld)
+    return shell("/ar/quraan-class/", "/quraan-class/", A["q_title"], A["q_desc"], "/images/og-image.png", A["q_title"], main, ld, scripts=GALLERY_JS)
 
 
 def ayah_play():
@@ -505,7 +517,7 @@ def ayah_play():
           <h1 id="app-title">{AP_AR}</h1>
           <p class="page-lead">{A["p_lead"]}</p>
           <div class="hero-cta">
-            <a href="/ayah-play/privacy/" class="btn btn-secondary" lang="en" hreflang="en">{A["privacy_btn"]}</a>
+            <a href="/ayah-play/privacy/" class="btn btn-secondary" hreflang="en">{A["privacy_btn"]} {EN_TAG}</a>
             <a href="mailto:support@kevroapps.com" class="btn btn-secondary">{A["p_ask"]}</a>
           </div>
         </div>
@@ -532,7 +544,7 @@ def ayah_play():
   </main>
 '''
     ld = [crumbs(AP_AR, "/ar/ayah-play/"), faq_ld(pairs)]
-    return shell("/ar/ayah-play/", "/ayah-play/", A["p_title"], A["p_desc"], "/images/og-image.png", A["p_title"], main, ld)
+    return shell("/ar/ayah-play/", "/ayah-play/", A["p_title"], A["p_desc"], "/images/og-image.png", A["p_title"], main, ld, cta="ask")
 
 
 def about():
@@ -569,28 +581,84 @@ def about():
 
 
 def contact():
+    opts = [("general", "Kevro Apps (general)", A["brand"]), ("islamic-coloring", ICL, IC_AR), ("quraan-class", "Qur'aan Class", QC_NAME), ("ayah-play", APL, AP_AR)]
+    options = "".join(f'<option value="{esc(v)}" data-key="{k}">{t}</option>' for k, v, t in opts)
     main = f'''  <main id="main">
     <section class="page-hero">
       <div class="wrap">
         <p class="eyebrow">{A["c_eyebrow"]}</p>
         <h1>{A["c_h1"]}</h1>
         <p class="page-lead">{A["c_lead"]}</p>
+        <p class="contact-direct"><a href="mailto:support@kevroapps.com" class="btn btn-secondary">support@kevroapps.com</a></p>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section section-tint">
       <div class="wrap">
-        <h2>{A["c_h2"]}</h2>
-        <div class="feature-grid">
-          <article class="feature-panel"><h3>{A["c_email"]}</h3><p><a href="mailto:support@kevroapps.com">support@kevroapps.com</a></p></article>
-          <article class="feature-panel"><h3>{A["c_phone"]}</h3><p><a href="tel:+97433204084" dir="ltr">+974&nbsp;3320&nbsp;4084</a></p><p><a href="https://wa.me/97433204084" target="_blank" rel="noopener">{A["whatsapp"]}</a></p></article>
-          <article class="feature-panel"><h3>{A["c_loc"]}</h3><p>{A["c_loc_v"]}</p><p class="fine">{A["c_resp"]}: {A["c_resp_v"]}</p></article>
+        <div class="split form-split">
+          <div class="panel">
+            <form action="https://api.web3forms.com/submit" method="POST" class="support-form" data-thanks="/ar/thanks/" data-failed="{esc(A["cf_fail"])}">
+              <input type="hidden" name="access_key" value="3707dba5-04f5-4f8a-a95a-b4da69c54841">
+              <input type="hidden" name="redirect" value="https://kevroapps.com/ar/thanks/">
+              <input type="hidden" name="subject" value="Kevro Apps website message (Arabic page)">
+              <input type="text" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+              <div class="form-grid">
+                <label class="field">
+                  <span>{A["cf_name"]} <span class="opt">*</span></span>
+                  <input type="text" name="name" autocomplete="name" required>
+                </label>
+                <label class="field">
+                  <span>{A["cf_email"]} <span class="opt">*</span></span>
+                  <input type="email" name="email" autocomplete="email" dir="ltr" required>
+                </label>
+                <label class="field full">
+                  <span>{A["nav_apps"]}</span>
+                  <select name="app">{options}</select>
+                </label>
+                <label class="field full">
+                  <span>{A["cf_msg"]} <span class="opt">*</span></span>
+                  <textarea name="message" rows="5" required></textarea>
+                </label>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-accent">{A["cf_send"]}</button>
+                <p class="form-note">{A["c_resp_v"]}</p>
+              </div>
+              <p class="form-status" role="status" aria-live="polite"></p>
+              <p class="form-note"><a href="/privacy/" hreflang="en">{A["privacy_btn"]}</a> {EN_TAG}</p>
+            </form>
+          </div>
+
+          <div class="panel plain">
+            <h2 class="panel-title">{A["c_h2"]}</h2>
+            <p><a href="https://wa.me/97433204084" class="btn btn-secondary" target="_blank" rel="noopener">{A["whatsapp"]}</a></p>
+            <p><strong>{A["c_phone"]}</strong><br><a href="tel:+97433204084" dir="ltr">+974&nbsp;3320&nbsp;4084</a></p>
+            <p><strong>{A["c_email"]}</strong><br><a href="mailto:support@kevroapps.com">support@kevroapps.com</a></p>
+            <p><strong>{A["c_loc"]}</strong><br>{A["c_loc_v"]}</p>
+            <p><strong>{A["c_resp"]}</strong><br>{A["c_resp_v"]}</p>
+          </div>
         </div>
       </div>
     </section>
   </main>
 '''
-    return shell("/ar/contact/", "/contact/", A["c_title"], A["c_desc"], "/images/og-image.png", A["c_title"], main, [], current="contact")
+    return shell("/ar/contact/", "/contact/", A["c_title"], A["c_desc"], "/images/og-image.png", A["c_title"], main, [], current="contact", scripts=CONTACT_JS)
+
+
+def thanks():
+    main = f'''  <main id="main">
+    <section class="page-hero centered">
+      <div class="wrap">
+        <div class="status-mark ok" aria-hidden="true">&#10003;</div>
+        <h1>{A["th_msg"]}</h1>
+        <div class="link-row">
+          <a href="/ar/apps/" class="btn btn-accent">{A["nav_apps"]}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+'''
+    return shell("/ar/thanks/", "/thanks/", A["c_title"], A["c_desc"], "/images/og-image.png", A["c_title"], main, [], current="", noindex=True)
 
 LATIN = re.compile(r'\(Kevro Apps\)|Ayah Play: Quran for Kids|Islamic Coloring for Kids|Puzzle Studio|Ayah Play|Kid Mode|Free Draw|Google Play|Gmail|PDF|[\w.+-]+@[\w-]+\.[\w.]+')
 
@@ -635,13 +703,29 @@ def add_latin_first_mention(html):
         body = body.replace("@@CRUMBS@@", held, 1)
     return head + sep + body
 
+HEADING = re.compile(r'(<h[123][^>]*>)([\s\S]*?)(</h[123]>)')
+
+
+def latin_sub(html):
+    """In a heading the Latin app name does not share the big type with the Arabic name: it sits under it, smaller, as its
+    own left to right island with the brackets inside it (the words and the brackets are unchanged)."""
+    head, sep, body = html.partition("<body")
+
+    def fix(m):
+        inner = m.group(2)
+        for latin in (ICL, APL):
+            inner = inner.replace(f' (<bdi dir="ltr">{latin}</bdi>)', f' <span class="app-latin" dir="ltr">(<bdi dir="ltr">{latin}</bdi>)</span>')
+        return m.group(1) + inner + m.group(3)
+    return head + sep + HEADING.sub(fix, body)
+
+
 PAGES = {"ar/index.html": home, "ar/apps/index.html": apps, "ar/islamic-coloring/index.html": islamic_coloring,
-         "ar/quraan-class/index.html": quraan_class, "ar/ayah-play/index.html": ayah_play, "ar/about/index.html": about, "ar/contact/index.html": contact}
+         "ar/quraan-class/index.html": quraan_class, "ar/ayah-play/index.html": ayah_play, "ar/about/index.html": about, "ar/contact/index.html": contact, "ar/thanks/index.html": thanks}
 
 for path, fn in PAGES.items():
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with io.open(path, "w", encoding="utf-8", newline="\n") as f:
-        f.write(add_latin_first_mention(wrap_latin(fn())))
+        f.write(latin_sub(add_latin_first_mention(wrap_latin(fn()))))
     print("wrote", path)
 
 

@@ -16,6 +16,9 @@ const AR = {
   'ar/about/index.html': ['/ar/about/', '/about/'],
   'ar/contact/index.html': ['/ar/contact/', '/contact/'],
 };
+// In headings the Latin app name sits in its own line under the Arabic name (<span class="app-latin">). Strip that wrapper to
+// check the words and the brackets exactly as before.
+const plain = (html) => html.replace(/<span class="app-latin" dir="ltr">([\s\S]*?)<\/span>/g, '$1');
 const bodyText = (html) => html.split('<body')[1].replace(/<script[\s\S]*?<\/script>/g, '').replace(/<bdi dir="ltr">[\s\S]*?<\/bdi>/g, ' ').replace(/<[^>]+>/g, ' ');
 
 test('arabic pages: right to left, language, canonical, both hreflang directions, one h1, valid structured data', () => {
@@ -70,10 +73,10 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
   const IC = 'تلوين إسلامي للأطفال';
   const AP = 'آيات للصغار';
   assert.ok(read('ar/quraan-class/index.html').includes('حلقة القرآن'));
-  assert.ok(read('ar/islamic-coloring/index.html').includes('<h1 id="app-title">' + IC + ' (<bdi dir="ltr">Islamic Coloring for Kids</bdi>)</h1>'));
-  assert.ok(read('ar/ayah-play/index.html').includes('<h1 id="app-title">' + AP + ' (<bdi dir="ltr">Ayah Play</bdi>)</h1>'));
+  assert.ok(read('ar/islamic-coloring/index.html').includes('<h1 id="app-title">' + IC + ' <span class="app-latin" dir="ltr">(<bdi dir="ltr">Islamic Coloring for Kids</bdi>)</span></h1>'));
+  assert.ok(read('ar/ayah-play/index.html').includes('<h1 id="app-title">' + AP + ' <span class="app-latin" dir="ltr">(<bdi dir="ltr">Ayah Play</bdi>)</span></h1>'));
   for (const file of ['ar/index.html', 'ar/apps/index.html', 'ar/about/index.html']) {
-    const html = read(file);
+    const html = plain(read(file));
     assert.ok(html.includes(IC + ' (<bdi dir="ltr">Islamic Coloring for Kids</bdi>)'), file + ' IC first mention');
     assert.ok(html.includes(AP + ' (<bdi dir="ltr">Ayah Play</bdi>)'), file + ' AP first mention');
   }
@@ -113,7 +116,7 @@ test("Chody's three corrections for the Arabic app names are in the text byte fo
     assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key);
   }
   // no doubled Latin bracket where Chody's own wording already carries it
-  const home = read('ar/index.html');
+  const home = plain(read('ar/index.html'));
   assert.ok(home.includes('تلوين إسلامي للأطفال (<bdi dir="ltr">Islamic Coloring for Kids</bdi>) متوفر الآن على'));
   assert.ok(!home.includes('(<bdi dir="ltr">Islamic Coloring for Kids</bdi>) (<bdi'));
   const about = read('ar/about/index.html');
@@ -150,6 +153,60 @@ test('Ayah Play is being redesigned: its pages carry no screenshots until the ne
     assert.ok(!html.includes('/images/screenshots/'), f);
     assert.ok(!html.includes('look-title'), f);
   }
+});
+
+test('arabic headings: the Latin app name is never in the big type, it is its own smaller line with the brackets inside', () => {
+  for (const file of Object.keys(AR)) {
+    const html = read(file);
+    for (const m of html.matchAll(/<h[123][^>]*>([\s\S]*?)<\/h[123]>/g)) {
+      assert.doesNotMatch(m[1], / \(<bdi dir="ltr">(Islamic Coloring for Kids|Ayah Play)<\/bdi>\)/, file + ' heading with an inline Latin name: ' + m[1].slice(0, 60));
+    }
+  }
+  // the pages that carry it (home hero, coloring, Ayah Play, the apps cards) use the wrapper
+  for (const file of ['ar/index.html', 'ar/islamic-coloring/index.html', 'ar/ayah-play/index.html', 'ar/apps/index.html']) {
+    assert.match(read(file), /<span class="app-latin" dir="ltr">\(<bdi dir="ltr">(Islamic Coloring for Kids|Ayah Play)<\/bdi>\)<\/span>/, file);
+  }
+});
+
+test('arabic pages: the header button stays on the task of the page', () => {
+  const btn = (f) => (read(f).match(/<a [^>]*class="btn btn-nav"[^>]*>/) || [null])[0];
+  assert.match(btn('ar/islamic-coloring/index.html'), /play\.google\.com/);
+  assert.match(btn('ar/ayah-play/index.html'), /href="\/ar\/contact\/\?app=ayah-play"/);
+  for (const f of ['ar/index.html', 'ar/apps/index.html', 'ar/quraan-class/index.html', 'ar/about/index.html', 'ar/contact/index.html', 'ar/thanks/index.html']) assert.equal(btn(f), null, f + ' has no header button');
+});
+
+test('arabic Qur\'aan Class: policy and deletion links open the Arabic sections, and the English-only tester page is tagged', () => {
+  const qc = read('ar/quraan-class/index.html');
+  for (const m of qc.matchAll(/href="(\/quraan-class\/(?:privacy|delete-account)\/[^"]*)"/g)) assert.ok(m[1].endsWith('#ar'), m[1]);
+  assert.ok(qc.includes('href="/quraan-class/privacy/#ar"') && qc.includes('href="/quraan-class/delete-account/#ar"'));
+  assert.match(qc, /<a href="\/tester\/" class="btn btn-accent" hreflang="en">[^<]*<span class="dest-lang" lang="en" dir="ltr">English<\/span><\/a>/);
+  assert.ok(qc.includes('id="test"'), 'the #test anchor the English tester page links to');
+  // the English pages that point to a task in Arabic land on it, not on the Arabic home page
+  assert.ok(read('tester/index.html').includes('href="/ar/quraan-class/#test" class="nav-link lang-link"'));
+  assert.ok(read('quraan-class/privacy/index.html').includes('href="/quraan-class/privacy/#ar" class="nav-link lang-link"'));
+  assert.ok(read('quraan-class/delete-account/index.html').includes('href="/quraan-class/delete-account/#ar" class="nav-link lang-link"'));
+  // and the Arabic section exists where they point
+  assert.ok(read('quraan-class/privacy/index.html').includes('<div id="ar" lang="ar" dir="rtl">'));
+  assert.ok(read('quraan-class/delete-account/index.html').includes('<div id="ar" lang="ar" dir="rtl">'));
+});
+
+test('arabic contact form and thank you page use only words the chat box already carries (reviewed 7 Nov 2026)', () => {
+  const chat = read('js/chat.js');
+  const ar = chat.slice(chat.indexOf('    ar: {'));
+  const chatWord = (k) => (ar.match(new RegExp(k + ": '([^']+)'")) || [])[1];
+  const source = read('tools/arabic/ar_content.py');
+  const row = (k) => (source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(k)}, `)) || '');
+  for (const [key, cw] of [['cf_name', 'fName'], ['cf_email', 'fEmail'], ['cf_msg', 'fQ'], ['cf_send', 'fSend'], ['th_msg', 'thanks']]) {
+    assert.ok(row(key).endsWith(`${JSON.stringify(chatWord(cw))}),`), key + ' equals the chat box word');
+  }
+  assert.ok(row('cf_fail').includes('عذرًا، تعذّر الإرسال. يمكنكم مراسلتنا على'));
+  const html = read('ar/contact/index.html');
+  assert.match(html, /<form action="https:\/\/api\.web3forms\.com\/submit" method="POST" class="support-form" data-thanks="\/ar\/thanks\/"/);
+  assert.ok(html.includes('name="redirect" value="https://kevroapps.com/ar/thanks/"'));
+  assert.deepEqual([...html.matchAll(/<(?:input|select|textarea) [^>]*name="([a-z_]+)"/g)].map((m) => m[1]).filter((n) => !['access_key', 'redirect', 'subject', 'botcheck'].includes(n)), ['name', 'email', 'app', 'message']);
+  const thanks = read('ar/thanks/index.html');
+  assert.ok(thanks.includes('<meta name="robots" content="noindex">') && thanks.includes('<h1>' + chatWord('thanks') + '</h1>'));
+  assert.equal((thanks.match(/<h1[ >]/g) || []).length, 1);
 });
 
 test('sitemap lists every Arabic page', () => {

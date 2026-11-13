@@ -37,7 +37,7 @@
 
   <link rel="preload" href="/fonts/figtree-latin-var.woff2" as="font" type="font/woff2" crossorigin>
   <script>try{var t=localStorage.getItem("kevro-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-  <link rel="stylesheet" href="/css/site.css?v=20">
+  <link rel="stylesheet" href="/css/site.css?v=21">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -54,7 +54,6 @@
         <a href="/about/" class="nav-link">About</a>
         <a href="/contact/" class="nav-link" aria-current="page">Contact</a>
         <a href="/ar/contact/" class="nav-link lang-link" lang="ar" hreflang="ar" aria-label="Language: Arabic">العربية</a>
-        <a href="https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring" class="btn btn-nav" target="_blank" rel="noopener">Get the app &rarr;</a>
       </nav>
     </div>
   </header>
@@ -66,7 +65,8 @@
       <div class="wrap">
         <p class="eyebrow">Contact</p>
         <h1>Get in touch</h1>
-        <p class="page-lead">Based in Doha. Send us a message and we will reply within one business day.</p>
+        <p class="page-lead">Questions about an app, a purchase or joining the test? Write to us and we will reply within one business day.</p>
+        <p class="contact-direct">Prefer email? <a href="mailto:support@kevroapps.com">support@kevroapps.com</a></p>
       </div>
     </section>
 
@@ -77,31 +77,34 @@
 
           <!-- LEFT: Form -->
           <div class="panel">
-            <form action="https://api.web3forms.com/submit" method="POST">
+            <form action="https://api.web3forms.com/submit" method="POST" class="support-form" data-thanks="/thanks/" data-failed="Sorry, that did not send. Please email support@kevroapps.com.">
               <input type="hidden" name="access_key" value="3707dba5-04f5-4f8a-a95a-b4da69c54841">
               <input type="hidden" name="redirect" value="https://kevroapps.com/thanks/">
+              <input type="hidden" name="subject" value="Kevro Apps website message">
               <input type="text" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
 
               <div class="form-grid">
                 <label class="field">
                   <span>Name <span class="opt">*</span></span>
-                  <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+                  <input type="text" name="name" autocomplete="name" required>
                 </label>
                 <label class="field">
                   <span>Email <span class="opt">*</span></span>
-                  <input type="email" name="email" placeholder="your@email.com" autocomplete="email" required>
-                </label>
-                <label class="field">
-                  <span>Business</span>
-                  <input type="text" name="business" placeholder="Your business name" autocomplete="organization">
-                </label>
-                <label class="field">
-                  <span>Phone</span>
-                  <input type="tel" name="phone" placeholder="+974 ..." autocomplete="tel">
+                  <input type="email" name="email" autocomplete="email" required>
                 </label>
                 <label class="field full">
-                  <span>What do you need? <span class="opt">*</span></span>
-                  <textarea name="message" rows="5" placeholder="Tell us about your project or question" required></textarea>
+                  <span>Which app is this about?</span>
+                  <select name="app">
+                    <option value="Kevro Apps (general)" data-key="general">Kevro Apps in general</option>
+                    <option value="Islamic Coloring for Kids" data-key="islamic-coloring">Islamic Coloring for Kids</option>
+                    <option value="Qur'aan Class" data-key="quraan-class">Qur'aan Class</option>
+                    <option value="Ayah Play" data-key="ayah-play">Ayah Play</option>
+                  </select>
+                </label>
+                <label class="field full">
+                  <span>How can we help? <span class="opt">*</span></span>
+                  <textarea name="message" rows="5" placeholder="If something is not working, tell us what you tapped and what you saw." aria-describedby="msg-hint" required></textarea>
+                  <span class="field-hint" id="msg-hint">Please do not include a child's name or other details about a child.</span>
                 </label>
               </div>
 
@@ -109,6 +112,8 @@
                 <button type="submit" class="btn btn-accent">Send message</button>
                 <p class="form-note">We reply within one business day.</p>
               </div>
+              <p class="form-status" role="status" aria-live="polite"></p>
+              <p class="form-note">If the form does not work, email <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>. <a href="/privacy/">Privacy policy</a></p>
             </form>
           </div>
 
@@ -154,6 +159,7 @@
       </div>
     </div>
   </footer>
+  <script src="/js/contact.js" defer></script>
   <script src="/js/chat.js" defer></script>
   <script src="/js/theme.js" defer></script>
 </body>

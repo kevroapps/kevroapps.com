@@ -259,6 +259,15 @@ section("Contact page (/ar/contact/): short version, email and phone only", [
     ("c_form_note", "(The English contact form is for website projects, which are paused. The Arabic page shows email and phone only.)", "(نموذج التواصل في الصفحة الإنجليزية مخصّص لمشاريع المواقع، لكننا لا نستقبل مشاريع جديدة حاليًا. تعرض الصفحة العربية البريد الإلكتروني والهاتف فقط.)"),
 ])
 
+section("Contact form and thank you page: words reused from the chat box (js/chat.js), already reviewed by Chody on 7 Nov 2026. Nothing new.", [
+    ("cf_name", "Your name", "الاسم"),
+    ("cf_email", "Your email", "البريد الإلكتروني"),
+    ("cf_msg", "Your question", "السؤال"),
+    ("cf_send", "Send to the studio", "إرسال إلى الفريق"),
+    ("cf_fail", "Sorry, that did not send. Please email support@kevroapps.com.", "عذرًا، تعذّر الإرسال. يمكنكم مراسلتنا على support@kevroapps.com."),
+    ("th_msg", "Thank you. We reply within one business day.", "شكرًا لكم. سنرد خلال يوم عمل واحد."),
+])
+
 section("Addendum: image descriptions (alt text) and small labels", [
     ("alt_hero", "Free Draw with colored and glitter brush strokes", "شاشة الرسم الحر مع ضربات فرشاة ملوّنة وأخرى لامعة"),
     ("alt_icon", "Islamic Coloring for Kids app icon", "أيقونة تطبيق تلوين إسلامي للأطفال"),
