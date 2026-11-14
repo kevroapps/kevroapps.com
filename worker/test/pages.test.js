@@ -123,3 +123,24 @@ test('every page that carries the stylesheet asks for the same version (so the n
   }
   assert.equal(versions.size, 1, [...versions].join());
 });
+
+test("Ayah Play privacy page matches app version 0.5.0: ages one to five, the child's age kept on the device only, the optional passcode", () => {
+  const html = read('ayah-play/privacy/index.html');
+  const text = html.replace(/<[^>]+>/g, ' ');
+  assert.match(html, /roughly ages one to five/);
+  assert.doesNotMatch(text, /two to five/, 'the old age range is gone');
+  assert.doesNotMatch(html, /Birthdays or ages/, 'an age is asked in setup, so "ages" is not in the not-collected list');
+  assert.match(html, /<h3>Your child's age<\/h3>[\s\S]*?from 1 to 5[\s\S]*?stored on the phone or tablet[\s\S]*?device backup[\s\S]*?never sent anywhere[\s\S]*?never shared/);
+  assert.match(html, /<h3>The parent passcode<\/h3>[\s\S]*?on the device only[\s\S]*?salted hash[\s\S]*?Forgot passcode\?/);
+  assert.match(html, /a math question a young child cannot solve, or your own passcode/);
+  assert.match(html, /These include:/, 'the stored list is not claimed to be complete');
+  assert.match(html, /how far your child has got in each letter toy/);
+  assert.match(html, /Android's own device backup, if you use it, may include them[\s\S]*?Kevro Apps receives nothing from it/, 'allowBackup is not turned off in the app');
+  assert.match(html, /Android shows its own notice when pinning starts[\s\S]*?Android's own unpin gesture also ends it/);
+  assert.doesNotMatch(html, /Android asks you to confirm pinning the first time|only a grown-up who passes the parent gate/, 'two Kid Mode claims the app does not keep');
+  assert.match(html, /"Forgot passcode\?" asks the math question and, once it is answered, removes the passcode/);
+  assert.doesNotMatch(html, /they never leave the phone or tablet/);
+  assert.doesNotMatch(html, /a sum a child cannot solve|no buttons, menus, links or text to read/, 'two claims the 0.5.0 child screen made untrue');
+  assert.match(html, /does not request the Android internet permission/, 'still true: the manifest has no permissions');
+  assert.doesNotMatch(text, /[–—]| - |Muslim kids/);
+});
