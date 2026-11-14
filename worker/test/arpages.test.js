@@ -90,9 +90,23 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
 
 // Retired on purpose, one key, with the reason (Chody's review, 14 Nov 2026): it described the old contact page, which had email and phone only.
 const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form' };
+// Superseded on purpose, five keys (Chody, 14 Nov 2026, fresh review): Ayah Play now covers about one to five, so "من عمر سنتين إلى خمس سنوات تقريبًا" became "من عمر سنة إلى خمس سنوات تقريبًا" and nothing else changed. q_more_ap (never locked) takes the same phrase.
+const AGE_WORDS = JSON.parse(readFileSync(join(root, 'tools/arabic/chody_retire_age_2026-11-14.json'), 'utf8'));
+const SUPERSEDED_AGE = ['p_lead', 'p_desc', 'p_a2', 'a_ap', 'i_more_ap'];
 
 test('only c_form_note is retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
   assert.deepEqual(Object.keys(RETIRED), ['c_form_note']);
+  assert.deepEqual(SUPERSEDED_AGE, ['p_lead', 'p_desc', 'p_a2', 'a_ap', 'i_more_ap']);
+  assert.deepEqual(Object.keys(AGE_WORDS), [...SUPERSEDED_AGE, 'q_more_ap']);
+  {
+    const recorded = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
+    const OLD = 'من عمر سنتين إلى خمس سنوات تقريبًا', NEW = 'من عمر سنة إلى خمس سنوات تقريبًا';
+    for (const k of SUPERSEDED_AGE) assert.ok(k in recorded && recorded[k].includes(OLD), k + ' keeps its original wording in the November 7 record');
+    for (const k of Object.keys(AGE_WORDS)) { assert.ok(AGE_WORDS[k].includes(NEW) && !AGE_WORDS[k].includes('سنتين'), k + ' uses the one to five phrase'); }
+    // the five replacements equal the active text with only the age phrase changed (the Arabic app names are applied in the source as before)
+    const withNames = (text) => text.replace('Ayah Play: Quran for Kids', 'آيات للصغار').replace('Islamic Coloring for Kids', 'تلوين إسلامي للأطفال').replace('Ayah Play', 'آيات للصغار');
+    for (const k of SUPERSEDED_AGE.filter((x) => x !== 'p_desc')) assert.equal(AGE_WORDS[k], withNames(recorded[k]).replace(OLD, NEW), k + ' differs from the locked text only by the age phrase');
+  }
   const corrections = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
   assert.ok('c_form_note' in corrections, 'the historical record keeps it');
   assert.ok(corrections.c_lead && read('tools/arabic/ar_content.py').includes(JSON.stringify(corrections.c_lead)), 'c_lead stays protected');
@@ -110,6 +124,13 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
       // Retired by name (not by a broad skip): no longer an active row, no longer on any page; the correction stays in the November 7 file.
       assert.ok(!source.split(/\r?\n/).some((l) => l.startsWith(`    (${JSON.stringify(key)}, `)), key + ' is no longer an active row');
       assert.ok(!read('ar/contact/index.html').includes(original), key + ' is not on the page');
+      continue;
+    }
+    if (SUPERSEDED_AGE.includes(key)) {
+      // Superseded by name: the active row is Chody's 14 Nov text; the old two to five text is nowhere in the source.
+      const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+      assert.ok(row && row.endsWith(`${JSON.stringify(AGE_WORDS[key])}),`), key + ' matches the 14 Nov text');
+      assert.ok(!source.includes(JSON.stringify(original)), key + ' no longer has the two to five text');
       continue;
     }
     let arabic = withNames(original);
@@ -267,4 +288,17 @@ test('arabic contact page: plain Arabic names in the app list, the real values a
 test('sitemap lists every Arabic page', () => {
   const map = read('sitemap.xml');
   for (const [, [ar]] of Object.entries(AR)) assert.ok(map.includes(`<loc>https://kevroapps.com${ar}</loc>`), ar);
+});
+
+test('Ayah Play age range, Arabic: Chody\'s 14 Nov lines are in the source byte for byte and on the pages; no page says two to five', () => {
+  const source = read('tools/arabic/ar_content.py');
+  for (const [k, arabic] of Object.entries(AGE_WORDS)) {
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(k)}, `));
+    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), k);
+  }
+  for (const f of Object.keys(AR)) assert.doesNotMatch(read(f), /سنتين إلى خمس|سن سنتين/, f);
+  assert.ok(read('ar/ayah-play/index.html').includes(AGE_WORDS.p_lead));
+  assert.ok(read('ar/apps/index.html').includes(AGE_WORDS.a_ap));
+  assert.ok(read('ar/islamic-coloring/index.html').includes(AGE_WORDS.i_more_ap));
+  assert.ok(read('ar/quraan-class/index.html').includes(AGE_WORDS.q_more_ap));
 });

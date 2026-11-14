@@ -92,7 +92,7 @@ section("Apps overview (/ar/apps/)", [
     ("a_lead", "Every Kevro app starts at home: no ads, no tracking, made by a dad in Doha for his own kids first. All apps are Android only.", "تبدأ تطبيقات كيفرو آبس (Kevro Apps) من البيت: بلا إعلانات ولا تتبّع، ويصنعها أب في الدوحة لأطفاله أولًا. جميع التطبيقات لأجهزة أندرويد فقط."),
     ("a_ic", "A calm coloring and learning app for children: more than 80 coloring pages, all 28 Arabic letters, Arabic numbers, the Islamic months and picture puzzles. No ads, no subscription, works offline.", "تطبيق هادئ للتلوين والتعلّم للأطفال: أكثر من 80 صفحة تلوين، والحروف العربية الثمانية والعشرون، والأرقام العربية، والأشهر الهجرية، وألغاز الصور. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت."),
     ("a_qc", "An Android app for teachers who run a Qur'aan or Arabic class, and for the students and families who learn with them. Homework, records and messages stay in one place. The whole app works in English and Arabic.", "تطبيق أندرويد لمن يديرون حلقات لتعليم القرآن أو اللغة العربية، وللطلبة وأسرهم. تبقى الواجبات والسجلات والرسائل في مكان واحد. ويعمل التطبيق كله بالعربية والإنجليزية."),
-    ("a_ap", "A calm Qur'aan app for the youngest children, around ages two to five. A short surah plays while the child taps a few gentle toys. No internet, no ads and no account.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. تُشغَّل سورة قصيرة بينما يلمس الطفل بضع ألعاب لطيفة على الشاشة. بلا إنترنت ولا إعلانات ولا حساب."),
+    ("a_ap", "A calm Qur'aan app for the youngest children, around ages one to five. A short surah plays while the child taps a few gentle toys. No internet, no ads and no account.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنة إلى خمس سنوات تقريبًا. تُشغَّل سورة قصيرة بينما يلمس الطفل بضع ألعاب لطيفة على الشاشة. بلا إنترنت ولا إعلانات ولا حساب."),
     ("a_note", "Questions about any app? Write to support@kevroapps.com.", "أسئلة عن أي تطبيق؟ راسلونا على support@kevroapps.com."),
 ])
 
@@ -139,7 +139,7 @@ section("Islamic Coloring for Kids page (/ar/islamic-coloring/)", [
     ("i_q6", "What if a purchase does not work?", "ماذا لو لم تنجح عملية الشراء؟"),
     ("i_a6", "Refunds and purchase problems go through Google Play, or you can write to support@kevroapps.com.", "طلبات الاسترداد ومشكلات الشراء تتم عبر Google Play، ويمكنكم أيضًا مراسلتنا على support@kevroapps.com."),
     ("i_more_qc", "For teachers who run a Qur'aan or Arabic class, and for the students and families who learn with them.", "لمن يديرون حلقات لتعليم القرآن أو اللغة العربية، وللطلبة وأسرهم."),
-    ("i_more_ap", "A calm Qur'aan app for the youngest children, around ages two to five.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا."),
+    ("i_more_ap", "A calm Qur'aan app for the youngest children, around ages one to five.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنة إلى خمس سنوات تقريبًا."),
 ])
 
 section("Qur'aan Class page (/ar/quraan-class/)", [
@@ -198,14 +198,14 @@ section("Qur'aan Class page (/ar/quraan-class/)", [
     ("q_q6", "Is there an iPhone version?", "هل توجد نسخة للآيفون؟"),
     ("q_a6", "Not at the moment. Kevro apps are Android only. For questions about iPhone, write to support@kevroapps.com.", "ليس حاليًا. تطبيقات كيفرو آبس (Kevro Apps) لأجهزة أندرويد فقط. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."),
     ("q_more_ic", "A calm coloring and learning app for children. No ads, no subscription, works offline.", "تطبيق هادئ للتلوين والتعلّم للأطفال. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت."),
-    ("q_more_ap", "A calm Qur'aan app for the youngest children, around ages two to five.", "تطبيق قرآني هادئ لأصغر الأطفال، من سن سنتين إلى خمس تقريبًا."),
+    ("q_more_ap", "A calm Qur'aan app for the youngest children, around ages one to five.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنة إلى خمس سنوات تقريبًا."),
 ])
 
 section("Ayah Play page (/ar/ayah-play/)", [
     ("p_title", "Page title", "آيات للصغار · كيفرو آبس"),
-    ("p_desc", "Page description", "آيات للصغار (Ayah Play) تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. بلا إنترنت ولا إعلانات ولا حساب. قريبًا على Google Play، ولأجهزة أندرويد فقط."),
+    ("p_desc", "Page description", "آيات للصغار (Ayah Play) تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنة إلى خمس سنوات تقريبًا. بلا إنترنت ولا إعلانات ولا حساب. قريبًا على Google Play، ولأجهزة أندرويد فقط."),
     ("p_eyebrow", "Coming to Google Play", "قريبًا على Google Play"),
-    ("p_lead", "A calm Qur'aan app for the youngest children, around ages two to five. A short surah plays while the child taps a few gentle toys on the screen.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. تُشغَّل سورة قصيرة بينما يلمس الطفل بضع ألعاب لطيفة على الشاشة."),
+    ("p_lead", "A calm Qur'aan app for the youngest children, around ages one to five. A short surah plays while the child taps a few gentle toys on the screen.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنة إلى خمس سنوات تقريبًا. تُشغَّل سورة قصيرة بينما يلمس الطفل بضع ألعاب لطيفة على الشاشة."),
     ("p_ask", "Ask a question", "اسألونا"),
     ("p_g1", "Android only, coming to Google Play", "لأجهزة أندرويد فقط، قريبًا على Google Play"),
     ("p_g2", "No internet access", "بلا اتصال بالإنترنت"),
@@ -216,7 +216,7 @@ section("Ayah Play page (/ar/ayah-play/)", [
     ("p_q1", "When is Ayah Play on Google Play?", "متى سيتوفر تطبيق آيات للصغار على Google Play؟"),
     ("p_a1", "It is coming to Google Play. There is no release date yet.", "سيصدر قريبًا على Google Play، ولا يوجد موعد إصدار بعد."),
     ("p_q2", "Who is it for?", "لمن صُمّم؟"),
-    ("p_a2", "The youngest children, around ages two to five.", "لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا."),
+    ("p_a2", "The youngest children, around ages one to five.", "لأصغر الأطفال، من عمر سنة إلى خمس سنوات تقريبًا."),
     ("p_q3", "Does it need internet, ads or an account?", "هل يحتاج إلى اتصال بالإنترنت أو حساب؟ وهل يحتوي على إعلانات؟"),
     ("p_a3", "No. There is no internet access, no ads and no account, and the settings sit behind a parent gate.", "لا. لا يتصل بالإنترنت، ولا يعرض إعلانات، ولا يحتاج إلى حساب، والإعدادات محمية بخطوة تحقّق للأهل."),
     ("p_q4", "Is there an iPhone version?", "هل توجد نسخة للآيفون؟"),
