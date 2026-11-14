@@ -81,7 +81,6 @@ section("Home page (/ar/)", [
     ("h_priv3", "No data sold to third parties", "لا تُباع بيانات لأي طرف ثالث"),
     ("h_q_h2", "Have a question?", "هل لديكم سؤال؟"),
     ("h_q_p", "We'd love to hear from you: feedback, ideas, or just to say hello.", "يسعدنا أن نسمع منكم: ملاحظات أو أفكار أو مجرد تحية."),
-    ("h_reviews_note", "(Not translated: the parent reviews section stays on the English home page only, because those are real Google Play reviews in the parents' own words.)", "(لا يُترجم: يبقى قسم آراء الأهل في الصفحة الإنجليزية فقط، لأنها مراجعات حقيقية على Google Play بكلمات الأهل أنفسهم.)"),
 ])
 
 section("Apps overview (/ar/apps/)", [
@@ -297,15 +296,15 @@ section("Addendum: image descriptions (alt text) and small labels", [
     ("whatsapp", "Chat on WhatsApp", "تحدثوا معنا عبر واتساب"),
 ])
 
-section("Parent reviews on the Arabic home page (DRAFT, awaiting Chody; the reviews themselves stay in the parents' own English)", [
+section("Parent reviews on the Arabic home page (approved by Chody 14 Nov 2026; the reviews themselves stay in the parents' own English)", [
     ("rv_eyebrow", "Loved by families", "تحبه العائلات"),
     ("rv_h2", "What parents are saying", "ماذا يقول الأهل"),
     ("rv_note", "Real Google Play reviews of Islamic Coloring for Kids, in the parents' own words, in English.", "مراجعات حقيقية على Google Play لتطبيق تلوين إسلامي للأطفال، بكلمات الأهل كما كتبوها بالإنجليزية."),
     ("rv_prev", "Previous review (button label)", "المراجعة السابقة"),
     ("rv_next", "Next review (button label)", "المراجعة التالية"),
     ("rv_choose", "Choose a review (label of the dots)", "اختيار مراجعة"),
-    ("rv_pause", "Pause reviews (button, first state)", "إيقاف المراجعات"),
-    ("rv_play", "Play reviews (button, second state; set in js/reviews.js)", "تشغيل المراجعات"),
+    ("rv_pause", "Pause reviews (button, first state)", "إيقاف العرض مؤقتًا"),
+    ("rv_play", "Play reviews (button, second state; set in js/reviews.js)", "استئناف العرض"),
     ("rv_show", "Show review (label of each dot, followed by its number; set in js/reviews.js)", "عرض المراجعة"),
 ])
 

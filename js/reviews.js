@@ -25,7 +25,7 @@
     var AUTO = 7000, IDLE = 10000;
     var held = false, toggle = document.getElementById('tc-pause');
     var T = document.documentElement.lang === 'ar'
-      ? { show: 'عرض المراجعة', play: 'تشغيل المراجعات', pause: 'إيقاف المراجعات' }
+      ? { show: 'عرض المراجعة', play: 'استئناف العرض', pause: 'إيقاف العرض مؤقتًا' }
       : { show: 'Show review', play: 'Play reviews', pause: 'Pause reviews' };
 
     // Clone all cards before and after the reals for a seamless loop.

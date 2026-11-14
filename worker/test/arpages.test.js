@@ -19,6 +19,7 @@ const AR = {
 // In headings the Latin app name sits in its own line under the Arabic name (<span class="app-latin">). Strip that wrapper to
 // check the words and the brackets exactly as before.
 const plain = (html) => html.replace(/<span class="app-latin" dir="ltr">([\s\S]*?)<\/span>/g, '$1').replace(/<span class="h-note">([\s\S]*?)<\/span>/g, '$1');
+const css = (f) => read(f);
 const bodyText = (html) => html.split('<body')[1].replace(/<script[\s\S]*?<\/script>/g, '').replace(/<bdi dir="ltr">[\s\S]*?<\/bdi>/g, ' ').replace(/<[^>]+>/g, ' ');
 
 test('arabic pages: right to left, language, canonical, both hreflang directions, one h1, valid structured data', () => {
@@ -89,12 +90,13 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
 });
 
 // Retired on purpose, one key, with the reason (Chody's review, 14 Nov 2026): it described the old contact page, which had email and phone only.
-const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form' };
+const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form',
+  h_reviews_note: 'a build note saying the parent reviews stay English-only; the Arabic home page now shows them in English with Arabic labels (Chody, 14 Nov 2026)' };
 
-test('only c_form_note is retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
-  assert.deepEqual(Object.keys(RETIRED), ['c_form_note']);
+test('only c_form_note and h_reviews_note are retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
+  assert.deepEqual(Object.keys(RETIRED), ['c_form_note', 'h_reviews_note']);
   const corrections = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
-  assert.ok('c_form_note' in corrections, 'the historical record keeps it');
+  for (const k of Object.keys(RETIRED)) assert.ok(k in corrections, k + ' stays in the historical record');
   assert.ok(corrections.c_lead && read('tools/arabic/ar_content.py').includes(JSON.stringify(corrections.c_lead)), 'c_lead stays protected');
 });
 
@@ -109,7 +111,7 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
     if (key in RETIRED) {
       // Retired by name (not by a broad skip): no longer an active row, no longer on any page; the correction stays in the November 7 file.
       assert.ok(!source.split(/\r?\n/).some((l) => l.startsWith(`    (${JSON.stringify(key)}, `)), key + ' is no longer an active row');
-      assert.ok(!read('ar/contact/index.html').includes(original), key + ' is not on the page');
+      for (const f of Object.keys(AR)) assert.ok(!read(f).includes(original), key + ' is not on ' + f);
       continue;
     }
     let arabic = withNames(original);
@@ -280,9 +282,18 @@ test('Arabic home reviews: the seven English reviews are word for word the Engli
   assert.match(html, /<div class="tcarousel" id="tcarousel" dir="ltr">/);
   assert.match(html, /<div class="tc-track" lang="en">/);
   const source = read('tools/arabic/ar_content.py');
+  const LOCK = JSON.parse(read('tools/arabic/chody_home_reviews_2026-11-14.json'));
+  assert.deepEqual(Object.keys(LOCK), ['rv_eyebrow', 'rv_h2', 'rv_note', 'rv_prev', 'rv_next', 'rv_choose', 'rv_pause', 'rv_play', 'rv_show']);
+  assert.equal(LOCK.rv_pause, 'إيقاف العرض مؤقتًا');
   const label = (key) => JSON.parse(source.split(/\r?\n/).find((l) => l.startsWith(`    ("${key}", `)).match(/, ("[^"]*")\),$/)[1]);
   for (const k of ['rv_eyebrow', 'rv_h2', 'rv_note', 'rv_prev', 'rv_next', 'rv_choose', 'rv_pause']) assert.ok(html.replace(/<\/?bdi[^>]*>/g, '').includes(label(k)), k + ' is on the page');
-  assert.ok(html.includes('aria-label="' + label('rv_prev') + '"') && html.includes('aria-label="' + label('rv_next') + '"'));
+  for (const k of Object.keys(LOCK)) assert.equal(label(k), LOCK[k], k + ' matches the approved text byte for byte');
+  // the carousel runs left to right: the left arrow goes back (السابقة), the right arrow goes forward (التالية)
+  const arrows = [...html.matchAll(/<button class="tc-arrow" type="button" data-dir="(-?1)" aria-label="([^"]+)">/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(arrows, [['-1', LOCK.rv_prev], ['1', LOCK.rv_next]]);
+  assert.match(css('css/site.css'), /\.tc-arrow\[data-dir="-1"\] \{ left: -10px; \}/);
+  assert.match(css('css/site.css'), /\.tc-arrow\[data-dir="1"\]  \{ right: -10px; \}/);
+  assert.ok(!source.includes('h_reviews_note'));
   // the three labels the script sets are the source's
   const js = read('js/reviews.js');
   for (const k of ['rv_show', 'rv_play', 'rv_pause']) assert.ok(js.includes(label(k)), k + ' in js/reviews.js');
