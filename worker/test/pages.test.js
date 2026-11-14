@@ -123,3 +123,11 @@ test('every page that carries the stylesheet asks for the same version (so the n
   }
   assert.equal(versions.size, 1, [...versions].join());
 });
+
+test('Ayah Play age range is one to five on the English pages and in the chat knowledge (the app and its listing cover about one to five)', () => {
+  for (const f of ['apps/index.html', 'ayah-play/index.html', 'islamic-coloring/index.html', 'quraan-class/index.html', 'worker/src/knowledge.js']) {
+    const text = read(f);
+    assert.match(text, /around ages one to five/, f);
+    assert.doesNotMatch(text, /ages two to five/, f);
+  }
+});
