@@ -90,11 +90,19 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
 
 // Retired on purpose, one key, with the reason (Chody's review, 14 Nov 2026): it described the old contact page, which had email and phone only.
 const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form' };
+// Superseded on purpose, two keys (Chody, 14 Nov 2026, fresh review): the under 16 recording line became under 18, his locked text with 16 changed to 18 and nothing else.
+const SUPERSEDED = JSON.parse(readFileSync(join(root, 'tools/arabic/chody_retire_16_2026-11-14.json'), 'utf8'));
 
-test('only c_form_note is retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
+test('only c_form_note is retired, and only q_priv_sub and q_a4 are superseded (named, with a reason); nothing else is skipped', () => {
   assert.deepEqual(Object.keys(RETIRED), ['c_form_note']);
+  assert.deepEqual(Object.keys(SUPERSEDED), ['q_priv_sub', 'q_a4']);
   const corrections = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
   assert.ok('c_form_note' in corrections, 'the historical record keeps it');
+  for (const k of Object.keys(SUPERSEDED)) {
+    assert.ok(k in corrections && corrections[k].includes('دون 16 عامًا'), k + ' keeps its original under 16 wording in the November 7 record');
+    // the replacement is the original with 16 changed to 18 and nothing else
+    assert.equal(SUPERSEDED[k], corrections[k].replace('دون 16 عامًا', 'دون 18 عامًا'), k + ' differs from Chody\'s locked text only by 16 to 18');
+  }
   assert.ok(corrections.c_lead && read('tools/arabic/ar_content.py').includes(JSON.stringify(corrections.c_lead)), 'c_lead stays protected');
 });
 
@@ -110,6 +118,14 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
       // Retired by name (not by a broad skip): no longer an active row, no longer on any page; the correction stays in the November 7 file.
       assert.ok(!source.split(/\r?\n/).some((l) => l.startsWith(`    (${JSON.stringify(key)}, `)), key + ' is no longer an active row');
       assert.ok(!read('ar/contact/index.html').includes(original), key + ' is not on the page');
+      continue;
+    }
+    if (key in SUPERSEDED) {
+      // Superseded by name: the active row is the new locked text, the old 16 text is nowhere in the source or on the page.
+      const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+      assert.ok(row && row.endsWith(`${JSON.stringify(SUPERSEDED[key])}),`), key + ' matches the 14 Nov text');
+      assert.ok(!source.includes(JSON.stringify(original)), key + ' no longer has the under 16 text');
+      assert.ok(read('ar/quraan-class/index.html').includes(SUPERSEDED[key]), key + " is on the Qur'aan Class page");
       continue;
     }
     let arabic = withNames(original);
