@@ -243,11 +243,12 @@ section("About page (/ar/about/)", [
     ("b_w3", "You own everything we build: source code, domain, content. No proprietary platforms, no recurring license fees, no hidden costs.", "كل ما نبنيه ملك لكم: الشيفرة المصدرية والنطاق والمحتوى. بلا منصات مغلقة ولا رسوم ترخيص متكررة ولا تكاليف خفية."),
 ])
 
-section("Contact page (/ar/contact/): short version, email and phone only", [
+section("Contact page (/ar/contact/)", [
     ("c_title", "Page title", "التواصل معنا · كيفرو آبس"),
     ("c_desc", "Page description", "تواصلوا مع كيفرو آبس (Kevro Apps)، ومقرّها الدوحة. راسلونا على support@kevroapps.com ونرد خلال يوم عمل واحد."),
     ("c_eyebrow", "Contact", "التواصل معنا"),
     ("c_h1", "Get in touch", "تواصلوا معنا"),
+    # c_lead is kept (it is one of the 74 corrections) but the page now uses cx_lead, below.
     ("c_lead", "Based in Doha. Write to us and we will reply within one business day.", "مقرّنا في الدوحة. راسلونا ونرد خلال يوم عمل واحد."),
     ("c_h2", "Ways to reach us", "طرق التواصل"),
     ("c_email", "Email", "البريد الإلكتروني"),
@@ -256,7 +257,34 @@ section("Contact page (/ar/contact/): short version, email and phone only", [
     ("c_loc_v", "Doha, Qatar", "الدوحة، قطر"),
     ("c_resp", "Response time", "مدة الرد"),
     ("c_resp_v", "We reply within one business day.", "نرد خلال يوم عمل واحد."),
-    ("c_form_note", "(The English contact form is for website projects, which are paused. The Arabic page shows email and phone only.)", "(نموذج التواصل في الصفحة الإنجليزية مخصّص لمشاريع المواقع، لكننا لا نستقبل مشاريع جديدة حاليًا. تعرض الصفحة العربية البريد الإلكتروني والهاتف فقط.)"),
+])
+
+section("Contact form, thank you page, destination notes, captions and chat extras: approved by Chody on 14 Nov 2026 (tools/arabic/chody_wording_2026-11-14.json holds the same words and a test keeps them byte for byte).", [
+    ("cf_name", "Your name (label; the chat box word, reviewed 7 Nov 2026)", "الاسم"),
+    ("cf_email", "Your email (label; the chat box word, reviewed 7 Nov 2026)", "البريد الإلكتروني"),
+    ("cf_fail", "Sorry, that did not send. Please email support@kevroapps.com. (the chat box sentence, reviewed 7 Nov 2026)", "عذرًا، تعذّر الإرسال. يمكنكم مراسلتنا على support@kevroapps.com."),
+    ("cx_lead", "Questions about an app, a purchase or joining the test? Write to us and we will reply within one business day.", "هل لديكم سؤال عن تطبيق أو عملية شراء أو الانضمام إلى الاختبار؟ راسلونا، وسنرد خلال يوم عمل واحد."),
+    ("cx_prefer", "Prefer email?", "هل تفضّلون البريد الإلكتروني؟"),
+    ("cx_app_q", "Which app is this about?", "عن أي تطبيق تتواصلون معنا؟"),
+    ("cx_general", "Kevro Apps in general", "كيفرو آبس عمومًا"),
+    ("cx_msg", "How can we help?", "كيف يمكننا مساعدتكم؟"),
+    ("cx_ph", "If something is not working, tell us what you tapped and what you saw.", "إذا لم يعمل شيء كما ينبغي، أخبرونا بما ضغطتم عليه وما ظهر لكم."),
+    ("cx_safety", "Please do not include a child's name or other details about a child.", "يُرجى عدم ذكر اسم أي طفل أو أي تفاصيل أخرى عنه."),
+    ("cx_fallback", "If the form does not work, email support@kevroapps.com.", "إذا تعذّر استخدام النموذج، راسلونا على support@kevroapps.com."),
+    ("cx_send", "Send message", "إرسال الرسالة"),
+    ("th_h1", "Thank you for contacting us", "شكرًا لتواصلكم"),
+    ("th_body", "We got your message. We reply within one business day.", "وصلتنا رسالتكم. سنرد خلال يوم عمل واحد."),
+    ("th_title", "Thank you for contacting us, Kevro Apps (page title)", "شكرًا لتواصلكم · كيفرو آبس"),
+    ("dest_en", "in English (suffix after a link to an English-only page)", "بالإنجليزية"),
+    ("dest_steps_en", "The steps are in English (note under the tester button)", "الخطوات بالإنجليزية"),
+    ("dest_page_en", "The page is in English (note under an English-only policy button)", "الصفحة بالإنجليزية"),
+    ("cap_ic1", "Free Draw", "الرسم الحر"),
+    ("cap_ic2", "The Mosques collection", "مجموعة المساجد"),
+    ("cap_ic3", "The Arabic Numbers collection", "مجموعة الأرقام العربية"),
+    ("cap_q1", "Teachers mark attendance", "يسجّل المعلّمون والمعلّمات الحضور"),
+    ("cap_q2", "Students see homework on a calendar", "يرى الطلبة واجباتهم في التقويم"),
+    ("cap_q3", "Parents see the next lesson and the homework", "يرى أولياء الأمور الدرس القادم والواجب"),
+    ("cap_q4", "Progress, stickers and certificates", "التقدّم والملصقات والشهادات"),
 ])
 
 section("Addendum: image descriptions (alt text) and small labels", [

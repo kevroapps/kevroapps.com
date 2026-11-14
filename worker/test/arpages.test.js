@@ -16,6 +16,9 @@ const AR = {
   'ar/about/index.html': ['/ar/about/', '/about/'],
   'ar/contact/index.html': ['/ar/contact/', '/contact/'],
 };
+// In headings the Latin app name sits in its own line under the Arabic name (<span class="app-latin">). Strip that wrapper to
+// check the words and the brackets exactly as before.
+const plain = (html) => html.replace(/<span class="app-latin" dir="ltr">([\s\S]*?)<\/span>/g, '$1').replace(/<span class="h-note">([\s\S]*?)<\/span>/g, '$1');
 const bodyText = (html) => html.split('<body')[1].replace(/<script[\s\S]*?<\/script>/g, '').replace(/<bdi dir="ltr">[\s\S]*?<\/bdi>/g, ' ').replace(/<[^>]+>/g, ' ');
 
 test('arabic pages: right to left, language, canonical, both hreflang directions, one h1, valid structured data', () => {
@@ -70,10 +73,10 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
   const IC = 'تلوين إسلامي للأطفال';
   const AP = 'آيات للصغار';
   assert.ok(read('ar/quraan-class/index.html').includes('حلقة القرآن'));
-  assert.ok(read('ar/islamic-coloring/index.html').includes('<h1 id="app-title">' + IC + ' (<bdi dir="ltr">Islamic Coloring for Kids</bdi>)</h1>'));
-  assert.ok(read('ar/ayah-play/index.html').includes('<h1 id="app-title">' + AP + ' (<bdi dir="ltr">Ayah Play</bdi>)</h1>'));
+  assert.ok(read('ar/islamic-coloring/index.html').includes('<h1 id="app-title">' + IC + ' <span class="app-latin" dir="ltr">(<bdi dir="ltr">Islamic Coloring for Kids</bdi>)</span></h1>'));
+  assert.ok(read('ar/ayah-play/index.html').includes('<h1 id="app-title">' + AP + ' <span class="app-latin" dir="ltr">(<bdi dir="ltr">Ayah Play</bdi>)</span></h1>'));
   for (const file of ['ar/index.html', 'ar/apps/index.html', 'ar/about/index.html']) {
-    const html = read(file);
+    const html = plain(read(file));
     assert.ok(html.includes(IC + ' (<bdi dir="ltr">Islamic Coloring for Kids</bdi>)'), file + ' IC first mention');
     assert.ok(html.includes(AP + ' (<bdi dir="ltr">Ayah Play</bdi>)'), file + ' AP first mention');
   }
@@ -85,6 +88,16 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
   }
 });
 
+// Retired on purpose, one key, with the reason (Chody's review, 14 Nov 2026): it described the old contact page, which had email and phone only.
+const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form' };
+
+test('only c_form_note is retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
+  assert.deepEqual(Object.keys(RETIRED), ['c_form_note']);
+  const corrections = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
+  assert.ok('c_form_note' in corrections, 'the historical record keeps it');
+  assert.ok(corrections.c_lead && read('tools/arabic/ar_content.py').includes(JSON.stringify(corrections.c_lead)), 'c_lead stays protected');
+});
+
 test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
   const corrections = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
   const source = read('tools/arabic/ar_content.py');
@@ -93,6 +106,12 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
   const withNames = (text) => text.replace('Ayah Play: Quran for Kids', 'آيات للصغار').replace('Islamic Coloring for Kids', 'تلوين إسلامي للأطفال').replace('Ayah Play', 'آيات للصغار');
   for (const [key, original] of Object.entries(corrections)) {
     if (key === 'b_p2') continue; // rewritten by Chody on 7 Nov evening, checked below
+    if (key in RETIRED) {
+      // Retired by name (not by a broad skip): no longer an active row, no longer on any page; the correction stays in the November 7 file.
+      assert.ok(!source.split(/\r?\n/).some((l) => l.startsWith(`    (${JSON.stringify(key)}, `)), key + ' is no longer an active row');
+      assert.ok(!read('ar/contact/index.html').includes(original), key + ' is not on the page');
+      continue;
+    }
     let arabic = withNames(original);
     if (['h_desc', 'a_desc', 'i_desc', 'p_desc'].includes(key)) {
       // descriptions carry the Latin name in brackets at the first mention (they are not in the page text the builder processes)
@@ -113,7 +132,7 @@ test("Chody's three corrections for the Arabic app names are in the text byte fo
     assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key);
   }
   // no doubled Latin bracket where Chody's own wording already carries it
-  const home = read('ar/index.html');
+  const home = plain(read('ar/index.html'));
   assert.ok(home.includes('تلوين إسلامي للأطفال (<bdi dir="ltr">Islamic Coloring for Kids</bdi>) متوفر الآن على'));
   assert.ok(!home.includes('(<bdi dir="ltr">Islamic Coloring for Kids</bdi>) (<bdi'));
   const about = read('ar/about/index.html');
@@ -150,6 +169,99 @@ test('Ayah Play is being redesigned: its pages carry no screenshots until the ne
     assert.ok(!html.includes('/images/screenshots/'), f);
     assert.ok(!html.includes('look-title'), f);
   }
+});
+
+test('arabic headings: the Latin app name is never in the big type, it is its own smaller line with the brackets inside', () => {
+  for (const file of Object.keys(AR)) {
+    const html = read(file);
+    for (const m of html.matchAll(/<h[123][^>]*>([\s\S]*?)<\/h[123]>/g)) {
+      assert.doesNotMatch(m[1], / \(<bdi dir="ltr">(Islamic Coloring for Kids|Ayah Play)<\/bdi>\)/, file + ' heading with an inline Latin name: ' + m[1].slice(0, 60));
+    }
+  }
+  // the pages that carry it (home hero, coloring, Ayah Play, the apps cards) use the wrapper
+  for (const file of ['ar/index.html', 'ar/islamic-coloring/index.html', 'ar/ayah-play/index.html', 'ar/apps/index.html']) {
+    assert.match(read(file), /<span class="app-latin" dir="ltr">\(<bdi dir="ltr">(Islamic Coloring for Kids|Ayah Play)<\/bdi>\)<\/span>/, file);
+  }
+});
+
+test('arabic pages: the header button stays on the task of the page', () => {
+  const btn = (f) => (read(f).match(/<a [^>]*class="btn btn-nav"[^>]*>/) || [null])[0];
+  assert.match(btn('ar/islamic-coloring/index.html'), /play\.google\.com/);
+  assert.match(btn('ar/ayah-play/index.html'), /href="\/ar\/contact\/\?app=ayah-play"/);
+  for (const f of ['ar/index.html', 'ar/apps/index.html', 'ar/quraan-class/index.html', 'ar/about/index.html', 'ar/contact/index.html', 'ar/thanks/index.html']) assert.equal(btn(f), null, f + ' has no header button');
+});
+
+test('arabic Qur' + "'" + 'aan Class: policy and deletion links open the Arabic sections; English-only destinations say so quietly, inside the link', () => {
+  const qc = read('ar/quraan-class/index.html');
+  for (const m of qc.matchAll(/href="(\/quraan-class\/(?:privacy|delete-account)\/[^"]*)"/g)) assert.ok(m[1].endsWith('#ar'), m[1]);
+  assert.ok(qc.includes('href="/quraan-class/privacy/#ar"') && qc.includes('href="/quraan-class/delete-account/#ar"'));
+  // the tester button: action and arrow together, the note underneath, linked to the button as its description, no pill
+  assert.match(qc, /<div class="cta-stack">\s*<a href="\/tester\/" class="btn btn-accent" hreflang="en" aria-describedby="tester-note">[^<]*←<\/a>\s*<span class="cta-note" id="tester-note">الخطوات بالإنجليزية<\/span>/);
+  assert.ok(qc.includes('id="test"'), 'the #test anchor the English tester page links to');
+  for (const f of Object.keys(AR)) assert.ok(!read(f).includes('dest-lang'), f + ' has no pill');
+  // the policy links that open an English page carry the suffix inside the link
+  assert.match(read('ar/islamic-coloring/index.html'), /<a href="\/privacy\/" class="btn btn-secondary" hreflang="en">سياسة الخصوصية <span class="dest-note">\(بالإنجليزية\)<\/span><\/a>/);
+  assert.match(read('ar/ayah-play/index.html'), /<a href="\/ayah-play\/privacy\/" class="btn btn-secondary" hreflang="en">سياسة الخصوصية <span class="dest-note">\(بالإنجليزية\)<\/span><\/a>/);
+  for (const f of Object.keys(AR)) assert.match(read(f), /<a href="\/privacy\/" hreflang="en">سياسة الخصوصية <span class="dest-note">\(بالإنجليزية\)<\/span><\/a>/, f + ' footer');
+  // the header language switch keeps its real name
+  for (const f of Object.keys(AR)) assert.match(read(f), /class="nav-link lang-link" lang="en" hreflang="en" aria-label="[^"]*: English">English<\/a>/, f);
+  // the English pages that point to a task in Arabic land on it, not on the Arabic home page
+  assert.ok(read('tester/index.html').includes('href="/ar/quraan-class/#test" class="nav-link lang-link"'));
+  assert.ok(read('quraan-class/privacy/index.html').includes('href="/quraan-class/privacy/#ar" class="nav-link lang-link"'));
+  assert.ok(read('quraan-class/delete-account/index.html').includes('href="/quraan-class/delete-account/#ar" class="nav-link lang-link"'));
+  assert.ok(read('quraan-class/privacy/index.html').includes('<div id="ar" lang="ar" dir="rtl">'));
+  assert.ok(read('quraan-class/delete-account/index.html').includes('<div id="ar" lang="ar" dir="rtl">'));
+});
+
+const WORDS = JSON.parse(read('tools/arabic/chody_wording_2026-11-14.json'));
+
+test("Chody's approved wording of 14 Nov 2026 is in the Arabic text byte for byte, and the pages and scripts carry it", () => {
+  const source = read('tools/arabic/ar_content.py');
+  const rows = (k) => source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(k)}, `)) || '';
+  const inContent = Object.keys(WORDS).filter((k) => !k.startsWith('chat_') && !['view_name', 'zoom_name'].includes(k));
+  assert.equal(Object.keys(WORDS).length, 29);
+  for (const k of inContent) assert.ok(rows(k).endsWith(`${JSON.stringify(WORDS[k])}),`), k + ' matches Chody');
+  const contact = read('ar/contact/index.html');
+  assert.ok(contact.includes('<p class="page-lead">' + WORDS.cx_lead + '</p>'));
+  assert.ok(contact.includes('<p class="contact-direct">' + WORDS.cx_prefer + ' <a href="mailto:support@kevroapps.com"><bdi dir="ltr">support@kevroapps.com</bdi></a></p>'));
+  assert.ok(contact.includes('<span>' + WORDS.cx_app_q + '</span>') && contact.includes('<span>' + WORDS.cx_msg + '</span>'));
+  assert.ok(contact.includes('placeholder="' + WORDS.cx_ph + '"'));
+  assert.ok(contact.includes('<p class="field-hint" id="msg-hint">' + WORDS.cx_safety + '</p>'));
+  assert.ok(contact.includes('>' + WORDS.cx_send + '</button>'));
+  // the fallback sentence with the address as a real link, left to right, the full stop outside it
+  assert.ok(contact.includes('إذا تعذّر استخدام النموذج، راسلونا على <a href="mailto:support@kevroapps.com"><bdi dir="ltr">support@kevroapps.com</bdi></a>.'));
+  // thank you page: its own title, the heading, the sentence as body text
+  const thanks = read('ar/thanks/index.html');
+  assert.ok(thanks.includes('<title>' + WORDS.th_title + '</title>'));
+  assert.ok(thanks.includes('<h1>' + WORDS.th_h1 + '</h1>') && thanks.includes('<p class="page-lead">' + WORDS.th_body + '</p>'));
+  assert.ok(thanks.includes('<meta name="robots" content="noindex">'));
+  assert.equal((thanks.match(/<h1[ >]/g) || []).length, 1);
+  // captions: visible, and the image descriptions are untouched
+  const ic = read('ar/islamic-coloring/index.html');
+  for (const k of ['cap_ic1', 'cap_ic2', 'cap_ic3']) assert.ok(ic.includes('<figcaption>' + WORDS[k] + '</figcaption>'), k);
+  const qc = read('ar/quraan-class/index.html');
+  for (const k of ['cap_q1', 'cap_q2', 'cap_q3', 'cap_q4']) assert.ok(qc.includes('<figcaption>' + WORDS[k] + '</figcaption>'), k);
+  assert.ok(qc.includes('alt="شاشة سجل الحضور'), 'the long image description is kept');
+  // chat and viewer words live in the scripts
+  const chat = read('js/chat.js'), gallery = read('js/gallery.js');
+  for (const k of ['chat_open', 'chat_starter1', 'chat_starter2', 'chat_starter3', 'chat_hide']) assert.ok(chat.includes(WORDS[k]), k);
+  for (const k of ['view_name', 'zoom_name']) assert.ok(gallery.includes(WORDS[k]), k);
+});
+
+test('arabic contact page: plain Arabic names in the app list, the real values and ?app= keys kept, the hint outside the label', () => {
+  const html = read('ar/contact/index.html');
+  const options = [...html.matchAll(/<option value="([^"]+)" data-key="([^"]+)">([^<]*)<\/option>/g)].map((m) => [m[1], m[2], m[3]]);
+  assert.deepEqual(options, [['Kevro Apps (general)', 'general', WORDS.cx_general], ['Islamic Coloring for Kids', 'islamic-coloring', 'تلوين إسلامي للأطفال'], ["Qur'aan Class", 'quraan-class', 'حلقة القرآن'], ['Ayah Play', 'ayah-play', 'آيات للصغار']]);
+  for (const o of options) assert.doesNotMatch(o[2], /[A-Za-z]/, 'the list shows Arabic only');
+  // the hint is a separate paragraph, tied to the box with aria-describedby (so it is announced once), and not inside the label
+  assert.match(html, /<label for="msg"><span>[^<]+<\/span> <span class="opt">\*<\/span><\/label>\s*<textarea id="msg" name="message" rows="5" dir="auto" placeholder="[^"]+" aria-describedby="msg-hint" required><\/textarea>\s*<p class="field-hint" id="msg-hint">/);
+  const en = read('contact/index.html');
+  assert.match(en, /<label for="msg"><span>How can we help\?<\/span> <span class="opt">\*<\/span><\/label>\s*<textarea id="msg" name="message" rows="5" placeholder="[^"]+" aria-describedby="msg-hint" required><\/textarea>\s*<p class="field-hint" id="msg-hint">Please do not include a child's name or other details about a child\.<\/p>/);
+  assert.equal((en.match(/id="msg-hint"/g) || []).length, 1);
+  assert.match(html, /<form action="https:\/\/api\.web3forms\.com\/submit" method="POST" class="support-form" data-thanks="\/ar\/thanks\/"/);
+  assert.ok(html.includes('name="redirect" value="https://kevroapps.com/ar/thanks/"'));
+  assert.deepEqual([...html.matchAll(/<(?:input|select|textarea) [^>]*name="([a-z_]+)"/g)].map((m) => m[1]).filter((n) => !['access_key', 'redirect', 'subject', 'botcheck'].includes(n)), ['name', 'email', 'app', 'message']);
+  assert.ok(html.includes('data-failed="عذرًا، تعذّر الإرسال. يمكنكم مراسلتنا على support@kevroapps.com."'));
 });
 
 test('sitemap lists every Arabic page', () => {

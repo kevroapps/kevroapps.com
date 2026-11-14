@@ -37,8 +37,8 @@
   <link rel="preload" href="/fonts/noto-sans-arabic-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/figtree-latin-var.woff2" as="font" type="font/woff2" crossorigin>
   <script>try{var t=localStorage.getItem("kevro-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-  <link rel="stylesheet" href="/css/site.css?v=20">
-  <link rel="stylesheet" href="/css/ar.css?v=20">
+  <link rel="stylesheet" href="/css/site.css?v=22">
+  <link rel="stylesheet" href="/css/ar.css?v=22">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"كيفرو آبس","item":"https://kevroapps.com/ar/"},{"@type":"ListItem","position":2,"name":"التطبيقات","item":"https://kevroapps.com/ar/apps/"},{"@type":"ListItem","position":3,"name":"حلقة القرآن","item":"https://kevroapps.com/ar/quraan-class/"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ar","mainEntity":[{"@type":"Question","name":"هل حلقة القرآن متاحة للتنزيل؟","acceptedAnswer":{"@type":"Answer","text":"التطبيق قيد الاختبار المغلق على Google Play، ولا يوجد موعد إطلاق عام بعد. وإذا رغبتم في المساعدة في اختباره، تجدون الخطوات في صفحة الانضمام إلى الاختبار."}},{"@type":"Question","name":"ما اللغات التي يعمل بها؟","acceptedAnswer":{"@type":"Answer","text":"التطبيق كله يعمل بالعربية والإنجليزية، ويختار كل مستخدم لغته."}},{"@type":"Question","name":"كيف ينضم الطلاب والأهل؟","acceptedAnswer":{"@type":"Answer","text":"برمز يرسله معلّم الحلقة أو معلّمتها، فلا يحتاجون إلى بريد إلكتروني."}},{"@type":"Question","name":"هل تُحفظ التسجيلات؟","acceptedAnswer":{"@type":"Answer","text":"تُحفظ التسجيلات مدة محددة ثم تُحذف. ولا يمكن لمن هم دون 16 عامًا تسجيل تلاوة إلا بعد أن يفعّل أحد الوالدين خاصية التسجيل."}},{"@type":"Question","name":"ما الذي يمكن للطلبة والأهل الاطلاع عليه؟","acceptedAnswer":{"@type":"Answer","text":"لا تظهر للطلبة الرسوم أو بيانات تواصل أولياء الأمور. ولا توجد إعلانات ولا تتبّع."}},{"@type":"Question","name":"هل توجد نسخة للآيفون؟","acceptedAnswer":{"@type":"Answer","text":"ليس حاليًا. تطبيقات كيفرو آبس (Kevro Apps) لأجهزة أندرويد فقط. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."}}]}</script>
 </head>
@@ -57,7 +57,6 @@
         <a href="/ar/about/" class="nav-link">عن الاستوديو</a>
         <a href="/ar/contact/" class="nav-link">التواصل معنا</a>
         <a href="/quraan-class/" class="nav-link lang-link" lang="en" hreflang="en" aria-label="اللغة: English">English</a>
-        <a href="https://play.google.com/store/apps/details?id=com.islamickids.islamic_coloring" class="btn btn-nav" target="_blank" rel="noopener">حمّلوا التطبيق &larr;</a>
       </nav>
     </div>
   </header>
@@ -73,8 +72,11 @@
           <h1 id="app-title">حلقة القرآن</h1>
           <p class="page-lead">تطبيق أندرويد لمن يديرون حلقات لتعليم القرآن أو اللغة العربية، وللطلبة وأسرهم. تبقى الواجبات والسجلات والرسائل في مكان واحد.</p>
           <div class="hero-cta">
-            <a href="/tester/" class="btn btn-accent" lang="en" hreflang="en">ساعدونا في اختباره ←</a>
-            <a href="/quraan-class/privacy/" class="btn btn-secondary" lang="en" hreflang="en">سياسة الخصوصية</a>
+            <div class="cta-stack">
+              <a href="/tester/" class="btn btn-accent" hreflang="en" aria-describedby="tester-note">ساعدونا في اختباره ←</a>
+              <span class="cta-note" id="tester-note">الخطوات بالإنجليزية</span>
+            </div>
+            <a href="/quraan-class/privacy/#ar" class="btn btn-secondary" hreflang="en">سياسة الخصوصية</a>
           </div>
         </div>
         <aside class="panel at-a-glance" aria-label="نظرة سريعة">
@@ -100,10 +102,10 @@
           <p class="lead">شاشات من التطبيق وهو في مرحلة الاختبار المغلق. الأسماء والبيانات افتراضية ومخصّصة للاختبار.</p>
         </div>
         <div class="shots shots-four">
-          <div class="shot"><img src="/images/screenshots/quraan-class-1.webp" alt="شاشة سجل الحضور، وفيها تُسجَّل حالة كل طالب أو طالبة: حضور أو تأخر أو غياب أو غياب بعذر، مع زر لحفظ الحضور" width="594" height="1333" loading="lazy"></div>
-          <div class="shot"><img src="/images/screenshots/quraan-class-2.webp" alt="تقويم واجبات طالب أو طالبة لشهر نوفمبر، ويظهر فيه الواجب المستحق في اليوم المحدد" width="594" height="1333" loading="lazy"></div>
-          <div class="shot"><img src="/images/screenshots/quraan-class-3.webp" alt="صفحة وليّ الأمر الخاصة بالطفل، وفيها الدرس القادم مع رابطه والواجب المطلوب" width="594" height="1333" loading="lazy"></div>
-          <div class="shot"><img src="/images/screenshots/quraan-class-4.webp" alt="تبويب التقدّم لأحد الأطفال: الواجبات المقبولة، وآخر درس، وتقرير التقدّم، والملصقات والشهادات" width="594" height="1333" loading="lazy"></div>
+          <figure class="shot"><a href="/images/screenshots/quraan-class-1.webp" data-zoom><img src="/images/screenshots/quraan-class-1.webp" alt="شاشة سجل الحضور، وفيها تُسجَّل حالة كل طالب أو طالبة: حضور أو تأخر أو غياب أو غياب بعذر، مع زر لحفظ الحضور" width="594" height="1333" loading="lazy"></a><figcaption>يسجّل المعلّمون والمعلّمات الحضور</figcaption></figure>
+          <figure class="shot"><a href="/images/screenshots/quraan-class-2.webp" data-zoom><img src="/images/screenshots/quraan-class-2.webp" alt="تقويم واجبات طالب أو طالبة لشهر نوفمبر، ويظهر فيه الواجب المستحق في اليوم المحدد" width="594" height="1333" loading="lazy"></a><figcaption>يرى الطلبة واجباتهم في التقويم</figcaption></figure>
+          <figure class="shot"><a href="/images/screenshots/quraan-class-3.webp" data-zoom><img src="/images/screenshots/quraan-class-3.webp" alt="صفحة وليّ الأمر الخاصة بالطفل، وفيها الدرس القادم مع رابطه والواجب المطلوب" width="594" height="1333" loading="lazy"></a><figcaption>يرى أولياء الأمور الدرس القادم والواجب</figcaption></figure>
+          <figure class="shot"><a href="/images/screenshots/quraan-class-4.webp" data-zoom><img src="/images/screenshots/quraan-class-4.webp" alt="تبويب التقدّم لأحد الأطفال: الواجبات المقبولة، وآخر درس، وتقرير التقدّم، والملصقات والشهادات" width="594" height="1333" loading="lazy"></a><figcaption>التقدّم والملصقات والشهادات</figcaption></figure>
         </div>
       </div>
     </section>
@@ -142,12 +144,12 @@
         <div>
           <h2>الخصوصية جزء من التصميم</h2>
           <p class="section-sub">ينضم الطلبة والأهل برمز يرسله معلّم الحلقة أو معلّمتها، فلا يحتاجون إلى بريد إلكتروني. وتُحفظ التسجيلات مدة محددة ثم تُحذف. ولا تظهر للطلبة الرسوم أو بيانات تواصل أولياء الأمور، ولا يمكن لمن هم دون 16 عامًا تسجيل تلاوة إلا بعد أن يفعّل أحد الوالدين خاصية التسجيل.</p>
-          <a href="/quraan-class/privacy/" class="btn btn-navy" lang="en" hreflang="en">اقرأوا سياسة الخصوصية ←</a>
+          <a href="/quraan-class/privacy/#ar" class="btn btn-navy" hreflang="en">اقرأوا سياسة الخصوصية ←</a>
         </div>
-        <div class="panel">
+        <div class="panel" id="test">
           <h3>ساعدونا في التجربة</h3>
           <p>حلقة القرآن في اختبار مغلق على <bdi dir="ltr">Google Play</bdi>. إذا كنتم من المعلّمين أو المعلّمات أو أولياء الأمور وترغبون في تجربته، فراسلونا على <bdi dir="ltr">support@kevroapps.com</bdi> من حساب <bdi dir="ltr">Gmail</bdi> المستخدم على هاتفكم الذي يعمل بنظام أندرويد. وتشرح <a href="/tester/" lang="en" hreflang="en">صفحة الانضمام إلى الاختبار</a> الخطوات بالإنجليزية.</p>
-          <p class="fine"><a href="/quraan-class/delete-account/" lang="en" hreflang="en">لحذف حساب حلقة القرآن، راجعوا طريقة حذف الحساب بالإنجليزية.</a></p>
+          <p class="fine"><a href="/quraan-class/delete-account/#ar" hreflang="en">لحذف حساب حلقة القرآن، راجعوا طريقة حذف الحساب بالإنجليزية.</a></p>
         </div>
       </div>
     </section>
@@ -190,12 +192,12 @@
         <h2 id="more-title">صنعها أب في الدوحة لأطفاله أولًا</h2>
         <div class="feature-grid two">
           <article class="feature-panel">
-            <h3>تلوين إسلامي للأطفال (<bdi dir="ltr">Islamic Coloring for Kids</bdi>)</h3>
+            <h3>تلوين إسلامي للأطفال <span class="app-latin" dir="ltr">(<bdi dir="ltr">Islamic Coloring for Kids</bdi>)</span></h3>
             <p>تطبيق هادئ للتلوين والتعلّم للأطفال. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت.</p>
             <div class="panel-links"><span class="chip">على <bdi dir="ltr">Google Play</bdi></span><a href="/ar/islamic-coloring/" class="more-link">اطّلعوا على التطبيق ←</a></div>
           </article>
           <article class="feature-panel">
-            <h3>آيات للصغار (<bdi dir="ltr">Ayah Play</bdi>)</h3>
+            <h3>آيات للصغار <span class="app-latin" dir="ltr">(<bdi dir="ltr">Ayah Play</bdi>)</span></h3>
             <p>تطبيق قرآني هادئ لأصغر الأطفال، من سن سنتين إلى خمس تقريبًا.</p>
             <div class="panel-links"><span class="chip">قريبًا على <bdi dir="ltr">Google Play</bdi></span><a href="/ar/ayah-play/" class="more-link">اطّلعوا على آيات للصغار ←</a></div>
           </article>
@@ -215,11 +217,12 @@
         <a href="/ar/apps/">التطبيقات</a>
         <a href="/ar/about/">عن الاستوديو</a>
         <a href="/ar/contact/">التواصل معنا</a>
-        <a href="/privacy/" lang="en" hreflang="en">سياسة الخصوصية</a>
+        <a href="/privacy/" hreflang="en">سياسة الخصوصية <span class="dest-note">(بالإنجليزية)</span></a>
         <a href="mailto:support@kevroapps.com"><bdi dir="ltr">support@kevroapps.com</bdi></a>
       </div>
     </div>
   </footer>
+  <script src="/js/gallery.js" defer></script>
   <script src="/js/chat.js" defer></script>
   <script src="/js/theme.js" defer></script>
 </body>
