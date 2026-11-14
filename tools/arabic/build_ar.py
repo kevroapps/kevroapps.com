@@ -13,16 +13,17 @@ ICL = "Islamic Coloring for Kids"
 APL = "Ayah Play"
 CSS_V = "21"
 LTR = lambda s: f'<span class="ltr">{s}</span>'
-# A small "English" tag after a link that opens an English-only page (the word is the approved language-link label).
-EN_TAG = f'<span class="dest-lang" lang="en" dir="ltr">{A["lang_to_en"]}</span>'
+# A quiet "(بالإنجليزية)" inside a link that opens an English-only page, so the link's own name carries it (Chody, 14 Nov 2026).
+DEST = f'<span class="dest-note">({A["dest_en"]})</span>'
 GALLERY_JS = '  <script src="/js/gallery.js" defer></script>\n'
 CONTACT_JS = '  <script src="/js/contact.js" defer></script>\n'
 
 
-def fig(src, alt, w, h, lazy=False, extra=""):
+def fig(src, alt, w, h, lazy=False, extra="", caption=None):
     """A screenshot that keeps its own proportions and opens larger (js/gallery.js; without script the link opens the image)."""
     lz = ' loading="lazy"' if lazy else ""
-    return f'<figure class="shot{extra}"><a href="{src}" data-zoom><img src="{src}" alt="{esc(alt)}" width="{w}" height="{h}"{lz}></a></figure>'
+    cap = f"<figcaption>{caption}</figcaption>" if caption else ""
+    return f'<figure class="shot{extra}"><a href="{src}" data-zoom><img src="{src}" alt="{esc(alt)}" width="{w}" height="{h}"{lz}></a>{cap}</figure>'
 
 # English path -> Arabic path (pages that exist in both languages)
 PAIRS = {"/": "/ar/", "/apps/": "/ar/apps/", "/islamic-coloring/": "/ar/islamic-coloring/", "/quraan-class/": "/ar/quraan-class/",
@@ -131,7 +132,7 @@ def shell(path, en_path, title, desc, og_image, og_alt, main, jsonld=None, curre
         <a href="/ar/apps/">{A["nav_apps"]}</a>
         <a href="/ar/about/">{A["nav_about"]}</a>
         <a href="/ar/contact/">{A["nav_contact"]}</a>
-        <a href="/privacy/" hreflang="en">{A["foot_privacy"]} {EN_TAG}</a>
+        <a href="/privacy/" hreflang="en">{A["foot_privacy"]} {DEST}</a>
         <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>
       </div>
     </div>
@@ -335,7 +336,7 @@ def islamic_coloring():
           <p class="offer">{A["h_offer"]}</p>
           <div class="hero-cta">
             <a href="{PLAY}" class="btn btn-accent" target="_blank" rel="noopener">{A["play_get"]}</a>
-            <a href="/privacy/" class="btn btn-secondary" hreflang="en">{A["privacy_btn"]} {EN_TAG}</a>
+            <a href="/privacy/" class="btn btn-secondary" hreflang="en">{A["privacy_btn"]} {DEST}</a>
           </div>
           <div class="app-facts app-facts-hero">
             <span>{A["i_f1"]}</span>
@@ -388,9 +389,9 @@ def islamic_coloring():
           <p class="lead">{A["i_shots_lead"]}</p>
         </div>
         <div class="shots app-gallery">
-          {fig("/images/screenshots/shot-1.webp", A["alt_shot1"], 300, 633, lazy=True)}
-          {fig("/images/screenshots/shot-2.webp", A["alt_shot2"], 300, 633, lazy=True)}
-          {fig("/images/screenshots/shot-3.webp", A["alt_shot3"], 300, 633, lazy=True)}
+          {fig("/images/screenshots/shot-1.webp", A["alt_shot1"], 300, 633, lazy=True, caption=A["cap_ic1"])}
+          {fig("/images/screenshots/shot-2.webp", A["alt_shot2"], 300, 633, lazy=True, caption=A["cap_ic2"])}
+          {fig("/images/screenshots/shot-3.webp", A["alt_shot3"], 300, 633, lazy=True, caption=A["cap_ic3"])}
         </div>
       </div>
     </section>
@@ -423,7 +424,7 @@ def quraan_class():
     # the two links inside sentences keep their position by splitting on the link texts
     test_p = A["q_test_p"].replace(A["q_test_link"], f'<a href="/tester/" lang="en" hreflang="en">{A["q_test_link"]}</a>')
     del_p = A["q_del"]
-    qc_shots = "".join(f'          {fig(f"/images/screenshots/quraan-class-{n}.webp", A[f"q_alt{n}"], 594, 1333, lazy=True)}\n' for n in range(1, 5))
+    qc_shots = "".join(f'          {fig(f"/images/screenshots/quraan-class-{n}.webp", A[f"q_alt{n}"], 594, 1333, lazy=True, caption=A[f"cap_q{n}"])}\n' for n in range(1, 5))
     main = f'''  <main id="main">
 {crumb_nav(QC_H3)}    <section class="app-hero" aria-labelledby="app-title">
       <div class="wrap app-hero-grid">
@@ -432,7 +433,10 @@ def quraan_class():
           <h1 id="app-title">{QC_NAME}</h1>
           <p class="page-lead">{A["q_lead"]}</p>
           <div class="hero-cta">
-            <a href="/tester/" class="btn btn-accent" hreflang="en">{A["q_test_btn"]} {EN_TAG}</a>
+            <div class="cta-stack">
+              <a href="/tester/" class="btn btn-accent" hreflang="en" aria-describedby="tester-note">{A["q_test_btn"]}</a>
+              <span class="cta-note" id="tester-note">{A["dest_steps_en"]}</span>
+            </div>
             <a href="/quraan-class/privacy/#ar" class="btn btn-secondary" hreflang="en">{A["privacy_btn"]}</a>
           </div>
         </div>
@@ -517,7 +521,7 @@ def ayah_play():
           <h1 id="app-title">{AP_AR}</h1>
           <p class="page-lead">{A["p_lead"]}</p>
           <div class="hero-cta">
-            <a href="/ayah-play/privacy/" class="btn btn-secondary" hreflang="en">{A["privacy_btn"]} {EN_TAG}</a>
+            <a href="/ayah-play/privacy/" class="btn btn-secondary" hreflang="en">{A["privacy_btn"]} {DEST}</a>
             <a href="mailto:support@kevroapps.com" class="btn btn-secondary">{A["p_ask"]}</a>
           </div>
         </div>
@@ -581,15 +585,17 @@ def about():
 
 
 def contact():
-    opts = [("general", "Kevro Apps (general)", A["brand"]), ("islamic-coloring", ICL, IC_AR), ("quraan-class", "Qur'aan Class", QC_NAME), ("ayah-play", APL, AP_AR)]
+    opts = [("general", "Kevro Apps (general)", A["cx_general"]), ("islamic-coloring", ICL, IC_AR), ("quraan-class", "Qur'aan Class", QC_NAME), ("ayah-play", APL, AP_AR)]
+    # Plain Arabic-only names in the list (the full bilingual name belongs on the app's own page); the submitted values stay Latin.
     options = "".join(f'<option value="{esc(v)}" data-key="{k}">{t}</option>' for k, v, t in opts)
+    fallback = A["cx_fallback"].replace("support@kevroapps.com", '<a href="mailto:support@kevroapps.com">support@kevroapps.com</a>')
     main = f'''  <main id="main">
     <section class="page-hero">
       <div class="wrap">
         <p class="eyebrow">{A["c_eyebrow"]}</p>
         <h1>{A["c_h1"]}</h1>
-        <p class="page-lead">{A["c_lead"]}</p>
-        <p class="contact-direct"><a href="mailto:support@kevroapps.com" class="btn btn-secondary">support@kevroapps.com</a></p>
+        <p class="page-lead">{A["cx_lead"]}</p>
+        <p class="contact-direct">{A["cx_prefer"]} <a href="mailto:support@kevroapps.com">support@kevroapps.com</a></p>
       </div>
     </section>
 
@@ -605,27 +611,29 @@ def contact():
               <div class="form-grid">
                 <label class="field">
                   <span>{A["cf_name"]} <span class="opt">*</span></span>
-                  <input type="text" name="name" autocomplete="name" required>
+                  <input type="text" name="name" autocomplete="name" dir="auto" required>
                 </label>
                 <label class="field">
                   <span>{A["cf_email"]} <span class="opt">*</span></span>
                   <input type="email" name="email" autocomplete="email" dir="ltr" required>
                 </label>
                 <label class="field full">
-                  <span>{A["nav_apps"]}</span>
+                  <span>{A["cx_app_q"]}</span>
                   <select name="app">{options}</select>
                 </label>
-                <label class="field full">
-                  <span>{A["cf_msg"]} <span class="opt">*</span></span>
-                  <textarea name="message" rows="5" required></textarea>
-                </label>
+                <div class="field full">
+                  <label for="msg"><span>{A["cx_msg"]}</span> <span class="opt">*</span></label>
+                  <textarea id="msg" name="message" rows="5" dir="auto" placeholder="{esc(A["cx_ph"])}" aria-describedby="msg-hint" required></textarea>
+                  <p class="field-hint" id="msg-hint">{A["cx_safety"]}</p>
+                </div>
               </div>
               <div class="form-actions">
-                <button type="submit" class="btn btn-accent">{A["cf_send"]}</button>
+                <button type="submit" class="btn btn-accent">{A["cx_send"]}</button>
                 <p class="form-note">{A["c_resp_v"]}</p>
               </div>
               <p class="form-status" role="status" aria-live="polite"></p>
-              <p class="form-note"><a href="/privacy/" hreflang="en">{A["privacy_btn"]}</a> {EN_TAG}</p>
+              <p class="form-note">{fallback}</p>
+              <p class="form-note"><a href="/privacy/" hreflang="en">{A["privacy_btn"]} {DEST}</a></p>
             </form>
           </div>
 
@@ -650,7 +658,8 @@ def thanks():
     <section class="page-hero centered">
       <div class="wrap">
         <div class="status-mark ok" aria-hidden="true">&#10003;</div>
-        <h1>{A["th_msg"]}</h1>
+        <h1>{A["th_h1"]}</h1>
+        <p class="page-lead">{A["th_body"]}</p>
         <div class="link-row">
           <a href="/ar/apps/" class="btn btn-accent">{A["nav_apps"]}</a>
         </div>
@@ -658,7 +667,7 @@ def thanks():
     </section>
   </main>
 '''
-    return shell("/ar/thanks/", "/thanks/", A["c_title"], A["c_desc"], "/images/og-image.png", A["c_title"], main, [], current="", noindex=True)
+    return shell("/ar/thanks/", "/thanks/", A["th_title"], A["th_body"], "/images/og-image.png", A["th_title"], main, [], current="", noindex=True)
 
 LATIN = re.compile(r'\(Kevro Apps\)|Ayah Play: Quran for Kids|Islamic Coloring for Kids|Puzzle Studio|Ayah Play|Kid Mode|Free Draw|Google Play|Gmail|PDF|[\w.+-]+@[\w-]+\.[\w.]+')
 
@@ -688,6 +697,11 @@ def add_latin_first_mention(html):
     if crumbs:
         held = crumbs.group(0)
         body = body.replace(held, "@@CRUMBS@@", 1)
+    sel = re.search(r"<select[\s\S]*?</select>", body)
+    held_sel = None
+    if sel:
+        held_sel = sel.group(0)
+        body = body.replace(held_sel, "@@SELECT@@", 1)
     parts = re.split(r"(<script[\s\S]*?</script>|<[^>]+>)", body)
     for arabic, latin in ((IC_AR, ICL), (AP_AR, APL)):
         for i, part in enumerate(parts):
@@ -701,6 +715,8 @@ def add_latin_first_mention(html):
     body = "".join(parts)
     if held:
         body = body.replace("@@CRUMBS@@", held, 1)
+    if held_sel:
+        body = body.replace("@@SELECT@@", held_sel, 1)
     return head + sep + body
 
 HEADING = re.compile(r'(<h[123][^>]*>)([\s\S]*?)(</h[123]>)')
@@ -715,6 +731,10 @@ def latin_sub(html):
         inner = m.group(2)
         for latin in (ICL, APL):
             inner = inner.replace(f' (<bdi dir="ltr">{latin}</bdi>)', f' <span class="app-latin" dir="ltr">(<bdi dir="ltr">{latin}</bdi>)</span>')
+        # words that follow the Latin line (the home hero: "متوفر الآن على Google Play.") become a smaller supporting line
+        tail = re.search(r'(</span>)\s+([^<\s][\s\S]*)$', inner)
+        if tail and 'class="app-latin"' in inner:
+            inner = inner[:tail.start()] + tail.group(1) + ' <span class="h-note">' + tail.group(2) + '</span>'
         return m.group(1) + inner + m.group(3)
     return head + sep + HEADING.sub(fix, body)
 

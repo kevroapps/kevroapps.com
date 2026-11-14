@@ -46,7 +46,7 @@ class FakeNode {
 }
 
 // A page with the script loaded and a queue of canned Worker answers.
-function loadWidget(workerAnswers, { pageLang = null, path = '/apps/', phone = undefined, siblings = [], autoOpen = true } = {}) {
+function loadWidget(workerAnswers, { pageLang = null, path = '/apps/', phone = undefined, siblings = [], autoOpen = true, session = undefined } = {}) {
   const body = new FakeNode('body');
   FakeNode.active = null;
   for (const name of siblings) { const n = new FakeNode(name); body.appendChild(n); }
@@ -60,7 +60,7 @@ function loadWidget(workerAnswers, { pageLang = null, path = '/apps/', phone = u
     const next = workerAnswers.shift() || { ok: true, data: { ok: true } };
     return { ok: next.ok !== false, status: next.status || 200, json: async () => next.data };
   };
-  vm.runInNewContext(SOURCE, { document, fetch, location: { pathname: path }, URL, console, ...(win ? { window: win } : {}) });
+  vm.runInNewContext(SOURCE, { document, fetch, location: { pathname: path }, URL, console, ...(win ? { window: win } : {}), ...(session ? { sessionStorage: session } : {}) });
   const byClass = (cls, root = body) => root.find((n) => n.className.split(' ').includes(cls));
   const settle = async () => { for (let i = 0; i < 8; i++) await new Promise((r) => setImmediate(r)); };
   const api = {
@@ -250,6 +250,51 @@ test('widget: the launcher keeps its words for screen readers and gets a round-b
   const w = loadWidget([], { autoOpen: false });
   const opener = w.byClass('kc-open');
   assert.equal(opener.firstChild.className, 'kc-open-text');
-  assert.equal(opener.firstChild.textContent, 'Questions? Ask here');
+  assert.equal(opener.firstChild.textContent, 'Ask Kevro');
   assert.equal(opener.children[1].attrs['aria-hidden'], 'true');
+});
+
+// ---- 14 Nov 2026: starter questions and hide for this visit ----
+test('widget: three starter questions fill the text box and send nothing; they go once a message is sent', async () => {
+  const w = loadWidget([plainAnswer('We have three apps.')]);
+  const starters = w.byClass('kc-starters');
+  assert.equal(starters.children.length, 3);
+  assert.deepEqual(starters.children.map((b) => b.textContent), ['Which apps are available now?', "How can I join the Qur'aan Class test?", 'How can I fix a problem with a purchase?']);
+  starters.children[1].handlers.click[0]();
+  assert.equal(w.byClass('kc-input').value, "How can I join the Qur'aan Class test?");
+  assert.equal(w.calls.length, 0, 'showing a starter sends nothing');
+  assert.equal(FakeNode.active, w.byClass('kc-input'), 'the cursor is in the box so the visitor can edit and send');
+  w.byClass('kc-send').handlers.click[0]();
+  await new Promise((r) => setImmediate(r));
+  assert.equal(w.calls.filter((c) => c.path === '/chat').length, 1, 'sent only when Send is pressed');
+  assert.equal(w.byClass('kc-starters'), null, 'starters are gone after the first message');
+});
+
+test('widget: the starters, the launcher and the hide button are in Chody\'s Arabic on an Arabic page', () => {
+  const w = loadWidget([], { pageLang: 'ar', autoOpen: false });
+  assert.equal(w.byClass('kc-open').firstChild.textContent, 'اسألوا كيفرو');
+  assert.deepEqual(w.byClass('kc-starters').children.map((b) => b.textContent), ['ما التطبيقات المتاحة الآن؟', 'كيف يمكن الانضمام إلى اختبار حلقة القرآن؟', 'كيف يمكن حلّ مشكلة في عملية شراء؟']);
+  assert.equal(w.byClass('kc-hide').textContent, 'إخفاء المساعد لهذه الزيارة');
+  assert.notEqual(w.byClass('kc-hide').textContent, 'إغلاق', 'hide is not the same words as Close');
+});
+
+test('widget: hide for this visit takes the launcher off the page and keeps it off for the visit; Close does not', () => {
+  const store = {};
+  const session = { getItem: (k) => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); } };
+  // Close only closes: the launcher is back and nothing is remembered
+  const a = loadWidget([], { session, siblings: ['main'] });
+  press(a.byClass('kc-panel'), 'Escape');
+  assert.ok(a.byClass('kc-open') && !a.byClass('kc-open').hidden);
+  assert.deepEqual(store, {});
+  // Hide: the whole box is gone, one flag is kept, the next page of the visit builds nothing
+  const b = loadWidget([], { session, siblings: ['main'] });
+  b.byClass('kc-hide').handlers.click[0]();
+  assert.equal(b.byClass('kc-root'), null);
+  assert.equal(store['kevro-chat-hidden'], '1');
+  assert.ok(!b.body.children[0].hasAttribute('inert'), 'the page is not left inert');
+  const next = loadWidget([], { session, autoOpen: false });
+  assert.equal(next.byClass('kc-root'), null, 'hidden for the rest of the visit');
+  // a new visit (no flag) shows it again
+  const fresh = loadWidget([], { session: { getItem: () => null, setItem() {} }, autoOpen: false });
+  assert.ok(fresh.byClass('kc-open'));
 });

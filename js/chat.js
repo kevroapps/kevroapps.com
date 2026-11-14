@@ -1,7 +1,10 @@
 /* Kevro Apps website assistant: a small chat box that talks to the kevro-chat Worker.
    Plain JS, no libraries. Nothing is stored in the browser and nothing is sent until the visitor
-   presses Send. All words shown to visitors are in STR below (English and Arabic, the Arabic reviewed
-   by Chody, 7 Nov 2026). The Worker never sends visitor-facing text of its own. */
+   presses Send. Chats are never stored. The one thing kept is a yes flag in this tab's session storage if the
+   visitor chooses "Hide the assistant for this visit", so the launcher stays away on the pages of that visit.
+   All words shown to visitors are in STR below (English and Arabic, the Arabic reviewed by Chody, 7 Nov 2026;
+   the short launcher label, starter questions and hide button approved 14 Nov 2026). The Worker never sends
+   visitor-facing text of its own. */
 (function () {
   'use strict';
 
@@ -12,7 +15,9 @@
 
   var STR = {
     en: {
-      open: 'Questions? Ask here',
+      open: 'Ask Kevro',
+      starters: ['Which apps are available now?', 'How can I join the Qur\'aan Class test?', 'How can I fix a problem with a purchase?'],
+      hide: 'Hide the assistant for this visit',
       title: 'Kevro, the Kevro Apps AI assistant',
       hello: 'Hello, I am Kevro, the Kevro Apps AI assistant. Ask me about our apps and I will do my best to help.',
       note: 'Kevro is an AI assistant. Please do not share personal details in the chat, such as family members’ names, passwords or payment details.',
@@ -34,7 +39,9 @@
       tooLong: 'That message is too long. Please keep it shorter.'
     },
     ar: {
-      open: 'هل لديكم سؤال؟',
+      open: 'اسألوا كيفرو',
+      starters: ['ما التطبيقات المتاحة الآن؟', 'كيف يمكن الانضمام إلى اختبار حلقة القرآن؟', 'كيف يمكن حلّ مشكلة في عملية شراء؟'],
+      hide: 'إخفاء المساعد لهذه الزيارة',
       title: '«كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس (Kevro Apps)',
       hello: 'مرحبًا، أنا «كيفرو»، مساعد يعمل بالذكاء الاصطناعي لدى كيفرو آبس. يمكنكم السؤال عن تطبيقاتنا، وسأبذل جهدي للمساعدة.',
       note: '«كيفرو» هو مساعد يعمل بالذكاء الاصطناعي. يُرجى عدم مشاركة تفاصيل شخصية في المحادثة، مثل أسماء أفراد العائلة أو كلمات المرور أو بيانات الدفع.',
@@ -55,6 +62,14 @@
       tooLong: 'الرسالة أطول من الحد المسموح. يُرجى اختصارها.'
     }
   };
+
+  var HIDE_KEY = 'kevro-chat-hidden';
+  function hiddenForVisit() {
+    try { return typeof sessionStorage !== 'undefined' && sessionStorage.getItem(HIDE_KEY) === '1'; } catch (e) { return false; }
+  }
+  function rememberHidden() {
+    try { if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(HIDE_KEY, '1'); } catch (e) { /* blocked storage: it just lasts this page */ }
+  }
 
   var lang = 'en';
   var history = [];          // { role: 'user' | 'assistant', content }
@@ -124,6 +139,8 @@
     els.noteText.textContent = t('note') + ' ';
     els.noteLink.textContent = t('privacy');
     els.opener.firstChild.textContent = t('open');
+    if (els.starterBtns) els.starterBtns.forEach(function (b, i) { b.textContent = t('starters')[i]; });
+    if (els.hideBtn) els.hideBtn.textContent = t('hide');
     if (els.hello) {
       els.hello.textContent = t('hello');
       els.hello.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -166,6 +183,7 @@
     if (!text) return;
     if (text.length > MAX_LEN) { addMessage('note', t('tooLong')); return; }
     if (history.length === 0 && isArabic(text)) applyLang('ar');
+    if (els.starters) { els.starters.remove(); els.starters = null; els.starterBtns = null; }
     addMessage('user', text);
     history.push({ role: 'user', content: text });
     els.input.value = '';
@@ -272,6 +290,23 @@
     els.lEmail.textContent = t('fEmail');
     els.lQ.textContent = t('fQ');
     els.fSend.textContent = t('fSend');
+  }
+
+  function fillStarter(i) {
+    els.input.value = t('starters')[i];
+    resize();
+    els.input.focus();
+  }
+
+  // "Hide the assistant for this visit": closes the box, takes the launcher off the page, and keeps it off on the
+  // pages of this visit (one flag in this tab's session storage). Contact stays in the page's own menu.
+  function hideForVisit() {
+    if (canModal()) setModal(false);
+    rememberHidden();
+    if (watcher) { watcher.disconnect(); watcher = null; }
+    els.root.remove();
+    var main = typeof document.getElementById === 'function' ? document.getElementById('main') : null;
+    if (main && main.setAttribute && main.focus) { main.setAttribute('tabindex', '-1'); main.focus(); }
   }
 
   function resize() {
@@ -437,6 +472,17 @@
     els.log.setAttribute('role', 'log');
     els.log.setAttribute('aria-live', 'polite');
     els.hello = addMessage('bot', STR.en.hello);
+    // three starter questions: each puts its words in the text box and nothing is sent until the visitor presses Send
+    els.starters = el('div', 'kc-starters');
+    els.starterBtns = [];
+    STR.en.starters.forEach(function (text, i) {
+      var b = el('button', 'kc-starter', text);
+      b.type = 'button';
+      b.addEventListener('click', function () { fillStarter(i); });
+      els.starterBtns.push(b);
+      els.starters.appendChild(b);
+    });
+    els.log.appendChild(els.starters);
 
     var bar = el('div', 'kc-bar');
     els.input = el('textarea', 'kc-input');
@@ -463,6 +509,10 @@
     panel.appendChild(els.log);
     panel.appendChild(bar);
     panel.appendChild(els.note);
+    els.hideBtn = el('button', 'kc-hide', STR.en.hide);
+    els.hideBtn.type = 'button';
+    els.hideBtn.addEventListener('click', hideForVisit);
+    panel.appendChild(els.hideBtn);
     root.appendChild(opener);
     root.appendChild(panel);
     document.body.appendChild(root);
@@ -497,6 +547,8 @@
 
   // The contact pages are the support page already, so the launcher would only be a second, covering route there.
   if (typeof location !== 'undefined' && /^\/(ar\/)?contact\/?$/.test(location.pathname || '')) return;
+  // The visitor hid the assistant earlier in this visit.
+  if (hiddenForVisit()) return;
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
   else build();

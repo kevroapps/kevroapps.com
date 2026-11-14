@@ -1601,6 +1601,8 @@ section[id], [id="ar"], [id="en"], .panel[id] { scroll-margin-top: 86px; }
   gap: 8px;
 }
 .field.full { grid-column: 1 / -1; }
+.field > label { font-size: 14px; font-weight: 700; letter-spacing: -0.1px; color: var(--ink); }
+.field > label .opt { font-weight: 500; color: var(--muted); }
 .field > span {
   font-size: 14px;
   font-weight: 700;
@@ -1620,6 +1622,10 @@ section[id], [id="ar"], [id="en"], .panel[id] { scroll-margin-top: 86px; }
   border-radius: 13px;
   padding: 13px 15px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.field select {
+  color: var(--ink);
+  background: var(--card);
 }
 .field textarea {
   resize: vertical;
@@ -2006,27 +2012,18 @@ p.kc-note { margin: 0; padding: 0 14px 12px; font-size: 13px; line-height: 1.5; 
 .feature-panel h3 .app-latin { font-size: 0.78em; }
 .app-latin bdi { line-height: inherit; }
 
-/* The tag after a link that opens an English-only page ("English"). */
-.dest-lang {
-  display: inline-block;
-  margin-inline-start: 8px;
-  padding: 1px 8px;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  font-size: 0.78em;
-  font-weight: 600;
-  line-height: 1.5;
-  opacity: 0.85;
-  vertical-align: 0.06em;
-}
-.footer-links .dest-lang { font-size: 0.8em; padding: 0 7px; }
+/* Words that say a link opens an English-only page: a quiet suffix inside the link, or a short note under a button. */
+.dest-note { font-weight: 500; font-size: 0.9em; opacity: 0.85; white-space: nowrap; }
+.cta-stack { display: inline-flex; flex-direction: column; align-items: stretch; gap: 8px; }
+.cta-note { font-size: 14px; line-height: 1.4; color: var(--muted); text-align: center; }
+/* the supporting line of a heading (the home hero: the availability phrase after the app name) */
+.h-note { display: block; margin-top: 0.4em; font-size: 0.56em; font-weight: 600; line-height: 1.45; color: var(--body); }
 
 /* The support form on the contact pages. */
 .contact-direct { margin: 22px 0 0; font-size: 16px; color: var(--body); }
-.contact-direct a { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
-.contact-direct a.btn { text-decoration: none; }
+.contact-direct a { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
 .field select { appearance: auto; min-height: 50px; }
-.field .field-hint { font-size: 14px; font-weight: 500; line-height: 1.45; color: var(--muted); }
+.field .field-hint { margin: 0; font-size: 14px; font-weight: 500; line-height: 1.45; color: var(--muted); }
 .form-status { margin: 14px 0 0; font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--ink); }
 .form-status:empty { display: none; }
 .support-form .form-note { margin-top: 14px; }
@@ -2073,3 +2070,37 @@ p.kc-note { margin: 0; padding: 0 14px 12px; font-size: 13px; line-height: 1.5; 
 }
 .shot-viewer-close:hover { background: rgba(255, 255, 255, 0.26); }
 .shot-viewer-close:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+/* A small magnifier on a screenshot that opens larger (added by js/gallery.js, so it only shows when it works). */
+.shot > a { position: relative; }
+.shot-zoom {
+  position: absolute;
+  top: 10px;
+  inset-inline-end: 10px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(10, 37, 64, 0.78);
+  color: #fff;
+  pointer-events: none;
+}
+.shot > a:hover .shot-zoom { background: rgba(10, 37, 64, 0.92); }
+.zoom-hint { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* Chat: three starter questions (they fill the text box, nothing is sent) and the hide-for-this-visit button. */
+.kc-starters { align-self: stretch; display: flex; flex-direction: column; gap: 8px; }
+.kc-starter {
+  min-height: 44px; padding: 10px 14px; text-align: start;
+  border: 1px solid var(--field-border); border-radius: 14px; background: var(--card); color: var(--ink);
+  font: inherit; font-size: 15px; line-height: 1.4; cursor: pointer;
+}
+.kc-starter:hover { border-color: var(--accent); }
+.kc-starter:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.kc-hide {
+  width: 100%; min-height: 44px; padding: 0 14px; border: 0; border-top: 1px solid var(--border);
+  background: var(--card); color: var(--body); font: inherit; font-size: 14px; text-align: start; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.kc-hide:hover { color: var(--ink); }
+.kc-hide:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }

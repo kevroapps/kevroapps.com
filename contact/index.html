@@ -101,11 +101,11 @@
                     <option value="Ayah Play" data-key="ayah-play">Ayah Play</option>
                   </select>
                 </label>
-                <label class="field full">
-                  <span>How can we help? <span class="opt">*</span></span>
-                  <textarea name="message" rows="5" placeholder="If something is not working, tell us what you tapped and what you saw." aria-describedby="msg-hint" required></textarea>
-                  <span class="field-hint" id="msg-hint">Please do not include a child's name or other details about a child.</span>
-                </label>
+                <div class="field full">
+                  <label for="msg"><span>How can we help?</span> <span class="opt">*</span></label>
+                  <textarea id="msg" name="message" rows="5" placeholder="If something is not working, tell us what you tapped and what you saw." aria-describedby="msg-hint" required></textarea>
+                  <p class="field-hint" id="msg-hint">Please do not include a child's name or other details about a child.</p>
+                </div>
               </div>
 
               <div class="form-actions">
@@ -113,7 +113,8 @@
                 <p class="form-note">We reply within one business day.</p>
               </div>
               <p class="form-status" role="status" aria-live="polite"></p>
-              <p class="form-note">If the form does not work, email <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>. <a href="/privacy/">Privacy policy</a></p>
+              <p class="form-note">If the form does not work, email <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>.</p>
+              <p class="form-note"><a href="/privacy/">Privacy policy</a></p>
             </form>
           </div>
 

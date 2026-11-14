@@ -64,8 +64,8 @@
       <div class="wrap">
         <p class="eyebrow">التواصل معنا</p>
         <h1>تواصلوا معنا</h1>
-        <p class="page-lead">مقرّنا في الدوحة. راسلونا ونرد خلال يوم عمل واحد.</p>
-        <p class="contact-direct"><a href="mailto:support@kevroapps.com" class="btn btn-secondary"><bdi dir="ltr">support@kevroapps.com</bdi></a></p>
+        <p class="page-lead">هل لديكم سؤال عن تطبيق أو عملية شراء أو الانضمام إلى الاختبار؟ راسلونا، وسنرد خلال يوم عمل واحد.</p>
+        <p class="contact-direct">هل تفضّلون البريد الإلكتروني؟ <a href="mailto:support@kevroapps.com"><bdi dir="ltr">support@kevroapps.com</bdi></a></p>
       </div>
     </section>
 
@@ -81,27 +81,29 @@
               <div class="form-grid">
                 <label class="field">
                   <span>الاسم <span class="opt">*</span></span>
-                  <input type="text" name="name" autocomplete="name" required>
+                  <input type="text" name="name" autocomplete="name" dir="auto" required>
                 </label>
                 <label class="field">
                   <span>البريد الإلكتروني <span class="opt">*</span></span>
                   <input type="email" name="email" autocomplete="email" dir="ltr" required>
                 </label>
                 <label class="field full">
-                  <span>التطبيقات</span>
-                  <select name="app"><option value="Kevro Apps (general)" data-key="general">كيفرو آبس</option><option value="Islamic Coloring for Kids" data-key="islamic-coloring">تلوين إسلامي للأطفال (<bdi dir="ltr">Islamic Coloring for Kids</bdi>)</option><option value="Qur'aan Class" data-key="quraan-class">حلقة القرآن</option><option value="Ayah Play" data-key="ayah-play">آيات للصغار (<bdi dir="ltr">Ayah Play</bdi>)</option></select>
+                  <span>عن أي تطبيق تتواصلون معنا؟</span>
+                  <select name="app"><option value="Kevro Apps (general)" data-key="general">كيفرو آبس عمومًا</option><option value="Islamic Coloring for Kids" data-key="islamic-coloring">تلوين إسلامي للأطفال</option><option value="Qur'aan Class" data-key="quraan-class">حلقة القرآن</option><option value="Ayah Play" data-key="ayah-play">آيات للصغار</option></select>
                 </label>
-                <label class="field full">
-                  <span>السؤال <span class="opt">*</span></span>
-                  <textarea name="message" rows="5" required></textarea>
-                </label>
+                <div class="field full">
+                  <label for="msg"><span>كيف يمكننا مساعدتكم؟</span> <span class="opt">*</span></label>
+                  <textarea id="msg" name="message" rows="5" dir="auto" placeholder="إذا لم يعمل شيء كما ينبغي، أخبرونا بما ضغطتم عليه وما ظهر لكم." aria-describedby="msg-hint" required></textarea>
+                  <p class="field-hint" id="msg-hint">يُرجى عدم ذكر اسم أي طفل أو أي تفاصيل أخرى عنه.</p>
+                </div>
               </div>
               <div class="form-actions">
-                <button type="submit" class="btn btn-accent">إرسال إلى الفريق</button>
+                <button type="submit" class="btn btn-accent">إرسال الرسالة</button>
                 <p class="form-note">نرد خلال يوم عمل واحد.</p>
               </div>
               <p class="form-status" role="status" aria-live="polite"></p>
-              <p class="form-note"><a href="/privacy/" hreflang="en">سياسة الخصوصية</a> <span class="dest-lang" lang="en" dir="ltr">English</span></p>
+              <p class="form-note">إذا تعذّر استخدام النموذج، راسلونا على <a href="mailto:support@kevroapps.com"><bdi dir="ltr">support@kevroapps.com</bdi></a>.</p>
+              <p class="form-note"><a href="/privacy/" hreflang="en">سياسة الخصوصية <span class="dest-note">(بالإنجليزية)</span></a></p>
             </form>
           </div>
 
@@ -129,7 +131,7 @@
         <a href="/ar/apps/">التطبيقات</a>
         <a href="/ar/about/">عن الاستوديو</a>
         <a href="/ar/contact/">التواصل معنا</a>
-        <a href="/privacy/" hreflang="en">سياسة الخصوصية <span class="dest-lang" lang="en" dir="ltr">English</span></a>
+        <a href="/privacy/" hreflang="en">سياسة الخصوصية <span class="dest-note">(بالإنجليزية)</span></a>
         <a href="mailto:support@kevroapps.com"><bdi dir="ltr">support@kevroapps.com</bdi></a>
       </div>
     </div>
