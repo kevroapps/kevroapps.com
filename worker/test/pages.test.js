@@ -1,7 +1,7 @@
 // Checks on the app pages and the apps overview: structure, structured data, copy rules, sitemap.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 
@@ -122,4 +122,53 @@ test('every page that carries the stylesheet asks for the same version (so the n
     versions.add(m[1]);
   }
   assert.equal(versions.size, 1, [...versions].join());
+});
+
+// ---- SEO pass of 14 Nov 2026 ----
+const ldOf = (f) => [...read(f).matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
+
+test('home pages carry Organization and WebSite data that match what the page says; about and contact have breadcrumbs', () => {
+  for (const [f, name, home] of [['index.html', 'Kevro Apps', 'https://kevroapps.com/'], ['ar/index.html', 'كيفرو آبس', 'https://kevroapps.com/ar/']]) {
+    const [data] = ldOf(f);
+    const org = data['@graph'].find((x) => x['@type'] === 'Organization');
+    assert.equal(org['@id'], 'https://kevroapps.com/#organization');
+    assert.equal(org.name, name);
+    assert.equal(org.email, 'support@kevroapps.com');
+    assert.equal(org.address.addressLocality, 'Doha');
+    assert.ok(existsSync(join(root, org.logo.replace('https://kevroapps.com/', ''))), 'the logo file exists');
+    const site = data['@graph'].find((x) => x['@type'] === 'WebSite');
+    assert.equal(site.url, home);
+    assert.deepEqual(site.publisher, { '@id': 'https://kevroapps.com/#organization' });
+    assert.ok(read(f).includes('support@kevroapps.com'), 'the page shows the email it declares');
+  }
+  for (const [f, item] of [['about/index.html', 'https://kevroapps.com/about/'], ['contact/index.html', 'https://kevroapps.com/contact/'], ['ar/about/index.html', 'https://kevroapps.com/ar/about/'], ['ar/contact/index.html', 'https://kevroapps.com/ar/contact/']]) {
+    const [crumb] = ldOf(f);
+    assert.equal(crumb['@type'], 'BreadcrumbList', f);
+    assert.equal(crumb.itemListElement.length, 2);
+    assert.equal(crumb.itemListElement[1].item, item);
+    assert.equal(crumb.itemListElement[0].item, f.startsWith('ar/') ? 'https://kevroapps.com/ar/' : 'https://kevroapps.com/');
+  }
+});
+
+test('sitemap: every URL is a real, indexable page; each English and Arabic pair lists the same alternates; nothing noindex or disallowed', () => {
+  const map = read('sitemap.xml');
+  const robots = read('robots.txt');
+  const entries = [...map.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
+  const locs = entries.map((e) => e.match(/<loc>([^<]+)<\/loc>/)[1]);
+  assert.equal(new Set(locs).size, locs.length, 'no duplicates');
+  for (const e of entries) {
+    const loc = e.match(/<loc>https:\/\/kevroapps\.com(\/[^<]*)<\/loc>/)[1];
+    const file = join(root, loc.slice(1), 'index.html');
+    assert.ok(existsSync(file), loc + ' is a page');
+    const html = readFileSync(file, 'utf8');
+    assert.doesNotMatch(html, /name="robots" content="noindex"/, loc);
+    assert.ok(!robots.split(/\r?\n/).some((l) => l.startsWith('Disallow: ') && loc.startsWith(l.slice(10)) && l.length > 10), loc + ' is not disallowed');
+    assert.match(e, /<lastmod>20\d\d-\d\d-\d\d<\/lastmod>/, loc);
+    assert.ok(html.includes(`<link rel="canonical" href="https://kevroapps.com${loc}">`), loc + ' is its own canonical');
+    // the alternates in the sitemap are the ones in the page
+    const inMap = [...e.matchAll(/hreflang="([^"]+)" href="([^"]+)"/g)].map((m) => m[1] + ' ' + m[2]).sort();
+    const inPage = [...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">/g)].map((m) => m[1] + ' ' + m[2]).sort();
+    assert.deepEqual(inMap, inPage, loc + ' alternates');
+  }
+  for (const f of ['thanks/index.html', 'ar/thanks/index.html']) assert.ok(!locs.includes('https://kevroapps.com/' + f.replace('index.html', '')), f + ' stays out');
 });

@@ -151,6 +151,20 @@ def crumbs(name_key, path):
         {"@type": "ListItem", "position": 3, "name": A[name_key] if name_key in A else name_key, "item": SITE + path}]}
 
 
+def crumbs2(label_key, path):
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": A["brand"], "item": SITE + "/ar/"},
+        {"@type": "ListItem", "position": 2, "name": A[label_key], "item": SITE + path}]}
+
+
+def home_ld():
+    org = {"@type": "Organization", "@id": SITE + "/#organization", "name": A["brand"], "alternateName": "Kevro Apps", "url": SITE + "/ar/",
+           "logo": SITE + "/images/android-chrome-512.png", "email": "support@kevroapps.com",
+           "address": {"@type": "PostalAddress", "addressLocality": "Doha", "addressCountry": "QA"}}
+    site = {"@type": "WebSite", "@id": SITE + "/ar/#website", "url": SITE + "/ar/", "name": A["brand"], "inLanguage": "ar", "publisher": {"@id": SITE + "/#organization"}}
+    return {"@context": "https://schema.org", "@graph": [org, site]}
+
+
 def crumb_nav(name):
     return f'''    <nav class="crumbs wrap" aria-label="{esc(A["crumb_label"])}">
       <a href="/ar/apps/">{A["crumb_apps"]}</a><span aria-hidden="true">/</span><span aria-current="page">{name}</span>
@@ -276,7 +290,7 @@ def home():
     </section>
   </main>
 '''
-    return shell("/ar/", "/", A["h_title"], A["h_desc"], "/images/og-image.png", A["h_title"], main, [], current="")
+    return shell("/ar/", "/", A["h_title"], A["h_desc"], "/images/og-image.png", A["h_title"], main, [home_ld()], current="")
 
 
 def apps():
@@ -581,7 +595,7 @@ def about():
     </section>
   </main>
 '''
-    return shell("/ar/about/", "/about/", A["b_title"], A["b_desc"], "/images/og-image.png", A["b_title"], main, [], current="about")
+    return shell("/ar/about/", "/about/", A["b_title"], A["b_desc"], "/images/og-image.png", A["b_title"], main, [crumbs2("nav_about", "/ar/about/")], current="about")
 
 
 def contact():
@@ -650,7 +664,7 @@ def contact():
     </section>
   </main>
 '''
-    return shell("/ar/contact/", "/contact/", A["c_title"], A["c_desc"], "/images/og-image.png", A["c_title"], main, [], current="contact", scripts=CONTACT_JS)
+    return shell("/ar/contact/", "/contact/", A["c_title"], A["c_desc"], "/images/og-image.png", A["c_title"], main, [crumbs2("nav_contact", "/ar/contact/")], current="contact", scripts=CONTACT_JS)
 
 
 def thanks():
