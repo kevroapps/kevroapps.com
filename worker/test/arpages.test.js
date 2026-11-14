@@ -268,3 +268,34 @@ test('sitemap lists every Arabic page', () => {
   const map = read('sitemap.xml');
   for (const [, [ar]] of Object.entries(AR)) assert.ok(map.includes(`<loc>https://kevroapps.com${ar}</loc>`), ar);
 });
+
+// ---- Parent reviews on the Arabic home page (DRAFT labels, awaiting Chody) ----
+test('Arabic home reviews: the seven English reviews are word for word the English home page\'s, marked English; labels come from the source', () => {
+  const quotes = (html) => [...html.replace(/\r\n/g, '\n').matchAll(/<figure class="quote-card">[\s\S]*?<\/figure>/g)].map((m) => m[0]);
+  const en = quotes(read('index.html'));
+  const ar = quotes(read('ar/index.html'));
+  assert.equal(en.length, 7);
+  assert.deepEqual(ar, en, 'not translated, not edited');
+  const html = read('ar/index.html');
+  assert.match(html, /<div class="tcarousel" id="tcarousel" dir="ltr">/);
+  assert.match(html, /<div class="tc-track" lang="en">/);
+  const source = read('tools/arabic/ar_content.py');
+  const label = (key) => JSON.parse(source.split(/\r?\n/).find((l) => l.startsWith(`    ("${key}", `)).match(/, ("[^"]*")\),$/)[1]);
+  for (const k of ['rv_eyebrow', 'rv_h2', 'rv_note', 'rv_prev', 'rv_next', 'rv_choose', 'rv_pause']) assert.ok(html.replace(/<\/?bdi[^>]*>/g, '').includes(label(k)), k + ' is on the page');
+  assert.ok(html.includes('aria-label="' + label('rv_prev') + '"') && html.includes('aria-label="' + label('rv_next') + '"'));
+  // the three labels the script sets are the source's
+  const js = read('js/reviews.js');
+  for (const k of ['rv_show', 'rv_play', 'rv_pause']) assert.ok(js.includes(label(k)), k + ' in js/reviews.js');
+  assert.ok(html.includes('src="/js/reviews.js"'));
+  assert.doesNotMatch(html, /Pause reviews|Next review|Previous review/, 'no English labels around the Arabic carousel');
+  // Arabic punctuation rules for the new lines: no dashes, no emoji, no digits
+  for (const k of ['rv_eyebrow', 'rv_h2', 'rv_note', 'rv_prev', 'rv_next', 'rv_choose', 'rv_pause', 'rv_play', 'rv_show']) assert.doesNotMatch(label(k), /[–—‒]|\p{Extended_Pictographic}|\d/u, k);
+});
+
+test('the reviews carousel is its own script: the English home loads it and home.js no longer builds it', () => {
+  assert.ok(read('index.html').includes('src="/js/reviews.js"'));
+  assert.doesNotMatch(read('js/home.js'), /tcarousel/);
+  const js = read('js/reviews.js');
+  assert.match(js, /tc-ready'\)\) return;/, 'a cached older home.js that already built the carousel is not built twice');
+  assert.ok(js.includes("'Show review'") && js.includes("'Pause reviews'") && js.includes("'Play reviews'"), 'English labels kept');
+});

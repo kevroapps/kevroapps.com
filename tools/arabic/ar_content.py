@@ -297,6 +297,18 @@ section("Addendum: image descriptions (alt text) and small labels", [
     ("whatsapp", "Chat on WhatsApp", "تحدثوا معنا عبر واتساب"),
 ])
 
+section("Parent reviews on the Arabic home page (DRAFT, awaiting Chody; the reviews themselves stay in the parents' own English)", [
+    ("rv_eyebrow", "Loved by families", "تحبه العائلات"),
+    ("rv_h2", "What parents are saying", "ماذا يقول الأهل"),
+    ("rv_note", "Real Google Play reviews of Islamic Coloring for Kids, in the parents' own words, in English.", "مراجعات حقيقية على Google Play لتطبيق تلوين إسلامي للأطفال، بكلمات الأهل كما كتبوها بالإنجليزية."),
+    ("rv_prev", "Previous review (button label)", "المراجعة السابقة"),
+    ("rv_next", "Next review (button label)", "المراجعة التالية"),
+    ("rv_choose", "Choose a review (label of the dots)", "اختيار مراجعة"),
+    ("rv_pause", "Pause reviews (button, first state)", "إيقاف المراجعات"),
+    ("rv_play", "Play reviews (button, second state; set in js/reviews.js)", "تشغيل المراجعات"),
+    ("rv_show", "Show review (label of each dot, followed by its number; set in js/reviews.js)", "عرض المراجعة"),
+])
+
 A = {}
 for _title, _rows in SECTIONS:
     for _k, _en, _ar in _rows:
