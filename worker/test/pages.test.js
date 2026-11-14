@@ -123,3 +123,17 @@ test('every page that carries the stylesheet asks for the same version (so the n
   }
   assert.equal(versions.size, 1, [...versions].join());
 });
+
+test("Ayah Play privacy page matches app version 0.5.0: ages one to five, the child's age kept on the device only, the optional passcode", () => {
+  const html = read('ayah-play/privacy/index.html');
+  const text = html.replace(/<[^>]+>/g, ' ');
+  assert.match(html, /roughly ages one to five/);
+  assert.doesNotMatch(text, /two to five/, 'the old age range is gone');
+  assert.doesNotMatch(html, /Birthdays or ages/, 'an age is asked in setup, so "ages" is not in the not-collected list');
+  assert.match(html, /<h3>Your child's age<\/h3>[\s\S]*?from 1 to 5[\s\S]*?stored only on the phone or tablet[\s\S]*?never sent anywhere[\s\S]*?never shared/);
+  assert.match(html, /<h3>The parent passcode<\/h3>[\s\S]*?on the device only[\s\S]*?salted hash[\s\S]*?Forgot passcode\?/);
+  assert.match(html, /a math question a young child cannot solve, or your own passcode/);
+  assert.doesNotMatch(html, /a sum a child cannot solve|no buttons, menus, links or text to read/, 'two claims the 0.5.0 child screen made untrue');
+  assert.match(html, /does not request the Android internet permission/, 'still true: the manifest has no permissions');
+  assert.doesNotMatch(text, /[–—]| - |Muslim kids/);
+});
