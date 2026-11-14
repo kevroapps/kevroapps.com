@@ -122,6 +122,7 @@ test('every page that carries the stylesheet asks for the same version (so the n
     versions.add(m[1]);
   }
   assert.equal(versions.size, 1, [...versions].join());
+});
 
 test('privacy policy covers iPhone and iPad: App Store purchase, add-only Photos, TestFlight, and keeps the no-account model', () => {
   const html = read('privacy/index.html');
