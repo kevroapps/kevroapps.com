@@ -9,7 +9,7 @@ from pathlib import Path
 SITE = "https://kevroapps.com"
 # (English path, Arabic path or None), in the order they appear in the file.
 PAGES = [
-    ("/", "/ar/"), ("/apps/", "/ar/apps/"), ("/about/", "/ar/about/"), ("/services/", None), ("/contact/", "/ar/contact/"),
+    ("/", "/ar/"), ("/apps/", "/ar/apps/"), ("/about/", "/ar/about/"), ("/contact/", "/ar/contact/"),
     ("/privacy/", None), ("/quraan-class/privacy/", None), ("/quraan-class/delete-account/", None), ("/ayah-play/privacy/", None),
     ("/islamic-coloring/", "/ar/islamic-coloring/"), ("/quraan-class/", "/ar/quraan-class/"), ("/ayah-play/", "/ar/ayah-play/"),
 ]
