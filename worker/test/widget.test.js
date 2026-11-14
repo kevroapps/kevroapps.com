@@ -31,6 +31,7 @@ class FakeNode {
       add: (c) => { if (!list().includes(c)) self.className = list().concat(c).join(' '); },
       remove: (c) => { self.className = list().filter((x) => x !== c).join(' '); },
       contains: (c) => list().includes(c),
+      toggle: (c, on) => { if (on) { if (!list().includes(c)) self.className = list().concat(c).join(' '); } else self.className = list().filter((x) => x !== c).join(' '); return on; },
     };
   }
   get offsetParent() { for (let n = this; n; n = n.parent) if (n.hidden) return null; return {}; }
@@ -46,14 +47,14 @@ class FakeNode {
 }
 
 // A page with the script loaded and a queue of canned Worker answers.
-function loadWidget(workerAnswers, { pageLang = null, path = '/apps/', phone = undefined, siblings = [], autoOpen = true, session = undefined } = {}) {
+function loadWidget(workerAnswers, { pageLang = null, path = '/apps/', phone = undefined, siblings = [], autoOpen = true, session = undefined, vv = null } = {}) {
   const body = new FakeNode('body');
   FakeNode.active = null;
   for (const name of siblings) { const n = new FakeNode(name); body.appendChild(n); }
   const calls = [];
   const document = { readyState: 'complete', body, documentElement: { getAttribute: (k) => (k === 'lang' ? pageLang : null) }, createElement: (t) => new FakeNode(t), createTextNode: (s) => { const n = new FakeNode('#text'); n._text = s; return n; }, addEventListener() {}, querySelectorAll: () => [], get activeElement() { return FakeNode.active; } };
   // phone: true or false stands for a window that matches (or not) the small-screen rule; leave it out for a page without these browser features
-  const win = phone === undefined ? undefined : { matchMedia: () => ({ matches: phone }), addEventListener() {}, innerWidth: 360, innerHeight: 800, visualViewport: null };
+  const win = phone === undefined ? undefined : { matchMedia: () => ({ matches: phone }), addEventListener() {}, innerWidth: 360, innerHeight: 800, visualViewport: vv };
   const fetch = async (url, opts) => {
     const path = new URL(url).pathname;
     calls.push({ path, body: JSON.parse(opts.body) });
@@ -297,4 +298,16 @@ test('widget: hide for this visit takes the launcher off the page and keeps it o
   // a new visit (no flag) shows it again
   const fresh = loadWidget([], { session: { getItem: () => null, setItem() {} }, autoOpen: false });
   assert.ok(fresh.byClass('kc-open'));
+});
+
+test('widget: with the phone keyboard up (a short visible area) the box goes compact and returns to normal when it closes', () => {
+  const vv = { height: 261, offsetTop: 0, addEventListener() {}, removeEventListener() {} };
+  const w = loadWidget([], { phone: true, vv });
+  const root = w.byClass('kc-root');
+  assert.ok(root.classList.contains('kc-compact'), 'compact at 261px visible height (measured on the emulator with the keyboard open)');
+  vv.height = 536;
+  press(w.byClass('kc-panel'), 'Escape');
+  assert.ok(!root.classList.contains('kc-compact'), 'normal after the box closes');
+  const tall = loadWidget([], { phone: true, vv: { height: 700, offsetTop: 0, addEventListener() {}, removeEventListener() {} } });
+  assert.ok(!tall.byClass('kc-root').classList.contains('kc-compact'), 'not compact when there is room');
 });

@@ -339,6 +339,8 @@
     els.root.style.top = (vv.offsetTop + 12) + 'px';
     els.root.style.bottom = 'auto';
     els.panel.style.height = Math.max(240, vv.height - 24) + 'px';
+    // With the on-screen keyboard up there is little room: a compact layout keeps the conversation visible (CSS .kc-compact).
+    els.root.classList.toggle('kc-compact', vv.height < 480);
   }
 
   function setModal(on) {
@@ -370,6 +372,7 @@
       els.root.style.top = '';
       els.root.style.bottom = '';
       els.panel.style.height = '';
+      els.root.classList.remove('kc-compact');
     }
   }
 

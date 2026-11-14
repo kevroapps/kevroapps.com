@@ -11,7 +11,7 @@ IC_AR = "تلوين إسلامي للأطفال"
 AP_AR = "آيات للصغار"
 ICL = "Islamic Coloring for Kids"
 APL = "Ayah Play"
-CSS_V = "21"
+CSS_V = "22"
 LTR = lambda s: f'<span class="ltr">{s}</span>'
 # A quiet "(بالإنجليزية)" inside a link that opens an English-only page, so the link's own name carries it (Chody, 14 Nov 2026).
 DEST = f'<span class="dest-note">({A["dest_en"]})</span>'

@@ -2103,4 +2103,11 @@ p.kc-note { margin: 0; padding: 0 14px 12px; font-size: 13px; line-height: 1.5; 
   background: var(--card); color: var(--body); font: inherit; font-size: 14px; text-align: start; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
 }
 .kc-hide:hover { color: var(--ink); }
+/* On a phone with the keyboard up (js/chat.js sets .kc-compact when the visible height is under 480px): a tighter box so the conversation stays in view. */
+.kc-compact .kc-hide { display: none; }
+.kc-compact .kc-head { padding-block: 4px; }
+.kc-compact .kc-title { font-size: 14px; line-height: 1.25; }
+.kc-compact .kc-bar { padding: 8px 12px; }
+.kc-compact p.kc-note { font-size: 12px; line-height: 1.35; padding: 0 12px 8px; }
+.kc-compact .kc-log { padding: 10px; gap: 8px; }
 .kc-hide:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
