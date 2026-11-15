@@ -134,7 +134,7 @@ test('home pages carry Organization and WebSite data that match what the page sa
     assert.equal(org['@id'], 'https://kevroapps.com/#organization');
     assert.equal(org.name, name);
     assert.equal(org.email, 'support@kevroapps.com');
-    assert.equal(org.address.addressLocality, 'Doha');
+    assert.equal(org.address, undefined, 'no location in the page data (Captain, 15 Nov 2026)');
     assert.ok(existsSync(join(root, org.logo.replace('https://kevroapps.com/', ''))), 'the logo file exists');
     const site = data['@graph'].find((x) => x['@type'] === 'WebSite');
     assert.equal(site.url, home);

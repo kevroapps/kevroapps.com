@@ -159,8 +159,7 @@ def crumbs2(label_key, path):
 
 def home_ld():
     org = {"@type": "Organization", "@id": SITE + "/#organization", "name": A["brand"], "alternateName": "Kevro Apps", "url": SITE + "/ar/",
-           "logo": SITE + "/images/android-chrome-512.png", "email": "support@kevroapps.com",
-           "address": {"@type": "PostalAddress", "addressLocality": "Doha", "addressCountry": "QA"}}
+           "logo": SITE + "/images/android-chrome-512.png", "email": "support@kevroapps.com"}
     site = {"@type": "WebSite", "@id": SITE + "/ar/#website", "url": SITE + "/ar/", "name": A["brand"], "inLanguage": "ar", "publisher": {"@id": SITE + "/#organization"}}
     return {"@context": "https://schema.org", "@graph": [org, site]}
 
