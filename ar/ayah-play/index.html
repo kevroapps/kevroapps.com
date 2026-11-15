@@ -39,6 +39,54 @@
   <script>try{var t=localStorage.getItem("kevro-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
   <link rel="stylesheet" href="/css/site.css?v=22">
   <link rel="stylesheet" href="/css/ar.css?v=22">
+  <style>
+  .scene-band {
+    --scene-surface: #F7F5EF;
+    --scene-border: #DDDCD3;
+    background: var(--scene-surface);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .scene-band { --scene-surface: #182421; --scene-border: #3A4942; }
+  }
+  :root[data-theme="dark"] .scene-band { --scene-surface: #182421; --scene-border: #3A4942; }
+
+  .scene-band .wrap { padding-top: clamp(28px, 5vw, 56px); padding-bottom: clamp(28px, 5vw, 56px); }
+
+  .scene-frame {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--scene-border);
+    border-radius: 24px;
+    overflow: hidden;
+    background: #D1D7D6;
+    isolation: isolate;
+  }
+  @media (min-width: 641px) {
+    .scene-frame { max-width: 960px; aspect-ratio: 16 / 10; border-radius: 32px; }
+  }
+  .scene-frame picture { display: block; width: 100%; height: 100%; }
+  .scene-poster { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* the live picture lies on top of the poster and appears only when its first frame is ready */
+  .scene-canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+    opacity: 0; pointer-events: none;
+  }
+  .scene-frame.is-live .scene-canvas { opacity: 1; }
+
+  /* a push for the ball: one invisible button over the whole frame; vertical scrolling still works through it */
+  .scene-nudge {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    margin: 0; padding: 0; border: 0; border-radius: inherit;
+    background: transparent; cursor: pointer;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .scene-nudge:focus-visible { outline: 3px solid var(--accent, #1A5FE0); outline-offset: -6px; }
+  </style>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"كيفرو آبس","item":"https://kevroapps.com/ar/"},{"@type":"ListItem","position":2,"name":"التطبيقات","item":"https://kevroapps.com/ar/apps/"},{"@type":"ListItem","position":3,"name":"آيات للصغار","item":"https://kevroapps.com/ar/ayah-play/"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ar","mainEntity":[{"@type":"Question","name":"متى سيتوفر تطبيق آيات للصغار على Google Play؟","acceptedAnswer":{"@type":"Answer","text":"سيصدر قريبًا على Google Play، ولا يوجد موعد إصدار بعد."}},{"@type":"Question","name":"لمن صُمّم؟","acceptedAnswer":{"@type":"Answer","text":"لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا."}},{"@type":"Question","name":"هل يحتاج إلى اتصال بالإنترنت أو حساب؟ وهل يحتوي على إعلانات؟","acceptedAnswer":{"@type":"Answer","text":"لا. لا يتصل بالإنترنت، ولا يعرض إعلانات، ولا يحتاج إلى حساب، والإعدادات محمية بخطوة تحقّق للأهل."}},{"@type":"Question","name":"هل توجد نسخة للآيفون؟","acceptedAnswer":{"@type":"Answer","text":"ليس حاليًا. تطبيقات كيفرو آبس (Kevro Apps) لأجهزة أندرويد فقط. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."}}]}</script>
 </head>
@@ -89,6 +137,17 @@
         </aside>
       </div>
     </section>
+
+    <div class="scene-band">
+      <div class="wrap">
+        <figure class="scene-frame" data-scene="ayah-play" data-nudge-label="ادفعوا الكرة دفعة صغيرة.">
+          <picture>
+            <source media="(max-width: 640px)" srcset="/images/scenes/ayah-play-poster-portrait.webp" type="image/webp" width="800" height="1000">
+            <img class="scene-poster" src="/images/scenes/ayah-play-poster-landscape.webp" width="1280" height="800" alt="رسم توضيحي لكرة لعب بلون مرجاني وعليها شريط كريمي، تتدحرج على طريق متعرج فوق تلة خضراء فيها أشجار مستديرة." loading="lazy" decoding="async">
+          </picture>
+        </figure>
+      </div>
+    </div>
 
     <section class="section section-tint" aria-labelledby="faq-title">
       <div class="wrap">
@@ -150,6 +209,7 @@
       </div>
     </div>
   </footer>
+  <script src="/js/scene-loader.js" defer></script>
   <script src="/js/chat.js" defer></script>
   <script src="/js/theme.js" defer></script>
 </body>

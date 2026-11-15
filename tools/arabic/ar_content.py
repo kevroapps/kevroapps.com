@@ -297,6 +297,11 @@ section("Addendum: image descriptions (alt text) and small labels", [
     ("whatsapp", "Chat on WhatsApp", "تحدثوا معنا عبر واتساب"),
 ])
 
+section("Live scene on the Ayah Play page (screen reader lines only; approved by Chody 15 Nov 2026, locked in chody_ayah_scene_2026-11-15.json)", [
+    ("sc_alt", "An illustration of a coral toy ball with a cream band rolling along a winding path across a green hill with round trees.", "رسم توضيحي لكرة لعب بلون مرجاني وعليها شريط كريمي، تتدحرج على طريق متعرج فوق تلة خضراء فيها أشجار مستديرة."),
+    ("sc_nudge", "Give the ball a small push.", "ادفعوا الكرة دفعة صغيرة."),
+])
+
 A = {}
 for _title, _rows in SECTIONS:
     for _k, _en, _ar in _rows:
