@@ -388,3 +388,10 @@ test('unknown paths and methods are 404', async () => {
   assert.equal((await handle(new Request('https://x/nope', { method: 'POST', headers: { Origin: ORIGIN } }), baseEnv)).status, 404);
   assert.equal((await handle(new Request('https://x/chat', { method: 'GET', headers: { Origin: ORIGIN } }), baseEnv)).status, 404);
 });
+
+test('knowledge: says where the apps are, gives the iPhone line, and never says Android only or that an iPhone version is built or tested', () => {
+  assert.doesNotMatch(knowledge, /android only/i);
+  assert.match(knowledge, /the assistant says: Coming soon\./);
+  assert.match(knowledge, /gives no date and no details/);
+  assert.doesNotMatch(knowledge, /Not yet\. Today our apps|iphone version (is|will|has)|iphone[^.]*(is being (built|tested)|in testing)/i);
+});

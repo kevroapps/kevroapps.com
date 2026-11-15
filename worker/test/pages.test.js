@@ -34,12 +34,17 @@ test('app pages: copy rules (no dashes as punctuation, no emoji, no prices, no "
   }
 });
 
-test('app pages: status wording is right (closed testing, coming soon, Android only), and every page links onward', () => {
+test('app pages: status wording is right (closed testing, coming soon, on Google Play), and every page links onward', () => {
   assert.match(read('quraan-class/index.html'), /closed testing/i);
   assert.match(read('quraan-class/index.html'), /no public release date/i);
   assert.match(read('ayah-play/index.html'), /Coming to Google Play/);
   assert.doesNotMatch(read('ayah-play/index.html').split('<main')[1].split('</main>')[0], /20\d\d/, 'no dates on the Ayah Play page');
-  for (const file of Object.keys(PAGES)) assert.match(read(file), /Android only/, file);
+  // Say where the app is, not where it is not (Captain, 15 Nov 2026): no page uses "Android only" as a status any more.
+  for (const file of Object.keys(PAGES)) assert.doesNotMatch(read(file), /Android only/i, file + ' no Android only status');
+  assert.match(read('islamic-coloring/index.html'), /<span>On Google Play<\/span>/);
+  assert.match(read('ayah-play/index.html'), /<li>Coming to Google Play<\/li>/);
+  assert.match(read('quraan-class/index.html'), /<li>In closed testing on Google Play, no public release date yet<\/li>/);
+  assert.match(read('apps/index.html'), /Every app is on Google Play or on its way there\./);
   const apps = read('apps/index.html');
   for (const p of ['/islamic-coloring/', '/quraan-class/', '/ayah-play/']) assert.ok(apps.includes(`href="${p}"`), 'apps links to ' + p);
 });
@@ -171,4 +176,17 @@ test('sitemap: every URL is a real, indexable page; each English and Arabic pair
     assert.deepEqual(inMap, inPage, loc + ' alternates');
   }
   for (const f of ['thanks/index.html', 'ar/thanks/index.html']) assert.ok(!locs.includes('https://kevroapps.com/' + f.replace('index.html', '')), f + ' stays out');
+});
+
+test('the iPhone answer is "Coming soon" with no date and no detail, on the three app pages and in the page data (Captain, 15 Nov 2026)', () => {
+  const ANSWER = 'Coming soon. For questions about iPhone, write to';
+  for (const file of ['islamic-coloring/index.html', 'quraan-class/index.html', 'ayah-play/index.html']) {
+    const text = read(file);
+    assert.ok(text.includes('<p>' + ANSWER + ' <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>.</p>'), file + ' visible answer');
+    assert.ok(text.includes('"text":"' + ANSWER + ' support@kevroapps.com."'), file + ' structured data matches the visible answer');
+    assert.doesNotMatch(text, /Not at the moment/, file + ' old wording');
+    assert.doesNotMatch(text, /Not yet\. Today our apps/, file + ' superseded wording');
+    // "Coming soon" is the furthest it goes: no date, no store badge, nothing about what is being built or tested.
+    assert.doesNotMatch(text, /iPhone[^<.]*(is being (built|tested)|in testing|20\d\d|release date)|App Store|TestFlight/i, file + ' no date, badge or build detail');
+  }
 });
