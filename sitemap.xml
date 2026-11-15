@@ -1,79 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kevroapps.com/</loc>
-    <lastmod>2026-11-04</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/apps/</loc>
-    <lastmod>2026-11-07</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/about/</loc>
-    <lastmod>2026-11-04</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/services/</loc>
-    <lastmod>2026-11-04</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/contact/</loc>
-    <lastmod>2026-11-04</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/privacy/</loc>
-    <lastmod>2026-11-04</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/quraan-class/privacy/</loc>
-    <lastmod>2026-11-04</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/quraan-class/delete-account/</loc>
-    <lastmod>2026-11-04</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/ayah-play/privacy/</loc>
-    <lastmod>2026-11-04</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/islamic-coloring/</loc>
-    <lastmod>2026-11-07</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/quraan-class/</loc>
-    <lastmod>2026-11-07</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/ayah-play/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/"/>
   </url>
   <url>
     <loc>https://kevroapps.com/ar/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/"/>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/apps/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/apps/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/apps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/apps/"/>
   </url>
   <url>
     <loc>https://kevroapps.com/ar/apps/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/apps/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/apps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/apps/"/>
   </url>
   <url>
-    <loc>https://kevroapps.com/ar/islamic-coloring/</loc>
-    <lastmod>2026-11-07</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/ar/quraan-class/</loc>
-    <lastmod>2026-11-07</lastmod>
-  </url>
-  <url>
-    <loc>https://kevroapps.com/ar/ayah-play/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://kevroapps.com/about/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/about/"/>
   </url>
   <url>
     <loc>https://kevroapps.com/ar/about/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/about/"/>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/contact/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/contact/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/contact/"/>
   </url>
   <url>
     <loc>https://kevroapps.com/ar/contact/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/contact/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/contact/"/>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/privacy/</loc>
+    <lastmod>2026-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/quraan-class/privacy/</loc>
+    <lastmod>2026-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/quraan-class/delete-account/</loc>
+    <lastmod>2026-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/ayah-play/privacy/</loc>
+    <lastmod>2026-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/islamic-coloring/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/islamic-coloring/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/islamic-coloring/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/islamic-coloring/"/>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/ar/islamic-coloring/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/islamic-coloring/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/islamic-coloring/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/islamic-coloring/"/>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/quraan-class/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/quraan-class/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/quraan-class/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/quraan-class/"/>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/ar/quraan-class/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/quraan-class/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/quraan-class/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/quraan-class/"/>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/ayah-play/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/ayah-play/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/ayah-play/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/ayah-play/"/>
+  </url>
+  <url>
+    <loc>https://kevroapps.com/ar/ayah-play/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevroapps.com/ayah-play/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kevroapps.com/ar/ayah-play/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevroapps.com/ayah-play/"/>
   </url>
 </urlset>
