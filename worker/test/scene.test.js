@@ -251,12 +251,12 @@ test('spec numbers: ball, band, path, speed, cycle, nudge, camera, light budget'
   assert.equal(S.bandShare, 0.28);
   assert.equal(S.pathWidth, 1.8);
   assert.equal(S.sectionArc, 24);
-  assert.equal(S.speed, 0.5);
-  assert.equal(S.cycleSeconds, 48);
-  assert.equal(S.sectionArc / S.speed, S.cycleSeconds, 'one section every 48 seconds');
-  assert.deepEqual([S.nudgeSpeed, S.nudgeUp, S.nudgeDown], [0.65, 0.25, 1.5]);
+  assert.equal(S.speed, 0.8, 'Captain: 0.5 was too slow (15 Nov)');
+  assert.equal(S.cycleSeconds, 30);
+  assert.equal(S.sectionArc / S.speed, S.cycleSeconds, 'one section every 30 seconds');
+  assert.deepEqual([S.nudgeSpeed, S.nudgeUp, S.nudgeDown], [1.04, 0.25, 1.5]);
   assert.deepEqual([S.cameraDistance, S.cameraPitchDeg, S.fovPhone, S.fovDesktop, S.ballFromTop, S.shadowMap], [6, 20, 40, 32, 0.6, 1024]);
-  assert.equal(scene.POSTER_DISTANCE, 12 * 0.5, 'the poster is the pose after 12 seconds');
+  assert.equal(scene.POSTER_DISTANCE, 6, 'the poster is the pose 6 units along, as before');
   const src = read('js/scene/ayah-play-scene.js');
   assert.match(src, /advance\(POSTER_DISTANCE\)/, 'the live scene starts at the poster pose');
   assert.match(read('tools/scene/make-posters.mjs'), /setDistance\(m\.POSTER_DISTANCE\)/, 'and the poster is made by the same code');
@@ -279,18 +279,18 @@ test('the land: the centre line measures 24, and path, height and slope match at
   assert.ok(Math.abs(L.qAtArc(6) - L.qAtArc(-18) - L.period) < 1e-6, 'one section of travel is one section of ground');
 });
 
-test('nudge: smooth up to 0.65 in 0.25 s, back over 1.5 s, and no stacking', () => {
+test('nudge: smooth up to 1.04 in 0.25 s, back over 1.5 s, and no stacking', () => {
   const n = scene.createNudge();
-  assert.equal(n.speed(), 0.5);
+  assert.equal(n.speed(), 0.8);
   assert.equal(n.start(), true);
   assert.equal(n.start(), false, 'a second nudge during the first is refused');
-  let prev = 0.5, peak = 0;
+  let prev = 0.8, peak = 0;
   for (let t = 0; t < 0.25; t += 0.01) { n.update(0.01); assert.ok(n.speed() >= prev - 1e-9, 'rising'); prev = n.speed(); peak = Math.max(peak, prev); }
-  assert.ok(Math.abs(peak - 0.65) < 0.005, 'reaches 0.65 at 0.25 s: ' + peak);
+  assert.ok(Math.abs(peak - 1.04) < 0.005, 'reaches 1.04 at 0.25 s: ' + peak);
   for (let t = 0; t < 1.49; t += 0.01) { n.update(0.01); assert.ok(n.speed() <= prev + 1e-9, 'falling'); prev = n.speed(); assert.equal(n.start(), false, 'still refused'); }
   n.update(0.05);
   assert.equal(n.active, false);
-  assert.equal(n.speed(), 0.5);
+  assert.equal(n.speed(), 0.8);
   assert.equal(n.start(), true, 'accepted again once the first one is over');
 });
 

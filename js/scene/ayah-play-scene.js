@@ -24,10 +24,10 @@ export const SPEC = {
   bandShare: 0.28,          // of the ball's height
   pathWidth: 1.8,
   sectionArc: 24,           // units along the path centre line
-  cycleSeconds: 48,
-  speed: 0.5,               // units per second
-  nudgeSpeed: 0.65, nudgeUp: 0.25, nudgeDown: 1.5,
-  posterSeconds: 12,
+  cycleSeconds: 30,         // spec said 48 at 0.5 units per second; Captain found that too slow (15 Nov), now 0.8
+  speed: 0.8,               // units per second
+  nudgeSpeed: 1.04, nudgeUp: 0.25, nudgeDown: 1.5, // the same 30 percent lift as before
+  posterSeconds: 7.5,       // still the pose 6 units along, so the posters do not change
   cameraDistance: 6, cameraPitchDeg: 20,
   fovPhone: 40, fovDesktop: 32,
   ballFromTop: 0.6,
