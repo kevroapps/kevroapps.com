@@ -122,7 +122,7 @@ test('widget: two offers in a row never make two forms; the open form moves to t
 });
 
 test('widget: the form is prefilled with the real question, not with "yes pls"', async () => {
-  const w = loadWidget([plainAnswer('The studio is a small team in Doha. Shall I pass a question on?'), handoffAnswer('Done, a form will appear.')]);
+  const w = loadWidget([plainAnswer('The studio is a small team. Shall I pass a question on?'), handoffAnswer('Done, a form will appear.')]);
   await w.say('how old is the studio?');
   await w.say('yes pls');
   const question = w.forms()[0].find((n) => n.tag === 'textarea');

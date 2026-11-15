@@ -1,6 +1,6 @@
 # kevroapps.com
 
-Static site for **Kevro Apps** — an independent software studio in Doha. Hosted on
+Static site for **Kevro Apps** — an independent software studio. Hosted on
 GitHub Pages at the custom domain `kevroapps.com`.
 
 Plain HTML5 + CSS. No framework and no build step. The homepage carries a small
@@ -13,7 +13,7 @@ The site serves two related audiences:
 
 - **App users** — the homepage showcases *Islamic Coloring for Kids* (live on Google Play).
 - **Service clients** — small businesses buying websites, landing pages, and
-  automation. Covered by `/about/`, `/services/`, and `/contact/`.
+  automation. Covered by `/about/` and `/contact/` (the services page is removed for now).
 
 ## Brand rules
 
@@ -50,7 +50,6 @@ above governs Kevro Apps' own pages.
 │                       about, privacy strip
 ├── 404.html            Not-found page (GitHub Pages serves this automatically)
 ├── about/              Studio story and how-we-work values
-├── services/           Service tiers with starting prices, inclusions, payment terms
 ├── contact/            Contact form (Web3Forms) + direct contact details
 ├── thanks/             Post-submit confirmation, form redirects here
 ├── apps/               Product page for Islamic Coloring for Kids
@@ -58,7 +57,7 @@ above governs Kevro Apps' own pages.
 ├── tester/             Closed-test recruitment page (noindex)
 ├── demo/               Education-centre demo template for prospective clients
 ├── demo2/              Second client-facing demo
-├── ucmas/              UCMAS Doha client page
+├── ucmas/              UCMAS client page
 ├── css/
 │   ├── home.css        Main stylesheet — index, about, services, contact, thanks, 404
 │   └── styles.css      Older stylesheet — apps, privacy, tester
@@ -75,7 +74,7 @@ They stay reachable by direct link — nothing on the site links to them. `ucmas
 so, and any figure or review on them that is not independently sourced is marked as a
 placeholder. Keep it that way when editing them.
 
-Subpages use the folder-with-index pattern for clean URLs: `/about`, `/services`,
+Subpages use the folder-with-index pattern for clean URLs: `/about`,
 `/contact`, `/privacy`.
 
 `demo/`, `demo2/`, and `ucmas/` are self-contained with inline `<style>` blocks — they
@@ -86,7 +85,7 @@ do not depend on either stylesheet.
 `home.css` is linked with a query string (`/css/home.css?v=11`). **Bump that number in
 every page that links it whenever you edit `home.css`**, otherwise returning visitors
 keep the old cached stylesheet. Pages currently on `v=11`: `index.html`, `404.html`,
-`about/`, `apps/`, `services/`, `contact/`, `thanks/`.
+`about/`, `apps/`, `contact/`, `thanks/`.
 
 ## Local preview
 
@@ -150,8 +149,7 @@ domain for your GitHub Pages site" docs page has the current list.
 
 ## Updating content
 
-- **Service prices:** `services/index.html`. Prices are framed as starting points
-  ("from QAR 1,500"); keep that framing so quotes stay flexible.
+- **Services page:** removed on 15 Nov 2026, to be decided later. If it comes back, it comes back without prices (Captain).
 - **Privacy policy:** edit `privacy/index.html` directly.
 - **OG image:** `images/og-image.png`, 1200x630. Meta tags across the site already point at it.
 - **Testimonials:** the carousel in `index.html` clones cards for looping — add new
