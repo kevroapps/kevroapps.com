@@ -42,7 +42,7 @@ test('english pages link to their Arabic twin (language link and hreflang)', () 
     assert.ok(html.includes(`href="${ar}" class="nav-link lang-link"`), file + ' language link');
     assert.ok(html.includes(`hreflang="ar" href="https://kevroapps.com${ar}"`), file + ' hreflang ar');
   }
-  for (const f of ['privacy/index.html', 'tester/index.html', 'services/index.html']) assert.ok(read(f).includes('lang-link'), f);
+  for (const f of ['privacy/index.html', 'tester/index.html']) assert.ok(read(f).includes('lang-link'), f);
 });
 
 test('arabic pages: copy rules (no dashes as punctuation, no emoji, no prices)', () => {
@@ -96,13 +96,13 @@ const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic co
   h_reviews_note: 'a build note saying the parent reviews stay English-only; the Arabic home page now shows them in English with Arabic labels (Chody, 14 Nov 2026)' };
 
 // Superseded, not lost: Captain's both-stores rule (13 Nov) replaced the Android only status wording on 15 Nov 2026. The November 7 file keeps the old text as a record; the new Arabic is a draft until Chody approves it, then it gets its own lock file and these keys move there.
-const SUPERSEDED = { a_lead: 'Android only status replaced', i_a5: 'iPhone answer reworded', q_a6: 'iPhone answer reworded', p_a4: 'iPhone answer reworded', p_desc: 'Android only dropped from the description' };
+const SUPERSEDED = { a_lead: 'Android only status replaced', i_a5: 'iPhone answer reworded', q_a6: 'iPhone answer reworded', p_a4: 'iPhone answer reworded', p_desc: 'Android only dropped from the description', more_title: 'no location on the website (Captain, 15 Nov)', b_lead: 'no location on the website (Captain, 15 Nov)', c_lead: 'no location on the website (Captain, 15 Nov)' };
 
 test('only c_form_note and h_reviews_note are retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
   assert.deepEqual(Object.keys(RETIRED), ['c_form_note', 'h_reviews_note']);
   const corrections = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
   for (const k of Object.keys(RETIRED)) assert.ok(k in corrections, k + ' stays in the historical record');
-  assert.ok(corrections.c_lead && read('tools/arabic/ar_content.py').includes(JSON.stringify(corrections.c_lead)), 'c_lead stays protected');
+  assert.ok(corrections.c_lead, 'c_lead stays in the record (superseded on 15 Nov: no location on the website)');
 });
 
 test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
@@ -335,4 +335,15 @@ test("Chody's Google Play wording (15 Nov 2026) is in the Arabic text byte for b
     assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
   }
   assert.ok(read('ar/apps/index.html').includes('جميع تطبيقاتنا متاحة على'), 'the apps lead is on the page');
+});
+
+test("Chody's approval for removing the studio's location (15 Nov 2026) is in the Arabic text byte for byte", () => {
+  const lock = JSON.parse(read('tools/arabic/chody_no_location_2026-11-15.json'));
+  const source = read('tools/arabic/ar_content.py');
+  assert.deepEqual(Object.keys(lock).sort(), ['b_desc', 'b_lead', 'c_desc', 'c_lead', 'h_desc', 'more_title']);
+  for (const [key, arabic] of Object.entries(lock)) {
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
+    assert.doesNotMatch(arabic, /الدوحة|قطر/, key + ' names no place');
+  }
 });

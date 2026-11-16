@@ -688,10 +688,7 @@ def contact():
 
           <div class="panel plain">
             <h2 class="panel-title">{A["c_h2"]}</h2>
-            <p><a href="https://wa.me/97433204084" class="btn btn-secondary" target="_blank" rel="noopener">{A["whatsapp"]}</a></p>
-            <p><strong>{A["c_phone"]}</strong><br><a href="tel:+97433204084" dir="ltr">+974&nbsp;3320&nbsp;4084</a></p>
             <p><strong>{A["c_email"]}</strong><br><a href="mailto:support@kevroapps.com">support@kevroapps.com</a></p>
-            <p><strong>{A["c_loc"]}</strong><br>{A["c_loc_v"]}</p>
             <p><strong>{A["c_resp"]}</strong><br>{A["c_resp_v"]}</p>
           </div>
         </div>

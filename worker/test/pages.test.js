@@ -1,7 +1,7 @@
 // Checks on the app pages and the apps overview: structure, structured data, copy rules, sitemap.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 
@@ -62,7 +62,7 @@ test('header button: only where it matches the page (store on the coloring pages
   assert.match(headerButton('privacy/index.html'), /play\.google\.com.*Get the app/);
   assert.match(headerButton('quraan-class/index.html'), /href="\/tester\/".*Help us test it/);
   assert.match(headerButton('ayah-play/index.html'), /href="\/contact\/\?app=ayah-play".*Ask a question/);
-  for (const f of ['index.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'services/index.html', 'tester/index.html', 'thanks/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'ayah-play/privacy/index.html']) {
+  for (const f of ['index.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'tester/index.html', 'thanks/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'ayah-play/privacy/index.html']) {
     assert.equal(headerButton(f), null, f + ' has no download button in the header');
   }
 });
@@ -121,7 +121,7 @@ test('colors: white on the primary button is at least 4.5:1 at both ends of the 
 
 test('every page that carries the stylesheet asks for the same version (so the new header reaches visitors)', () => {
   const versions = new Set();
-  for (const f of ['index.html', '404.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'services/index.html', 'tester/index.html', 'thanks/index.html', 'privacy/index.html', 'islamic-coloring/index.html', 'quraan-class/index.html', 'ayah-play/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'ayah-play/privacy/index.html', 'ar/index.html', 'ar/thanks/index.html', 'ar/contact/index.html']) {
+  for (const f of ['index.html', '404.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'tester/index.html', 'thanks/index.html', 'privacy/index.html', 'islamic-coloring/index.html', 'quraan-class/index.html', 'ayah-play/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'ayah-play/privacy/index.html', 'ar/index.html', 'ar/thanks/index.html', 'ar/contact/index.html']) {
     const m = read(f).match(/css\/site\.css\?v=(\d+)/);
     assert.ok(m, f);
     versions.add(m[1]);
@@ -188,5 +188,37 @@ test('the iPhone answer is "Coming soon" with no date and no detail, on the thre
     assert.doesNotMatch(text, /Not yet\. Today our apps/, file + ' superseded wording');
     // "Coming soon" is the furthest it goes: no date, no store badge, nothing about what is being built or tested.
     assert.doesNotMatch(text, /iPhone[^<.]*(is being (built|tested)|in testing|20\d\d|release date)|App Store|TestFlight/i, file + ' no date, badge or build detail');
+  }
+});
+
+test('no location on the website: no page, manifest, assistant file or README says where the studio is (Captain, 15 Nov 2026)', () => {
+  // Left on purpose, and named: the Qatari data protection law the Qur'aan Class policy cites, and the client demos.
+  const ALLOWED = ["Qatar's Personal Data Privacy Protection Law", 'قانون حماية خصوصية البيانات الشخصية في قطر'];
+  const SKIP = new Set(['node_modules', '.git', 'demo', 'demo2', 'ucmas', 'docs']);
+  const files = [];
+  const walk = (dir) => {
+    for (const e of readdirSync(join(root, dir), { withFileTypes: true })) {
+      const rel = dir ? dir + '/' + e.name : e.name;
+      if (e.isDirectory()) { if (!SKIP.has(e.name)) walk(rel); }
+      else if (/\.(html|webmanifest|md)$/.test(e.name) || rel === 'worker/src/prompt.js' || rel === 'worker/src/knowledge.js') files.push(rel);
+    }
+  };
+  walk('');
+  assert.ok(files.length > 20, 'scanned the site');
+  for (const file of files) {
+    let text = read(file);
+    for (const ok of ALLOWED) text = text.split(ok).join('');
+    assert.doesNotMatch(text, /doha|qatar|الدوحة|قطر/i, file + ' names the location');
+  }
+});
+
+test('the services page is removed for now, and the contact pages carry no phone number or WhatsApp link (Captain, 15 Nov 2026)', () => {
+  assert.equal(existsSync(join(root, 'services/index.html')), false, 'no services page');
+  assert.ok(!read('sitemap.xml').includes('/services/'), 'not in the sitemap');
+  for (const f of ['index.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'ar/index.html', 'ar/about/index.html', 'ar/contact/index.html']) assert.doesNotMatch(read(f), /href="\/services|\/services\//, f + ' no link to services');
+  for (const f of ['contact/index.html', 'ar/contact/index.html']) {
+    const text = read(f);
+    assert.doesNotMatch(text, /tel:|wa\.me|\+974|3320/, f + ' no phone number or WhatsApp link');
+    assert.ok(text.includes('mailto:support@kevroapps.com'), f + ' email stays');
   }
 });
