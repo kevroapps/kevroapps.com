@@ -492,7 +492,7 @@ def quraan_class():
         <aside class="panel at-a-glance" aria-label="{esc(A["glance"])}">
           <h2 class="panel-title">{A["glance"]}</h2>
           <ul class="ticks tight">
-{li(["q_g1", "q_g2", "q_g3", "q_g4", "q_g5"])}          </ul>
+{li(["q_g2", "q_g3", "q_g4", "q_g5"])}          </ul>
         </aside>
       </div>
     </section>

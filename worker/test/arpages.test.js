@@ -66,7 +66,9 @@ test('arabic pages: the studio name appears in Arabic, with the Latin form in br
   for (const file of Object.keys(AR)) {
     const html = read(file);
     assert.ok(html.includes('كيفرو آبس'), file);
-    assert.ok(html.includes('(Kevro Apps)'), file + ' Latin first mention');
+    // Where the page says the studio's name in its visible text, the Latin form sits in brackets at the first mention. The three app pages no longer say it in the text (the iPhone answer was the only place, until 15 Nov 2026).
+    const copy = html.split('<body')[1].replace(/<script[\s\S]*?<\/script>/g, '').replace(/<header[\s\S]*?<\/header>/g, '').replace(/<footer[\s\S]*?<\/footer>/g, '').replace(/<p class="eyebrow">[\s\S]*?<\/p>/g, '');
+    if (copy.includes('كيفرو آبس')) assert.ok(html.includes('(Kevro Apps)'), file + ' Latin first mention');
   }
 });
 
@@ -93,6 +95,9 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
 const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form',
   h_reviews_note: 'a build note saying the parent reviews stay English-only; the Arabic home page now shows them in English with Arabic labels (Chody, 14 Nov 2026)' };
 
+// Superseded, not lost: Captain's both-stores rule (13 Nov) replaced the Android only status wording on 15 Nov 2026. The November 7 file keeps the old text as a record; the new Arabic is a draft until Chody approves it, then it gets its own lock file and these keys move there.
+const SUPERSEDED = { a_lead: 'Android only status replaced', i_a5: 'iPhone answer reworded', q_a6: 'iPhone answer reworded', p_a4: 'iPhone answer reworded', p_desc: 'Android only dropped from the description' };
+
 test('only c_form_note and h_reviews_note are retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
   assert.deepEqual(Object.keys(RETIRED), ['c_form_note', 'h_reviews_note']);
   const corrections = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
@@ -108,6 +113,7 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
   const withNames = (text) => text.replace('Ayah Play: Quran for Kids', 'آيات للصغار').replace('Islamic Coloring for Kids', 'تلوين إسلامي للأطفال').replace('Ayah Play', 'آيات للصغار');
   for (const [key, original] of Object.entries(corrections)) {
     if (key === 'b_p2') continue; // rewritten by Chody on 7 Nov evening, checked below
+    if (key in SUPERSEDED) continue; // checked by the Google Play wording test below
     if (key in RETIRED) {
       // Retired by name (not by a broad skip): no longer an active row, no longer on any page; the correction stays in the November 7 file.
       assert.ok(!source.split(/\r?\n/).some((l) => l.startsWith(`    (${JSON.stringify(key)}, `)), key + ' is no longer an active row');
@@ -309,4 +315,24 @@ test('the reviews carousel is its own script: the English home loads it and home
   const js = read('js/reviews.js');
   assert.match(js, /tc-ready'\)\) return;/, 'a cached older home.js that already built the carousel is not built twice');
   assert.ok(js.includes("'Show review'") && js.includes("'Pause reviews'") && js.includes("'Play reviews'"), 'English labels kept');
+});
+
+test('Google Play wording (iPhone answer is draft, awaits Chody): no Arabic page says Android only, and the iPhone answer is Coming soon', () => {
+  for (const file of Object.keys(AR)) assert.doesNotMatch(read(file), /لأجهزة أندرويد فقط/, file + ' no Android only');
+  const answer = 'قريبًا. وللاستفسار عن الآيفون، راسلونا على <bdi dir="ltr">support@kevroapps.com.</bdi>';
+  for (const file of ['ar/islamic-coloring/index.html', 'ar/quraan-class/index.html', 'ar/ayah-play/index.html']) {
+    assert.ok(read(file).includes(answer), file + ' iPhone answer');
+    assert.doesNotMatch(read(file), /ليس حاليًا/, file + ' old answer');
+  }
+});
+
+test("Chody's Google Play wording (15 Nov 2026) is in the Arabic text byte for byte, and the pages carry the apps lead", () => {
+  const lock = JSON.parse(read('tools/arabic/chody_google_play_2026-11-15.json'));
+  const source = read('tools/arabic/ar_content.py');
+  assert.deepEqual(Object.keys(lock).sort(), ['a_desc', 'a_lead', 'h_p', 'i_desc', 'i_f4', 'i_lead', 'p_desc', 'p_g1']);
+  for (const [key, arabic] of Object.entries(lock)) {
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
+  }
+  assert.ok(read('ar/apps/index.html').includes('جميع تطبيقاتنا متاحة على'), 'the apps lead is on the page');
 });

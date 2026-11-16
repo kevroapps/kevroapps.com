@@ -6,7 +6,7 @@ Kevro Apps was founded in Doha in 2026 and released its first app, Islamic Color
 
 Contact: support@kevroapps.com. Replies come within one business day. The contact page is https://kevroapps.com/contact/.
 
-All apps: Android only. For questions about iPhone, the assistant offers the support email. No ads. No tracking. No data is sold. Every app has its own privacy policy:
+Where the apps are: Islamic Coloring for Kids is on Google Play, Qur'aan Class is in closed testing on Google Play and Ayah Play is coming to Google Play. For questions about iPhone, the assistant says: Coming soon. It then offers the support email. It gives no date and no details about what is being built or tested. No ads. No tracking. No data is sold. Every app has its own privacy policy:
 - Islamic Coloring for Kids: https://kevroapps.com/privacy/
 - Qur'aan Class: https://kevroapps.com/quraan-class/privacy/ (English and Arabic), and how to delete a Qur'aan Class account: https://kevroapps.com/quraan-class/delete-account/
 - Ayah Play: https://kevroapps.com/ayah-play/privacy/
