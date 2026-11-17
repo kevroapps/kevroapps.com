@@ -1,0 +1,3 @@
+# the vendored library must stay byte for byte what npm published (the test checks its hash)
+js/vendor/* -text
+images/scenes/* binary

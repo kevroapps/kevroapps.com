@@ -1,0 +1,50 @@
+/* The live scene on the Ayah Play page (English and Arabic). Loaded only on those pages.
+   Chody's frame spec: 24px corners on phones, 32px on desktop, clipped edges, a 1px border, a calm
+   surface around it. The scene's own palette and exposure are the same in light and dark: the frame
+   reads as a softly lit window, with no glow and no heavy shadow. */
+.scene-band {
+  --scene-surface: #F7F5EF;
+  --scene-border: #DDDCD3;
+  background: var(--scene-surface);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .scene-band { --scene-surface: #182421; --scene-border: #3A4942; }
+}
+:root[data-theme="dark"] .scene-band { --scene-surface: #182421; --scene-border: #3A4942; }
+
+.scene-band .wrap { padding-top: clamp(28px, 5vw, 56px); padding-bottom: clamp(28px, 5vw, 56px); }
+
+.scene-frame {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--scene-border);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #D1D7D6;
+  isolation: isolate;
+}
+@media (min-width: 641px) {
+  .scene-frame { max-width: 960px; aspect-ratio: 16 / 10; border-radius: 32px; }
+}
+.scene-frame picture { display: block; width: 100%; height: 100%; }
+.scene-poster { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* the live picture lies on top of the poster and appears only when its first frame is ready */
+.scene-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  opacity: 0; pointer-events: none;
+}
+.scene-frame.is-live .scene-canvas { opacity: 1; }
+
+/* a push for the ball: one invisible button over the whole frame; vertical scrolling still works through it */
+.scene-nudge {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  margin: 0; padding: 0; border: 0; border-radius: inherit;
+  background: transparent; cursor: pointer;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+.scene-nudge:focus-visible { outline: 3px solid var(--accent, #1A5FE0); outline-offset: -6px; }

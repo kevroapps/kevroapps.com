@@ -52,7 +52,7 @@ def faq_ld(pairs):
             "mainEntity": [{"@type": "Question", "name": A[q], "acceptedAnswer": {"@type": "Answer", "text": A[a]}} for q, a in pairs]}
 
 
-def shell(path, en_path, title, desc, og_image, og_alt, main, jsonld=None, current="apps", cta=None, scripts="", noindex=False):
+def shell(path, en_path, title, desc, og_image, og_alt, main, jsonld=None, current="apps", cta=None, scripts="", noindex=False, extra_css=""):
     url = SITE + path
     ld = "".join('  <script type="application/ld+json">' + json.dumps(o, ensure_ascii=False, separators=(",", ":")) + "</script>\n" for o in (jsonld or []))
     cur = lambda k: ' aria-current="page"' if current == k else ""
@@ -101,7 +101,7 @@ def shell(path, en_path, title, desc, og_image, og_alt, main, jsonld=None, curre
   <script>try{{var t=localStorage.getItem("kevro-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}}catch(e){{}}</script>
   <link rel="stylesheet" href="/css/site.css?v={CSS_V}">
   <link rel="stylesheet" href="/css/ar.css?v={CSS_V}">
-{ld}</head>
+{extra_css}{ld}</head>
 <body>
   <a class="skip-link" href="#main">{A["skip"]}</a>
 
@@ -560,6 +560,33 @@ def quraan_class():
     return shell("/ar/quraan-class/", "/quraan-class/", A["q_title"], A["q_desc"], "/images/og-image.png", A["q_title"], main, ld, scripts=GALLERY_JS)
 
 
+def _scene_css():
+    """css/scene.css is the source; the pages carry it inline (one request fewer before first paint), without its opening comment."""
+    css = io.open("css/scene.css", encoding="utf-8").read().replace("\r\n", "\n")
+    body = re.sub(r"^/\*[\s\S]*?\*/\n", "", css, count=1).strip("\n")
+    return "  <style>\n" + "\n".join(("  " + l if l else l) for l in body.split("\n")) + "\n  </style>\n"
+
+
+SCENE_CSS = _scene_css()
+SCENE_JS = '  <script src="/js/scene-loader.js" defer></script>\n'
+
+
+def scene_band():
+    """The live scene frame on the Ayah Play page. Same markup and picture as the English page; only the two screen reader lines are Arabic."""
+    return f'''    <div class="scene-band">
+      <div class="wrap">
+        <figure class="scene-frame" data-scene="ayah-play" data-nudge-label="{esc(A["sc_nudge"])}">
+          <picture>
+            <source media="(max-width: 640px)" srcset="/images/scenes/ayah-play-poster-portrait.webp" type="image/webp" width="800" height="1000">
+            <img class="scene-poster" src="/images/scenes/ayah-play-poster-landscape.webp" width="1280" height="800" alt="{esc(A["sc_alt"])}" loading="lazy" decoding="async">
+          </picture>
+        </figure>
+      </div>
+    </div>
+
+'''
+
+
 def ayah_play():
     pairs = [(f"p_q{i}", f"p_a{i}") for i in range(1, 5)]
     main = f'''  <main id="main">
@@ -582,7 +609,7 @@ def ayah_play():
       </div>
     </section>
 
-    <section class="section section-tint" aria-labelledby="faq-title">
+{scene_band()}    <section class="section section-tint" aria-labelledby="faq-title">
       <div class="wrap">
         <h2 id="faq-title">{A["p_faq_h2"]}</h2>
 {faq(pairs)}      </div>
@@ -597,7 +624,7 @@ def ayah_play():
   </main>
 '''
     ld = [crumbs(AP_AR, "/ar/ayah-play/"), faq_ld(pairs)]
-    return shell("/ar/ayah-play/", "/ayah-play/", A["p_title"], A["p_desc"], "/images/og-image.png", A["p_title"], main, ld, cta="ask")
+    return shell("/ar/ayah-play/", "/ayah-play/", A["p_title"], A["p_desc"], "/images/og-image.png", A["p_title"], main, ld, cta="ask", scripts=SCENE_JS, extra_css=SCENE_CSS)
 
 
 def about():
