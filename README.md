@@ -55,6 +55,7 @@ above governs Kevro Apps' own pages.
 ├── apps/               Product page for Islamic Coloring for Kids
 ├── privacy/            Privacy policy for Islamic Coloring for Kids
 ├── tester/             Closed-test recruitment page (noindex)
+├── quraan-class/support/  Link page a teacher's message points to; opens the app (noindex)
 ├── demo/               Education-centre demo template for prospective clients
 ├── demo2/              Second client-facing demo
 ├── ucmas/              UCMAS client page
@@ -67,7 +68,7 @@ above governs Kevro Apps' own pages.
 └── README.md           This file
 ```
 
-`ucmas/`, `demo/`, `demo2/`, and `tester/` are kept out of search results: each carries
+`ucmas/`, `demo/`, `demo2/`, `tester/`, and `quraan-class/support/` are kept out of search results: each carries
 `<meta name="robots" content="noindex, nofollow">` and each is listed in `robots.txt`.
 They stay reachable by direct link — nothing on the site links to them. `ucmas/` and
 `demo2/` are speculative concepts for real businesses, so both open with a notice saying

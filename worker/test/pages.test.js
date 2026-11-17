@@ -121,7 +121,7 @@ test('colors: white on the primary button is at least 4.5:1 at both ends of the 
 
 test('every page that carries the stylesheet asks for the same version (so the new header reaches visitors)', () => {
   const versions = new Set();
-  for (const f of ['index.html', '404.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'tester/index.html', 'thanks/index.html', 'privacy/index.html', 'islamic-coloring/index.html', 'quraan-class/index.html', 'ayah-play/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'ayah-play/privacy/index.html', 'ar/index.html', 'ar/thanks/index.html', 'ar/contact/index.html']) {
+  for (const f of ['index.html', '404.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'tester/index.html', 'thanks/index.html', 'privacy/index.html', 'islamic-coloring/index.html', 'quraan-class/index.html', 'ayah-play/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'quraan-class/support/index.html', 'ayah-play/privacy/index.html', 'ar/index.html', 'ar/thanks/index.html', 'ar/contact/index.html']) {
     const m = read(f).match(/css\/site\.css\?v=(\d+)/);
     assert.ok(m, f);
     versions.add(m[1]);

@@ -3,6 +3,7 @@ Disallow: /ucmas/
 Disallow: /demo/
 Disallow: /demo2/
 Disallow: /tester/
+Disallow: /quraan-class/support/
 Disallow: /auth/
 Disallow: /kaaba-render.html
 Disallow: /kaaba-test.html
