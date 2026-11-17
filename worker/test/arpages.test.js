@@ -95,7 +95,7 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
 const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form',
   h_reviews_note: 'a build note saying the parent reviews stay English-only; the Arabic home page now shows them in English with Arabic labels (Chody, 14 Nov 2026)' };
 
-// Superseded, not lost: Captain's both-stores rule (13 Nov) replaced the Android only status wording on 15 Nov 2026. The November 7 file keeps the old text as a record; the new Arabic is a draft until Chody approves it, then it gets its own lock file and these keys move there.
+// Superseded, not lost: Captain's both-stores rule (13 Nov) replaced the Android only status wording on 15 Nov 2026. The November 7 file keeps the old text as a record; Chody approved the Google Play lines on 15 Nov (chody_google_play_2026-11-15.json) and read the iPhone answer on 17 Nov (chody_iphone_2026-11-17.json).
 const SUPERSEDED = { a_lead: 'Android only status replaced', i_a5: 'iPhone answer reworded', q_a6: 'iPhone answer reworded', p_a4: 'iPhone answer reworded', p_desc: 'Android only dropped from the description', more_title: 'no location on the website (Captain, 15 Nov)', b_lead: 'no location on the website (Captain, 15 Nov)', c_lead: 'no location on the website (Captain, 15 Nov)' };
 
 test('only c_form_note and h_reviews_note are retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
@@ -317,7 +317,7 @@ test('the reviews carousel is its own script: the English home loads it and home
   assert.ok(js.includes("'Show review'") && js.includes("'Pause reviews'") && js.includes("'Play reviews'"), 'English labels kept');
 });
 
-test('Google Play wording (iPhone answer is draft, awaits Chody): no Arabic page says Android only, and the iPhone answer is Coming soon', () => {
+test('Google Play wording: no Arabic page says Android only, and the iPhone answer is Coming soon', () => {
   for (const file of Object.keys(AR)) assert.doesNotMatch(read(file), /لأجهزة أندرويد فقط/, file + ' no Android only');
   const answer = 'قريبًا. وللاستفسار عن الآيفون، راسلونا على <bdi dir="ltr">support@kevroapps.com.</bdi>';
   for (const file of ['ar/islamic-coloring/index.html', 'ar/quraan-class/index.html', 'ar/ayah-play/index.html']) {
@@ -345,5 +345,16 @@ test("Chody's approval for removing the studio's location (15 Nov 2026) is in th
     const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
     assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
     assert.doesNotMatch(arabic, /الدوحة|قطر/, key + ' names no place');
+  }
+});
+
+test("Chody's read of the iPhone answer (live Arabic line, 17 Nov 2026) is in the Arabic text byte for byte on the three app pages", () => {
+  const lock = JSON.parse(read('tools/arabic/chody_iphone_2026-11-17.json'));
+  const source = read('tools/arabic/ar_content.py');
+  assert.deepEqual(Object.keys(lock).sort(), ['i_a5', 'p_a4', 'q_a6']);
+  for (const [key, arabic] of Object.entries(lock)) {
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
+    assert.doesNotMatch(arabic, /الدوحة|قطر|[0-9]/, key + ' names no place, date or number');
   }
 });
