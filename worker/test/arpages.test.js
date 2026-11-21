@@ -320,7 +320,7 @@ test('the reviews carousel is its own script: the English home loads it and home
 test('Google Play wording: no Arabic page says Android only, and the iPhone answer is Coming soon', () => {
   for (const file of Object.keys(AR)) assert.doesNotMatch(read(file), /لأجهزة أندرويد فقط/, file + ' no Android only');
   const answer = 'قريبًا. وللاستفسار عن الآيفون، راسلونا على <bdi dir="ltr">support@kevroapps.com.</bdi>';
-  for (const file of ['ar/islamic-coloring/index.html', 'ar/quraan-class/index.html', 'ar/ayah-play/index.html']) {
+  for (const file of ['ar/islamic-coloring/index.html', 'ar/ayah-play/index.html']) {
     assert.ok(read(file).includes(answer), file + ' iPhone answer');
     assert.doesNotMatch(read(file), /ليس حاليًا/, file + ' old answer');
   }
@@ -348,12 +348,18 @@ test("Chody's approval for removing the studio's location (15 Nov 2026) is in th
   }
 });
 
-test("Chody's read of the iPhone answer (live Arabic line, 17 Nov 2026) is in the Arabic text byte for byte on the three app pages", () => {
+test("Chody's read of the iPhone answer (live Arabic line, 17 Nov 2026) is in the Arabic text byte for byte on the two app pages that still carry it (Qur'aan Class dropped it on 21 Nov 2026)", () => {
   const lock = JSON.parse(read('tools/arabic/chody_iphone_2026-11-17.json'));
   const source = read('tools/arabic/ar_content.py');
   assert.deepEqual(Object.keys(lock).sort(), ['i_a5', 'p_a4', 'q_a6']);
   for (const [key, arabic] of Object.entries(lock)) {
     const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    if (key === 'q_a6') {
+      // Removed on purpose (Captain, 21 Nov 2026): no iPhone line on the Qur'aan Class page. The lock file stays as the record of what Chody read.
+      assert.ok(!row, 'q_a6 is no longer an active row');
+      assert.ok(!source.split(/\r?\n/).some((l) => l.startsWith('    ("q_q6", ')), 'q_q6 is no longer an active row');
+      continue;
+    }
     assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
     assert.doesNotMatch(arabic, /الدوحة|قطر|[0-9]/, key + ' names no place, date or number');
   }

@@ -193,8 +193,6 @@ section("Qur'aan Class page (/ar/quraan-class/)", [
     ("q_a4", "Recordings are kept for a set time, then removed. A child under 16 can record only once a parent has turned recordings on.", "تُحفظ التسجيلات مدة محددة ثم تُحذف. ولا يمكن لمن هم دون 16 عامًا تسجيل تلاوة إلا بعد أن يفعّل أحد الوالدين خاصية التسجيل."),
     ("q_q5", "What can students and parents see?", "ما الذي يمكن للطلبة والأهل الاطلاع عليه؟"),
     ("q_a5", "A student never sees fees or a parent's contact details. There are no ads and no tracking.", "لا تظهر للطلبة الرسوم أو بيانات تواصل أولياء الأمور. ولا توجد إعلانات ولا تتبّع."),
-    ("q_q6", "Is there an iPhone version?", "هل توجد نسخة للآيفون؟"),
-    ("q_a6", "Coming soon. For questions about iPhone, write to support@kevroapps.com.", "قريبًا. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."),
     ("q_more_ic", "A calm coloring and learning app for children. No ads, no subscription, works offline.", "تطبيق هادئ للتلوين والتعلّم للأطفال. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت."),
     ("q_more_ap", "A calm Qur'aan app for the youngest children, around ages two to five.", "تطبيق قرآني هادئ لأصغر الأطفال، من سن سنتين إلى خمس تقريبًا."),
 ])

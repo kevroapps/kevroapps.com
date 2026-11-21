@@ -468,7 +468,7 @@ def islamic_coloring():
 
 
 def quraan_class():
-    pairs = [(f"q_q{i}", f"q_a{i}") for i in range(1, 7)]
+    pairs = [(f"q_q{i}", f"q_a{i}") for i in range(1, 6)]
     A_local_q_a1 = A["q_a1"].replace(A["q_test_link"], '<a href="/tester/" lang="en" hreflang="en">' + A["q_test_link"] + '</a>')
     # the two links inside sentences keep their position by splitting on the link texts
     test_p = A["q_test_p"].replace(A["q_test_link"], f'<a href="/tester/" lang="en" hreflang="en">{A["q_test_link"]}</a>')

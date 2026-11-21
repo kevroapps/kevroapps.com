@@ -178,9 +178,20 @@ test('sitemap: every URL is a real, indexable page; each English and Arabic pair
   for (const f of ['thanks/index.html', 'ar/thanks/index.html']) assert.ok(!locs.includes('https://kevroapps.com/' + f.replace('index.html', '')), f + ' stays out');
 });
 
-test('the iPhone answer is "Coming soon" with no date and no detail, on the three app pages and in the page data (Captain, 15 Nov 2026)', () => {
+test('Qur\'aan Class page: no iPhone line at all, in the text or the page data, English and Arabic (Captain, 21 Nov 2026)', () => {
+  for (const file of ['quraan-class/index.html', 'ar/quraan-class/index.html']) {
+    const text = read(file);
+    assert.doesNotMatch(text, /iPhone|iPad|iOS|App Store|TestFlight|آيفون|الآيفون/, file + ' says nothing about iPhone');
+    assert.doesNotMatch(text, /Coming soon|قريبًا\. وللاستفسار/, file + ' no coming soon line');
+    const [faq] = [...text.matchAll(/<script type="application\/ld\+json">(\{"@context":"https:\/\/schema\.org","@type":"FAQPage".*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
+    assert.equal(faq.mainEntity.length, 5, file + ' five questions in the page data');
+    assert.equal((text.match(/<details>/g) || []).length, 5, file + ' five questions on the page');
+  }
+});
+
+test('the iPhone answer is "Coming soon" with no date and no detail, on the Islamic Coloring and Ayah Play pages and in the page data (Captain, 15 Nov 2026; not on Qur\'aan Class since 21 Nov)', () => {
   const ANSWER = 'Coming soon. For questions about iPhone, write to';
-  for (const file of ['islamic-coloring/index.html', 'quraan-class/index.html', 'ayah-play/index.html']) {
+  for (const file of ['islamic-coloring/index.html', 'ayah-play/index.html']) {
     const text = read(file);
     assert.ok(text.includes('<p>' + ANSWER + ' <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>.</p>'), file + ' visible answer');
     assert.ok(text.includes('"text":"' + ANSWER + ' support@kevroapps.com."'), file + ' structured data matches the visible answer');
