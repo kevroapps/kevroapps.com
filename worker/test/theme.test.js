@@ -70,7 +70,7 @@ test('theme: blocked storage never breaks the button, and a page without a heade
 
 test('theme: every page that uses the stylesheet sets the saved theme before it paints and loads the button', () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
-  for (const f of ['index.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'privacy/index.html', 'services/index.html', 'tester/index.html', 'thanks/index.html', '404.html']) {
+  for (const f of ['index.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'privacy/index.html', 'tester/index.html', 'thanks/index.html', '404.html']) {
     const html = readFileSync(join(root, f), 'utf8');
     assert.ok(html.includes('localStorage.getItem("kevro-theme")'), f + ' early script');
     assert.ok(html.indexOf('localStorage.getItem("kevro-theme")') < html.indexOf('/css/site.css'), f + ' runs before the stylesheet');

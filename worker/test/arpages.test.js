@@ -19,6 +19,7 @@ const AR = {
 // In headings the Latin app name sits in its own line under the Arabic name (<span class="app-latin">). Strip that wrapper to
 // check the words and the brackets exactly as before.
 const plain = (html) => html.replace(/<span class="app-latin" dir="ltr">([\s\S]*?)<\/span>/g, '$1').replace(/<span class="h-note">([\s\S]*?)<\/span>/g, '$1');
+const css = (f) => read(f);
 const bodyText = (html) => html.split('<body')[1].replace(/<script[\s\S]*?<\/script>/g, '').replace(/<bdi dir="ltr">[\s\S]*?<\/bdi>/g, ' ').replace(/<[^>]+>/g, ' ');
 
 test('arabic pages: right to left, language, canonical, both hreflang directions, one h1, valid structured data', () => {
@@ -41,7 +42,7 @@ test('english pages link to their Arabic twin (language link and hreflang)', () 
     assert.ok(html.includes(`href="${ar}" class="nav-link lang-link"`), file + ' language link');
     assert.ok(html.includes(`hreflang="ar" href="https://kevroapps.com${ar}"`), file + ' hreflang ar');
   }
-  for (const f of ['privacy/index.html', 'tester/index.html', 'services/index.html']) assert.ok(read(f).includes('lang-link'), f);
+  for (const f of ['privacy/index.html', 'tester/index.html']) assert.ok(read(f).includes('lang-link'), f);
 });
 
 test('arabic pages: copy rules (no dashes as punctuation, no emoji, no prices)', () => {
@@ -65,7 +66,9 @@ test('arabic pages: the studio name appears in Arabic, with the Latin form in br
   for (const file of Object.keys(AR)) {
     const html = read(file);
     assert.ok(html.includes('كيفرو آبس'), file);
-    assert.ok(html.includes('(Kevro Apps)'), file + ' Latin first mention');
+    // Where the page says the studio's name in its visible text, the Latin form sits in brackets at the first mention. The three app pages no longer say it in the text (the iPhone answer was the only place, until 15 Nov 2026).
+    const copy = html.split('<body')[1].replace(/<script[\s\S]*?<\/script>/g, '').replace(/<header[\s\S]*?<\/header>/g, '').replace(/<footer[\s\S]*?<\/footer>/g, '').replace(/<p class="eyebrow">[\s\S]*?<\/p>/g, '');
+    if (copy.includes('كيفرو آبس')) assert.ok(html.includes('(Kevro Apps)'), file + ' Latin first mention');
   }
 });
 
@@ -89,13 +92,17 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
 });
 
 // Retired on purpose, one key, with the reason (Chody's review, 14 Nov 2026): it described the old contact page, which had email and phone only.
-const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form' };
+const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form',
+  h_reviews_note: 'a build note saying the parent reviews stay English-only; the Arabic home page now shows them in English with Arabic labels (Chody, 14 Nov 2026)' };
 
-test('only c_form_note is retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
-  assert.deepEqual(Object.keys(RETIRED), ['c_form_note']);
+// Superseded, not lost: Captain's both-stores rule (13 Nov) replaced the Android only status wording on 15 Nov 2026. The November 7 file keeps the old text as a record; Chody approved the Google Play lines on 15 Nov (chody_google_play_2026-11-15.json) and read the iPhone answer on 17 Nov (chody_iphone_2026-11-17.json).
+const SUPERSEDED = { a_lead: 'Android only status replaced', i_a5: 'iPhone answer reworded', q_a6: 'iPhone answer reworded', p_a4: 'iPhone answer reworded', p_desc: 'Android only dropped from the description', more_title: 'no location on the website (Captain, 15 Nov)', b_lead: 'no location on the website (Captain, 15 Nov)', c_lead: 'no location on the website (Captain, 15 Nov)' };
+
+test('only c_form_note and h_reviews_note are retired from the 74 corrections (named, with a reason), nothing else is skipped', () => {
+  assert.deepEqual(Object.keys(RETIRED), ['c_form_note', 'h_reviews_note']);
   const corrections = JSON.parse(read('tools/arabic/chody_corrections_2026-11-07.json'));
-  assert.ok('c_form_note' in corrections, 'the historical record keeps it');
-  assert.ok(corrections.c_lead && read('tools/arabic/ar_content.py').includes(JSON.stringify(corrections.c_lead)), 'c_lead stays protected');
+  for (const k of Object.keys(RETIRED)) assert.ok(k in corrections, k + ' stays in the historical record');
+  assert.ok(corrections.c_lead, 'c_lead stays in the record (superseded on 15 Nov: no location on the website)');
 });
 
 test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
@@ -106,10 +113,11 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
   const withNames = (text) => text.replace('Ayah Play: Quran for Kids', 'آيات للصغار').replace('Islamic Coloring for Kids', 'تلوين إسلامي للأطفال').replace('Ayah Play', 'آيات للصغار');
   for (const [key, original] of Object.entries(corrections)) {
     if (key === 'b_p2') continue; // rewritten by Chody on 7 Nov evening, checked below
+    if (key in SUPERSEDED) continue; // checked by the Google Play wording test below
     if (key in RETIRED) {
       // Retired by name (not by a broad skip): no longer an active row, no longer on any page; the correction stays in the November 7 file.
       assert.ok(!source.split(/\r?\n/).some((l) => l.startsWith(`    (${JSON.stringify(key)}, `)), key + ' is no longer an active row');
-      assert.ok(!read('ar/contact/index.html').includes(original), key + ' is not on the page');
+      for (const f of Object.keys(AR)) assert.ok(!read(f).includes(original), key + ' is not on ' + f);
       continue;
     }
     let arabic = withNames(original);
@@ -267,4 +275,86 @@ test('arabic contact page: plain Arabic names in the app list, the real values a
 test('sitemap lists every Arabic page', () => {
   const map = read('sitemap.xml');
   for (const [, [ar]] of Object.entries(AR)) assert.ok(map.includes(`<loc>https://kevroapps.com${ar}</loc>`), ar);
+});
+
+// ---- Parent reviews on the Arabic home page (DRAFT labels, awaiting Chody) ----
+test('Arabic home reviews: the seven English reviews are word for word the English home page\'s, marked English; labels come from the source', () => {
+  const quotes = (html) => [...html.replace(/\r\n/g, '\n').matchAll(/<figure class="quote-card">[\s\S]*?<\/figure>/g)].map((m) => m[0]);
+  const en = quotes(read('index.html'));
+  const ar = quotes(read('ar/index.html'));
+  assert.equal(en.length, 7);
+  assert.deepEqual(ar, en, 'not translated, not edited');
+  const html = read('ar/index.html');
+  assert.match(html, /<div class="tcarousel" id="tcarousel" dir="ltr">/);
+  assert.match(html, /<div class="tc-track" lang="en">/);
+  const source = read('tools/arabic/ar_content.py');
+  const LOCK = JSON.parse(read('tools/arabic/chody_home_reviews_2026-11-14.json'));
+  assert.deepEqual(Object.keys(LOCK), ['rv_eyebrow', 'rv_h2', 'rv_note', 'rv_prev', 'rv_next', 'rv_choose', 'rv_pause', 'rv_play', 'rv_show']);
+  assert.equal(LOCK.rv_pause, 'إيقاف العرض مؤقتًا');
+  const label = (key) => JSON.parse(source.split(/\r?\n/).find((l) => l.startsWith(`    ("${key}", `)).match(/, ("[^"]*")\),$/)[1]);
+  for (const k of ['rv_eyebrow', 'rv_h2', 'rv_note', 'rv_prev', 'rv_next', 'rv_choose', 'rv_pause']) assert.ok(html.replace(/<\/?bdi[^>]*>/g, '').includes(label(k)), k + ' is on the page');
+  for (const k of Object.keys(LOCK)) assert.equal(label(k), LOCK[k], k + ' matches the approved text byte for byte');
+  // the carousel runs left to right: the left arrow goes back (السابقة), the right arrow goes forward (التالية)
+  const arrows = [...html.matchAll(/<button class="tc-arrow" type="button" data-dir="(-?1)" aria-label="([^"]+)">/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(arrows, [['-1', LOCK.rv_prev], ['1', LOCK.rv_next]]);
+  assert.match(css('css/site.css'), /\.tc-arrow\[data-dir="-1"\] \{ left: -10px; \}/);
+  assert.match(css('css/site.css'), /\.tc-arrow\[data-dir="1"\]  \{ right: -10px; \}/);
+  assert.ok(!source.includes('h_reviews_note'));
+  // the three labels the script sets are the source's
+  const js = read('js/reviews.js');
+  for (const k of ['rv_show', 'rv_play', 'rv_pause']) assert.ok(js.includes(label(k)), k + ' in js/reviews.js');
+  assert.ok(html.includes('src="/js/reviews.js"'));
+  assert.doesNotMatch(html, /Pause reviews|Next review|Previous review/, 'no English labels around the Arabic carousel');
+  // Arabic punctuation rules for the new lines: no dashes, no emoji, no digits
+  for (const k of ['rv_eyebrow', 'rv_h2', 'rv_note', 'rv_prev', 'rv_next', 'rv_choose', 'rv_pause', 'rv_play', 'rv_show']) assert.doesNotMatch(label(k), /[–—‒]|\p{Extended_Pictographic}|\d/u, k);
+});
+
+test('the reviews carousel is its own script: the English home loads it and home.js no longer builds it', () => {
+  assert.ok(read('index.html').includes('src="/js/reviews.js"'));
+  assert.doesNotMatch(read('js/home.js'), /tcarousel/);
+  const js = read('js/reviews.js');
+  assert.match(js, /tc-ready'\)\) return;/, 'a cached older home.js that already built the carousel is not built twice');
+  assert.ok(js.includes("'Show review'") && js.includes("'Pause reviews'") && js.includes("'Play reviews'"), 'English labels kept');
+});
+
+test('Google Play wording: no Arabic page says Android only, and the iPhone answer is Coming soon', () => {
+  for (const file of Object.keys(AR)) assert.doesNotMatch(read(file), /لأجهزة أندرويد فقط/, file + ' no Android only');
+  const answer = 'قريبًا. وللاستفسار عن الآيفون، راسلونا على <bdi dir="ltr">support@kevroapps.com.</bdi>';
+  for (const file of ['ar/islamic-coloring/index.html', 'ar/quraan-class/index.html', 'ar/ayah-play/index.html']) {
+    assert.ok(read(file).includes(answer), file + ' iPhone answer');
+    assert.doesNotMatch(read(file), /ليس حاليًا/, file + ' old answer');
+  }
+});
+
+test("Chody's Google Play wording (15 Nov 2026) is in the Arabic text byte for byte, and the pages carry the apps lead", () => {
+  const lock = JSON.parse(read('tools/arabic/chody_google_play_2026-11-15.json'));
+  const source = read('tools/arabic/ar_content.py');
+  assert.deepEqual(Object.keys(lock).sort(), ['a_desc', 'a_lead', 'h_p', 'i_desc', 'i_f4', 'i_lead', 'p_desc', 'p_g1']);
+  for (const [key, arabic] of Object.entries(lock)) {
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
+  }
+  assert.ok(read('ar/apps/index.html').includes('جميع تطبيقاتنا متاحة على'), 'the apps lead is on the page');
+});
+
+test("Chody's approval for removing the studio's location (15 Nov 2026) is in the Arabic text byte for byte", () => {
+  const lock = JSON.parse(read('tools/arabic/chody_no_location_2026-11-15.json'));
+  const source = read('tools/arabic/ar_content.py');
+  assert.deepEqual(Object.keys(lock).sort(), ['b_desc', 'b_lead', 'c_desc', 'c_lead', 'h_desc', 'more_title']);
+  for (const [key, arabic] of Object.entries(lock)) {
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
+    assert.doesNotMatch(arabic, /الدوحة|قطر/, key + ' names no place');
+  }
+});
+
+test("Chody's read of the iPhone answer (live Arabic line, 17 Nov 2026) is in the Arabic text byte for byte on the three app pages", () => {
+  const lock = JSON.parse(read('tools/arabic/chody_iphone_2026-11-17.json'));
+  const source = read('tools/arabic/ar_content.py');
+  assert.deepEqual(Object.keys(lock).sort(), ['i_a5', 'p_a4', 'q_a6']);
+  for (const [key, arabic] of Object.entries(lock)) {
+    const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
+    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
+    assert.doesNotMatch(arabic, /الدوحة|قطر|[0-9]/, key + ' names no place, date or number');
+  }
 });

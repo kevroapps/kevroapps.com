@@ -1,12 +1,14 @@
 # Kevro Apps (the studio)
 
-Kevro Apps is a small independent software studio in Doha, Qatar. It makes calm, family-friendly Islamic apps for Android. There are three apps: Islamic Coloring for Kids (on Google Play), Qur'aan Class (in closed testing on Google Play) and Ayah Play (coming to Google Play).
+Kevro Apps is a small independent software studio. It makes calm, family-friendly Islamic apps for Android. There are three apps: Islamic Coloring for Kids (on Google Play), Qur'aan Class (in closed testing on Google Play) and Ayah Play (coming to Google Play).
 
-Kevro Apps was founded in Doha in 2026 and released its first app, Islamic Coloring for Kids, on Google Play in June 2026.
+Kevro Apps was founded in 2026 and released its first app, Islamic Coloring for Kids, on Google Play in June 2026.
+
+The studio does not give its location on the website. If someone asks where it is based, the assistant says it does not share that, and offers the support email.
 
 Contact: support@kevroapps.com. Replies come within one business day. The contact page is https://kevroapps.com/contact/.
 
-All apps: Android only. For questions about iPhone, the assistant offers the support email. No ads. No tracking. No data is sold. Every app has its own privacy policy:
+Where the apps are: Islamic Coloring for Kids is on Google Play, Qur'aan Class is in closed testing on Google Play and Ayah Play is coming to Google Play. For questions about iPhone, the assistant says: Coming soon. It then offers the support email. It gives no date and no details about what is being built or tested. No ads. No tracking. No data is sold. Every app has its own privacy policy:
 - Islamic Coloring for Kids: https://kevroapps.com/privacy/
 - Qur'aan Class: https://kevroapps.com/quraan-class/privacy/ (English and Arabic), and how to delete a Qur'aan Class account: https://kevroapps.com/quraan-class/delete-account/
 - Ayah Play: https://kevroapps.com/ayah-play/privacy/

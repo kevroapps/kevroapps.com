@@ -16,6 +16,7 @@ LTR = lambda s: f'<span class="ltr">{s}</span>'
 # A quiet "(بالإنجليزية)" inside a link that opens an English-only page, so the link's own name carries it (Chody, 14 Nov 2026).
 DEST = f'<span class="dest-note">({A["dest_en"]})</span>'
 GALLERY_JS = '  <script src="/js/gallery.js" defer></script>\n'
+REVIEWS_JS = '  <script src="/js/reviews.js" defer></script>\n'
 CONTACT_JS = '  <script src="/js/contact.js" defer></script>\n'
 
 
@@ -151,6 +152,19 @@ def crumbs(name_key, path):
         {"@type": "ListItem", "position": 3, "name": A[name_key] if name_key in A else name_key, "item": SITE + path}]}
 
 
+def crumbs2(label_key, path):
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": A["brand"], "item": SITE + "/ar/"},
+        {"@type": "ListItem", "position": 2, "name": A[label_key], "item": SITE + path}]}
+
+
+def home_ld():
+    org = {"@type": "Organization", "@id": SITE + "/#organization", "name": A["brand"], "alternateName": "Kevro Apps", "url": SITE + "/ar/",
+           "logo": SITE + "/images/android-chrome-512.png", "email": "support@kevroapps.com"}
+    site = {"@type": "WebSite", "@id": SITE + "/ar/#website", "url": SITE + "/ar/", "name": A["brand"], "inLanguage": "ar", "publisher": {"@id": SITE + "/#organization"}}
+    return {"@context": "https://schema.org", "@graph": [org, site]}
+
+
 def crumb_nav(name):
     return f'''    <nav class="crumbs wrap" aria-label="{esc(A["crumb_label"])}">
       <a href="/ar/apps/">{A["crumb_apps"]}</a><span aria-hidden="true">/</span><span aria-current="page">{name}</span>
@@ -174,6 +188,41 @@ QC_NAME = 'حلقة القرآن'
 QC_H3 = f'<span lang="ar">{QC_NAME}</span>'
 
 # ------------------------------------------------------------------ pages
+def reviews_section():
+    """The parent reviews, copied word for word from the English home page (real Google Play reviews: never translated), with Arabic headings and labels.
+    The carousel itself stays left to right so the English text and the slide direction agree; the heading and the labels are right to left."""
+    english = io.open("index.html", encoding="utf-8").read()
+    cards = re.findall(r'              <figure class="quote-card">.*?</figure>\n', english, re.S)
+    assert len(cards) == 7, len(cards)
+    arrow = lambda d, key, path: (f'          <button class="tc-arrow" type="button" data-dir="{d}" aria-label="{esc(A[key])}">\n'
+                                  f'            <svg viewBox="0 0 24 40" fill="none" aria-hidden="true"><path d="{path}" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>\n'
+                                  '          </button>\n')
+    return f'''    <section class="testimonials" aria-labelledby="testimonials-heading">
+      <div class="wrap">
+        <div class="section-intro tc-head">
+          <div>
+            <p class="eyebrow">{A["rv_eyebrow"]}</p>
+            <h2 id="testimonials-heading">{A["rv_h2"]}</h2>
+            <p class="section-sub">{A["rv_note"]}</p>
+          </div>
+        </div>
+
+        <div class="tcarousel" id="tcarousel" dir="ltr">
+{arrow(-1, "rv_prev", "M17 5 L7 20 L17 35")}{arrow(1, "rv_next", "M7 5 L17 20 L7 35")}          <div class="tc-viewport">
+            <div class="tc-track" lang="en">
+{"".join(cards)}            </div>
+          </div>
+          <div class="tc-controls">
+            <div class="tc-dots" id="tc-dots" role="group" aria-label="{esc(A["rv_choose"])}"></div>
+            <button class="motion-toggle" id="tc-pause" type="button" dir="rtl" hidden>{A["rv_pause"]}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+'''
+
+
 def home():
     main = f'''  <main id="main">
     <section id="top" class="hero">
@@ -240,7 +289,7 @@ def home():
       </div>
     </section>
 
-    <section class="section" id="about">
+{reviews_section()}    <section class="section" id="about">
       <div class="wrap">
         <p class="eyebrow">{A["h_about_eyebrow"]}</p>
         <h2>{A["h_about_h2"]}</h2>
@@ -276,7 +325,7 @@ def home():
     </section>
   </main>
 '''
-    return shell("/ar/", "/", A["h_title"], A["h_desc"], "/images/og-image.png", A["h_title"], main, [], current="")
+    return shell("/ar/", "/", A["h_title"], A["h_desc"], "/images/og-image.png", A["h_title"], main, [home_ld()], current="", scripts=REVIEWS_JS)
 
 
 def apps():
@@ -443,7 +492,7 @@ def quraan_class():
         <aside class="panel at-a-glance" aria-label="{esc(A["glance"])}">
           <h2 class="panel-title">{A["glance"]}</h2>
           <ul class="ticks tight">
-{li(["q_g1", "q_g2", "q_g3", "q_g4", "q_g5"])}          </ul>
+{li(["q_g2", "q_g3", "q_g4", "q_g5"])}          </ul>
         </aside>
       </div>
     </section>
@@ -581,7 +630,7 @@ def about():
     </section>
   </main>
 '''
-    return shell("/ar/about/", "/about/", A["b_title"], A["b_desc"], "/images/og-image.png", A["b_title"], main, [], current="about")
+    return shell("/ar/about/", "/about/", A["b_title"], A["b_desc"], "/images/og-image.png", A["b_title"], main, [crumbs2("nav_about", "/ar/about/")], current="about")
 
 
 def contact():
@@ -639,10 +688,7 @@ def contact():
 
           <div class="panel plain">
             <h2 class="panel-title">{A["c_h2"]}</h2>
-            <p><a href="https://wa.me/97433204084" class="btn btn-secondary" target="_blank" rel="noopener">{A["whatsapp"]}</a></p>
-            <p><strong>{A["c_phone"]}</strong><br><a href="tel:+97433204084" dir="ltr">+974&nbsp;3320&nbsp;4084</a></p>
             <p><strong>{A["c_email"]}</strong><br><a href="mailto:support@kevroapps.com">support@kevroapps.com</a></p>
-            <p><strong>{A["c_loc"]}</strong><br>{A["c_loc_v"]}</p>
             <p><strong>{A["c_resp"]}</strong><br>{A["c_resp_v"]}</p>
           </div>
         </div>
@@ -650,7 +696,7 @@ def contact():
     </section>
   </main>
 '''
-    return shell("/ar/contact/", "/contact/", A["c_title"], A["c_desc"], "/images/og-image.png", A["c_title"], main, [], current="contact", scripts=CONTACT_JS)
+    return shell("/ar/contact/", "/contact/", A["c_title"], A["c_desc"], "/images/og-image.png", A["c_title"], main, [crumbs2("nav_contact", "/ar/contact/")], current="contact", scripts=CONTACT_JS)
 
 
 def thanks():

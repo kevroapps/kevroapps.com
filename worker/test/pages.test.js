@@ -1,7 +1,7 @@
 // Checks on the app pages and the apps overview: structure, structured data, copy rules, sitemap.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 
@@ -34,12 +34,17 @@ test('app pages: copy rules (no dashes as punctuation, no emoji, no prices, no "
   }
 });
 
-test('app pages: status wording is right (closed testing, coming soon, Android only), and every page links onward', () => {
+test('app pages: status wording is right (closed testing, coming soon, on Google Play), and every page links onward', () => {
   assert.match(read('quraan-class/index.html'), /closed testing/i);
   assert.match(read('quraan-class/index.html'), /no public release date/i);
   assert.match(read('ayah-play/index.html'), /Coming to Google Play/);
   assert.doesNotMatch(read('ayah-play/index.html').split('<main')[1].split('</main>')[0], /20\d\d/, 'no dates on the Ayah Play page');
-  for (const file of Object.keys(PAGES)) assert.match(read(file), /Android only/, file);
+  // Say where the app is, not where it is not (Captain, 15 Nov 2026): no page uses "Android only" as a status any more.
+  for (const file of Object.keys(PAGES)) assert.doesNotMatch(read(file), /Android only/i, file + ' no Android only status');
+  assert.match(read('islamic-coloring/index.html'), /<span>On Google Play<\/span>/);
+  assert.match(read('ayah-play/index.html'), /<li>Coming to Google Play<\/li>/);
+  assert.match(read('quraan-class/index.html'), /<li>In closed testing on Google Play, no public release date yet<\/li>/);
+  assert.match(read('apps/index.html'), /Every app is on Google Play or on its way there\./);
   const apps = read('apps/index.html');
   for (const p of ['/islamic-coloring/', '/quraan-class/', '/ayah-play/']) assert.ok(apps.includes(`href="${p}"`), 'apps links to ' + p);
 });
@@ -57,7 +62,7 @@ test('header button: only where it matches the page (store on the coloring pages
   assert.match(headerButton('privacy/index.html'), /play\.google\.com.*Get the app/);
   assert.match(headerButton('quraan-class/index.html'), /href="\/tester\/".*Help us test it/);
   assert.match(headerButton('ayah-play/index.html'), /href="\/contact\/\?app=ayah-play".*Ask a question/);
-  for (const f of ['index.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'services/index.html', 'tester/index.html', 'thanks/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'ayah-play/privacy/index.html']) {
+  for (const f of ['index.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'tester/index.html', 'thanks/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'ayah-play/privacy/index.html']) {
     assert.equal(headerButton(f), null, f + ' has no download button in the header');
   }
 });
@@ -116,7 +121,7 @@ test('colors: white on the primary button is at least 4.5:1 at both ends of the 
 
 test('every page that carries the stylesheet asks for the same version (so the new header reaches visitors)', () => {
   const versions = new Set();
-  for (const f of ['index.html', '404.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'services/index.html', 'tester/index.html', 'thanks/index.html', 'privacy/index.html', 'islamic-coloring/index.html', 'quraan-class/index.html', 'ayah-play/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'ayah-play/privacy/index.html', 'ar/index.html', 'ar/thanks/index.html', 'ar/contact/index.html']) {
+  for (const f of ['index.html', '404.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'tester/index.html', 'thanks/index.html', 'privacy/index.html', 'islamic-coloring/index.html', 'quraan-class/index.html', 'ayah-play/index.html', 'quraan-class/privacy/index.html', 'quraan-class/delete-account/index.html', 'quraan-class/support/index.html', 'ayah-play/privacy/index.html', 'ar/index.html', 'ar/thanks/index.html', 'ar/contact/index.html']) {
     const m = read(f).match(/css\/site\.css\?v=(\d+)/);
     assert.ok(m, f);
     versions.add(m[1]);
@@ -124,12 +129,106 @@ test('every page that carries the stylesheet asks for the same version (so the n
   assert.equal(versions.size, 1, [...versions].join());
 });
 
+// ---- SEO pass of 14 Nov 2026 ----
+const ldOf = (f) => [...read(f).matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
+
+test('home pages carry Organization and WebSite data that match what the page says; about and contact have breadcrumbs', () => {
+  for (const [f, name, home] of [['index.html', 'Kevro Apps', 'https://kevroapps.com/'], ['ar/index.html', 'كيفرو آبس', 'https://kevroapps.com/ar/']]) {
+    const [data] = ldOf(f);
+    const org = data['@graph'].find((x) => x['@type'] === 'Organization');
+    assert.equal(org['@id'], 'https://kevroapps.com/#organization');
+    assert.equal(org.name, name);
+    assert.equal(org.email, 'support@kevroapps.com');
+    assert.equal(org.address, undefined, 'no location in the page data (Captain, 15 Nov 2026)');
+    assert.ok(existsSync(join(root, org.logo.replace('https://kevroapps.com/', ''))), 'the logo file exists');
+    const site = data['@graph'].find((x) => x['@type'] === 'WebSite');
+    assert.equal(site.url, home);
+    assert.deepEqual(site.publisher, { '@id': 'https://kevroapps.com/#organization' });
+    assert.ok(read(f).includes('support@kevroapps.com'), 'the page shows the email it declares');
+  }
+  for (const [f, item] of [['about/index.html', 'https://kevroapps.com/about/'], ['contact/index.html', 'https://kevroapps.com/contact/'], ['ar/about/index.html', 'https://kevroapps.com/ar/about/'], ['ar/contact/index.html', 'https://kevroapps.com/ar/contact/']]) {
+    const [crumb] = ldOf(f);
+    assert.equal(crumb['@type'], 'BreadcrumbList', f);
+    assert.equal(crumb.itemListElement.length, 2);
+    assert.equal(crumb.itemListElement[1].item, item);
+    assert.equal(crumb.itemListElement[0].item, f.startsWith('ar/') ? 'https://kevroapps.com/ar/' : 'https://kevroapps.com/');
+  }
+});
+
+test('sitemap: every URL is a real, indexable page; each English and Arabic pair lists the same alternates; nothing noindex or disallowed', () => {
+  const map = read('sitemap.xml');
+  const robots = read('robots.txt');
+  const entries = [...map.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
+  const locs = entries.map((e) => e.match(/<loc>([^<]+)<\/loc>/)[1]);
+  assert.equal(new Set(locs).size, locs.length, 'no duplicates');
+  for (const e of entries) {
+    const loc = e.match(/<loc>https:\/\/kevroapps\.com(\/[^<]*)<\/loc>/)[1];
+    const file = join(root, loc.slice(1), 'index.html');
+    assert.ok(existsSync(file), loc + ' is a page');
+    const html = readFileSync(file, 'utf8');
+    assert.doesNotMatch(html, /name="robots" content="noindex"/, loc);
+    assert.ok(!robots.split(/\r?\n/).some((l) => l.startsWith('Disallow: ') && loc.startsWith(l.slice(10)) && l.length > 10), loc + ' is not disallowed');
+    assert.match(e, /<lastmod>20\d\d-\d\d-\d\d<\/lastmod>/, loc);
+    assert.ok(html.includes(`<link rel="canonical" href="https://kevroapps.com${loc}">`), loc + ' is its own canonical');
+    // the alternates in the sitemap are the ones in the page
+    const inMap = [...e.matchAll(/hreflang="([^"]+)" href="([^"]+)"/g)].map((m) => m[1] + ' ' + m[2]).sort();
+    const inPage = [...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">/g)].map((m) => m[1] + ' ' + m[2]).sort();
+    assert.deepEqual(inMap, inPage, loc + ' alternates');
+  }
+  for (const f of ['thanks/index.html', 'ar/thanks/index.html']) assert.ok(!locs.includes('https://kevroapps.com/' + f.replace('index.html', '')), f + ' stays out');
+});
+
+test('the iPhone answer is "Coming soon" with no date and no detail, on the three app pages and in the page data (Captain, 15 Nov 2026)', () => {
+  const ANSWER = 'Coming soon. For questions about iPhone, write to';
+  for (const file of ['islamic-coloring/index.html', 'quraan-class/index.html', 'ayah-play/index.html']) {
+    const text = read(file);
+    assert.ok(text.includes('<p>' + ANSWER + ' <a href="mailto:support@kevroapps.com">support@kevroapps.com</a>.</p>'), file + ' visible answer');
+    assert.ok(text.includes('"text":"' + ANSWER + ' support@kevroapps.com."'), file + ' structured data matches the visible answer');
+    assert.doesNotMatch(text, /Not at the moment/, file + ' old wording');
+    assert.doesNotMatch(text, /Not yet\. Today our apps/, file + ' superseded wording');
+    // "Coming soon" is the furthest it goes: no date, no store badge, nothing about what is being built or tested.
+    assert.doesNotMatch(text, /iPhone[^<.]*(is being (built|tested)|in testing|20\d\d|release date)|App Store|TestFlight/i, file + ' no date, badge or build detail');
+  }
+});
+
+test('no location on the website: no page, manifest, assistant file or README says where the studio is (Captain, 15 Nov 2026)', () => {
+  // Left on purpose, and named: the Qatari data protection law the Qur'aan Class policy cites, and the client demos.
+  const ALLOWED = ["Qatar's Personal Data Privacy Protection Law", 'قانون حماية خصوصية البيانات الشخصية في قطر'];
+  const SKIP = new Set(['node_modules', '.git', 'demo', 'demo2', 'ucmas', 'docs']);
+  const files = [];
+  const walk = (dir) => {
+    for (const e of readdirSync(join(root, dir), { withFileTypes: true })) {
+      const rel = dir ? dir + '/' + e.name : e.name;
+      if (e.isDirectory()) { if (!SKIP.has(e.name)) walk(rel); }
+      else if (/\.(html|webmanifest|md)$/.test(e.name) || rel === 'worker/src/prompt.js' || rel === 'worker/src/knowledge.js') files.push(rel);
+    }
+  };
+  walk('');
+  assert.ok(files.length > 20, 'scanned the site');
+  for (const file of files) {
+    let text = read(file);
+    for (const ok of ALLOWED) text = text.split(ok).join('');
+    assert.doesNotMatch(text, /doha|qatar|الدوحة|قطر/i, file + ' names the location');
+  }
+});
+
+test('the services page is removed for now, and the contact pages carry no phone number or WhatsApp link (Captain, 15 Nov 2026)', () => {
+  assert.equal(existsSync(join(root, 'services/index.html')), false, 'no services page');
+  assert.ok(!read('sitemap.xml').includes('/services/'), 'not in the sitemap');
+  for (const f of ['index.html', 'apps/index.html', 'about/index.html', 'contact/index.html', 'ar/index.html', 'ar/about/index.html', 'ar/contact/index.html']) assert.doesNotMatch(read(f), /href="\/services|\/services\//, f + ' no link to services');
+  for (const f of ['contact/index.html', 'ar/contact/index.html']) {
+    const text = read(f);
+    assert.doesNotMatch(text, /tel:|wa\.me|\+974|3320/, f + ' no phone number or WhatsApp link');
+    assert.ok(text.includes('mailto:support@kevroapps.com'), f + ' email stays');
+  }
+});
+
 test('privacy policy covers iPhone and iPad: App Store purchase, add-only Photos, TestFlight, and keeps the no-account model', () => {
   const html = read('privacy/index.html');
   for (const phrase of ["Apple's App Store", 'iPhone and iPad', 'TestFlight', 'add pictures to Photos', 'https://www.apple.com/legal/privacy/', 'IDFA', 'public link', 'content packs', 'Kids Category']) assert.ok(html.includes(phrase), phrase);
   assert.ok(html.includes('Short Privacy Summary (for the app stores)'));
   assert.ok(!html.includes('for Play Store'));
-  assert.ok(!/premium/i.test(html), 'five content packs, not one premium unlock');
+  assert.ok(!/premium/i.test(html), 'several purchases, not one premium unlock');
   assert.ok(html.includes('The app does not require account registration'));
   assert.ok(!/Muslim kids|colour/i.test(html));
 });

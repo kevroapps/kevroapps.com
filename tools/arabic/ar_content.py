@@ -27,7 +27,7 @@ section("Every page: header, footer, shared words", [
     ("crumb_label", "Breadcrumb (accessible label)", "مسار الصفحة"),
     ("crumb_apps", "Apps (breadcrumb)", "التطبيقات"),
     ("more_eyebrow", "More from Kevro Apps", "المزيد من كيفرو آبس"),
-    ("more_title", "Built by a dad in Doha, for his own kids first", "صنعها أب في الدوحة لأطفاله أولًا"),
+    ("more_title", "Built by a dad, for his own kids first", "صنعها أب لأطفاله أولًا"),
     ("glance", "At a glance", "نظرة سريعة"),
     ("play_get", "Get it on Google Play →", "احصلوا عليه من Google Play ←"),
     ("play_open", "Open Google Play listing →", "افتحوا صفحة التطبيق في Google Play ←"),
@@ -43,7 +43,7 @@ section("Every page: header, footer, shared words", [
 
 section("Home page (/ar/)", [
     ("h_title", "Page title", "كيفرو آبس · تلوين إسلامي للأطفال وحلقة القرآن"),
-    ("h_desc", "Page description", "كيفرو آبس (Kevro Apps) استوديو مستقل في الدوحة. تلوين إسلامي للأطفال (Islamic Coloring for Kids) على Google Play، وحلقة القرآن لمعلمي القرآن قيد الاختبار المغلق، وآيات للصغار (Ayah Play) قريبًا على Google Play."),
+    ("h_desc", "Page description", "كيفرو آبس (Kevro Apps) استوديو مستقل. تلوين إسلامي للأطفال (Islamic Coloring for Kids) على Google Play، وحلقة القرآن لمعلمي القرآن قيد الاختبار المغلق، وآيات للصغار (Ayah Play) قريبًا على Google Play."),
     ("h_badge", "On Google Play", "على Google Play"),
     ("h_h1", "Islamic Coloring for Kids is live on Google Play.", "تلوين إسلامي للأطفال (Islamic Coloring for Kids) متوفر الآن على Google Play."),
     ("h_lead", "A calm coloring and learning app for children, built around Islamic art, Arabic letters, numbers, Islamic months, and picture puzzles.", "تطبيق هادئ للتلوين والتعلّم للأطفال، قائم على الفن الإسلامي والحروف العربية والأرقام والأشهر الهجرية وألغاز الصور."),
@@ -53,7 +53,7 @@ section("Home page (/ar/)", [
     ("h_f3", "Works offline", "يعمل دون إنترنت"),
     ("h_eyebrow", "Our app on Google Play", "تطبيقنا على Google Play"),
     ("h_h2", "A quiet creative space for families", "مساحة إبداعية هادئة للعائلات"),
-    ("h_p", "Islamic Coloring for Kids combines coloring pages, Arabic learning, and puzzle play in a child-friendly app with no advertising. Android only.", "يجمع تلوين إسلامي للأطفال بين صفحات التلوين وتعلّم العربية وألعاب الألغاز في تطبيق مناسب للأطفال دون أي إعلانات. لأجهزة أندرويد فقط."),
+    ("h_p", "Islamic Coloring for Kids combines coloring pages, Arabic learning, and puzzle play in a child-friendly app with no advertising.", "يجمع تلوين إسلامي للأطفال بين صفحات التلوين وتعلّم العربية وألعاب الألغاز في تطبيق مناسب للأطفال دون أي إعلانات."),
     ("h_card", "More than 80 coloring pages, all 28 Arabic letters with tap-to-hear pronunciation, 10 Arabic numbers, the 12 Islamic months, and Puzzle Studio with sliding tile and jigsaw modes.", "أكثر من 80 صفحة تلوين، والحروف العربية الثمانية والعشرون مع نطق كل حرف عند لمسه، و10 أرقام عربية، والأشهر الهجرية الاثنا عشر، واستوديو الألغاز (Puzzle Studio) بنمطي البلاطات المنزلقة والصور المقطّعة."),
     ("h_c1", "No account or sign-in", "بلا حساب أو تسجيل دخول"),
     ("h_c2", "Phones and tablets", "للهواتف والأجهزة اللوحية"),
@@ -81,15 +81,14 @@ section("Home page (/ar/)", [
     ("h_priv3", "No data sold to third parties", "لا تُباع بيانات لأي طرف ثالث"),
     ("h_q_h2", "Have a question?", "هل لديكم سؤال؟"),
     ("h_q_p", "We'd love to hear from you: feedback, ideas, or just to say hello.", "يسعدنا أن نسمع منكم: ملاحظات أو أفكار أو مجرد تحية."),
-    ("h_reviews_note", "(Not translated: the parent reviews section stays on the English home page only, because those are real Google Play reviews in the parents' own words.)", "(لا يُترجم: يبقى قسم آراء الأهل في الصفحة الإنجليزية فقط، لأنها مراجعات حقيقية على Google Play بكلمات الأهل أنفسهم.)"),
 ])
 
 section("Apps overview (/ar/apps/)", [
     ("a_title", "Page title", "التطبيقات · كيفرو آبس"),
-    ("a_desc", "Page description", "تطبيقات كيفرو آبس (Kevro Apps): تلوين إسلامي للأطفال (Islamic Coloring for Kids) على Google Play، وحلقة القرآن لمعلمي القرآن قيد الاختبار المغلق، وآيات للصغار (Ayah Play) قريبًا على Google Play. بلا إعلانات. لأجهزة أندرويد فقط."),
+    ("a_desc", "Page description", "تطبيقات كيفرو آبس (Kevro Apps): تلوين إسلامي للأطفال (Islamic Coloring for Kids) على Google Play، وحلقة القرآن لمعلمي القرآن قيد الاختبار المغلق، وآيات للصغار (Ayah Play) قريبًا على Google Play. بلا إعلانات."),
     ("a_eyebrow", "Apps", "التطبيقات"),
     ("a_h1", "Calm apps for families, children and teachers", "تطبيقات هادئة للعائلات والأطفال والمعلمين"),
-    ("a_lead", "Every Kevro app starts at home: no ads, no tracking, made by a dad in Doha for his own kids first. All apps are Android only.", "تبدأ تطبيقات كيفرو آبس (Kevro Apps) من البيت: بلا إعلانات ولا تتبّع، ويصنعها أب في الدوحة لأطفاله أولًا. جميع التطبيقات لأجهزة أندرويد فقط."),
+    ("a_lead", "Every Kevro app starts at home: no ads, no tracking, made by a dad for his own kids first. Every app is on Google Play or on its way there.", "تبدأ تطبيقات كيفرو آبس (Kevro Apps) من البيت: بلا إعلانات ولا تتبّع، ويصنعها أب لأطفاله أولًا. جميع تطبيقاتنا متاحة على Google Play أو نعمل على إتاحتها عليه."),
     ("a_ic", "A calm coloring and learning app for children: more than 80 coloring pages, all 28 Arabic letters, Arabic numbers, the Islamic months and picture puzzles. No ads, no subscription, works offline.", "تطبيق هادئ للتلوين والتعلّم للأطفال: أكثر من 80 صفحة تلوين، والحروف العربية الثمانية والعشرون، والأرقام العربية، والأشهر الهجرية، وألغاز الصور. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت."),
     ("a_qc", "An Android app for teachers who run a Qur'aan or Arabic class, and for the students and families who learn with them. Homework, records and messages stay in one place. The whole app works in English and Arabic.", "تطبيق أندرويد لمن يديرون حلقات لتعليم القرآن أو اللغة العربية، وللطلبة وأسرهم. تبقى الواجبات والسجلات والرسائل في مكان واحد. ويعمل التطبيق كله بالعربية والإنجليزية."),
     ("a_ap", "A calm Qur'aan app for the youngest children, around ages two to five. A short surah plays while the child taps a few gentle toys. No internet, no ads and no account.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. تُشغَّل سورة قصيرة بينما يلمس الطفل بضع ألعاب لطيفة على الشاشة. بلا إنترنت ولا إعلانات ولا حساب."),
@@ -98,13 +97,13 @@ section("Apps overview (/ar/apps/)", [
 
 section("Islamic Coloring for Kids page (/ar/islamic-coloring/)", [
     ("i_title", "Page title", "تلوين إسلامي للأطفال · كيفرو آبس"),
-    ("i_desc", "Page description", "تلوين إسلامي للأطفال (Islamic Coloring for Kids) تطبيق هادئ للتلوين والتعلّم على Google Play: أكثر من 80 صفحة، والحروف العربية الثمانية والعشرون، وألغاز الصور. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت. لأجهزة أندرويد فقط."),
+    ("i_desc", "Page description", "تلوين إسلامي للأطفال (Islamic Coloring for Kids) تطبيق هادئ للتلوين والتعلّم على Google Play: أكثر من 80 صفحة، والحروف العربية الثمانية والعشرون، وألغاز الصور. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت."),
     ("i_eyebrow", "Available now on Google Play", "متوفر الآن على Google Play"),
-    ("i_lead", "A calm coloring and learning app for children, built around Islamic art, Arabic letters, numbers, Islamic months, and picture puzzles. Android only.", "تطبيق هادئ للتلوين والتعلّم للأطفال، قائم على الفن الإسلامي والحروف العربية والأرقام والأشهر الهجرية وألغاز الصور. لأجهزة أندرويد فقط."),
+    ("i_lead", "A calm coloring and learning app for children, built around Islamic art, Arabic letters, numbers, Islamic months, and picture puzzles.", "تطبيق هادئ للتلوين والتعلّم للأطفال، قائم على الفن الإسلامي والحروف العربية والأرقام والأشهر الهجرية وألغاز الصور."),
     ("i_f1", "Everyone", "للجميع"),
     ("i_f2", "42 free items, including all 28 Arabic letters", "42 عنصرًا مجانيًا، منها الحروف العربية الثمانية والعشرون كلها"),
     ("i_f3", "One-time purchases, no subscription", "مشتريات لمرة واحدة، بلا اشتراك"),
-    ("i_f4", "Android only", "لأجهزة أندرويد فقط"),
+    ("i_f4", "On Google Play", "على Google Play"),
     ("i_do_h2", "What children can do", "ما الذي يمكن للأطفال فعله؟"),
     ("i_do_sub", "The app is designed to feel unhurried: color, learn, build puzzles, and save artwork without ads or account setup.", "صُمّم التطبيق ليمنح الأطفال تجربة هادئة بلا استعجال: التلوين والتعلّم وتركيب الألغاز وحفظ الرسومات، بلا إعلانات ولا حاجة إلى إنشاء حساب."),
     ("i_do1t", "Color Islamic and everyday pages", "تلوين صفحات إسلامية وصفحات من الحياة اليومية"),
@@ -135,7 +134,7 @@ section("Islamic Coloring for Kids page (/ar/islamic-coloring/)", [
     ("i_q4", "Is it safe for my child?", "هل هو آمن للطفل؟"),
     ("i_a4", "There are no accounts or sign-in and no personal information is collected. Purchases, settings and sharing sit behind a grown-up check, and parents can set their own passcode. Kid Mode pins the app to the screen so small hands cannot wander into other apps. The illustrations contain no faces or figures.", "لا توجد حسابات ولا تسجيل دخول، ولا تُجمع أي معلومات شخصية. ولا يمكن الوصول إلى المشتريات والإعدادات والمشاركة إلا بعد اجتياز خطوة تحقّق للبالغين، ويمكن للأهل وضع رمز مرور خاص بهم. ويثبّت وضع الطفل (Kid Mode) التطبيق على الشاشة كي لا ينتقل الطفل إلى تطبيقات أخرى. والرسومات خالية من الوجوه والأشخاص."),
     ("i_q5", "Is there an iPhone version?", "هل توجد نسخة للآيفون؟"),
-    ("i_a5", "Not at the moment. Kevro apps are Android only. For questions about iPhone, write to support@kevroapps.com.", "ليس حاليًا. تطبيقات كيفرو آبس (Kevro Apps) لأجهزة أندرويد فقط. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."),
+    ("i_a5", "Coming soon. For questions about iPhone, write to support@kevroapps.com.", "قريبًا. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."),
     ("i_q6", "What if a purchase does not work?", "ماذا لو لم تنجح عملية الشراء؟"),
     ("i_a6", "Refunds and purchase problems go through Google Play, or you can write to support@kevroapps.com.", "طلبات الاسترداد ومشكلات الشراء تتم عبر Google Play، ويمكنكم أيضًا مراسلتنا على support@kevroapps.com."),
     ("i_more_qc", "For teachers who run a Qur'aan or Arabic class, and for the students and families who learn with them.", "لمن يديرون حلقات لتعليم القرآن أو اللغة العربية، وللطلبة وأسرهم."),
@@ -148,7 +147,6 @@ section("Qur'aan Class page (/ar/quraan-class/)", [
     ("q_eyebrow", "In closed testing on Google Play", "قيد الاختبار المغلق على Google Play"),
     ("q_lead", "An Android app for teachers who run a Qur'aan or Arabic class, and for the students and families who learn with them. Homework, records and messages stay in one place.", "تطبيق أندرويد لمن يديرون حلقات لتعليم القرآن أو اللغة العربية، وللطلبة وأسرهم. تبقى الواجبات والسجلات والرسائل في مكان واحد."),
     ("q_test_btn", "Help us test it →", "ساعدونا في اختباره ←"),
-    ("q_g1", "Android only", "لأجهزة أندرويد فقط"),
     ("q_g2", "In closed testing on Google Play, no public release date yet", "قيد الاختبار المغلق على Google Play، ولا يوجد موعد إطلاق عام بعد"),
     ("q_g3", "The whole app works in English and Arabic", "التطبيق كله يعمل بالعربية والإنجليزية"),
     ("q_g4", "Students and parents join with a code from the teacher", "ينضم الطلبة والأهل برمز يرسله معلّم الحلقة أو معلّمتها"),
@@ -196,18 +194,18 @@ section("Qur'aan Class page (/ar/quraan-class/)", [
     ("q_q5", "What can students and parents see?", "ما الذي يمكن للطلبة والأهل الاطلاع عليه؟"),
     ("q_a5", "A student never sees fees or a parent's contact details. There are no ads and no tracking.", "لا تظهر للطلبة الرسوم أو بيانات تواصل أولياء الأمور. ولا توجد إعلانات ولا تتبّع."),
     ("q_q6", "Is there an iPhone version?", "هل توجد نسخة للآيفون؟"),
-    ("q_a6", "Not at the moment. Kevro apps are Android only. For questions about iPhone, write to support@kevroapps.com.", "ليس حاليًا. تطبيقات كيفرو آبس (Kevro Apps) لأجهزة أندرويد فقط. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."),
+    ("q_a6", "Coming soon. For questions about iPhone, write to support@kevroapps.com.", "قريبًا. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."),
     ("q_more_ic", "A calm coloring and learning app for children. No ads, no subscription, works offline.", "تطبيق هادئ للتلوين والتعلّم للأطفال. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت."),
     ("q_more_ap", "A calm Qur'aan app for the youngest children, around ages two to five.", "تطبيق قرآني هادئ لأصغر الأطفال، من سن سنتين إلى خمس تقريبًا."),
 ])
 
 section("Ayah Play page (/ar/ayah-play/)", [
     ("p_title", "Page title", "آيات للصغار · كيفرو آبس"),
-    ("p_desc", "Page description", "آيات للصغار (Ayah Play) تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. بلا إنترنت ولا إعلانات ولا حساب. قريبًا على Google Play، ولأجهزة أندرويد فقط."),
+    ("p_desc", "Page description", "آيات للصغار (Ayah Play) تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. بلا إنترنت ولا إعلانات ولا حساب. قريبًا على Google Play."),
     ("p_eyebrow", "Coming to Google Play", "قريبًا على Google Play"),
     ("p_lead", "A calm Qur'aan app for the youngest children, around ages two to five. A short surah plays while the child taps a few gentle toys on the screen.", "تطبيق قرآني هادئ لأصغر الأطفال، من عمر سنتين إلى خمس سنوات تقريبًا. تُشغَّل سورة قصيرة بينما يلمس الطفل بضع ألعاب لطيفة على الشاشة."),
     ("p_ask", "Ask a question", "اسألونا"),
-    ("p_g1", "Android only, coming to Google Play", "لأجهزة أندرويد فقط، قريبًا على Google Play"),
+    ("p_g1", "Coming to Google Play", "قريبًا على Google Play"),
     ("p_g2", "No internet access", "بلا اتصال بالإنترنت"),
     ("p_g3", "No ads", "بلا إعلانات"),
     ("p_g4", "No account", "بلا حساب"),
@@ -220,17 +218,17 @@ section("Ayah Play page (/ar/ayah-play/)", [
     ("p_q3", "Does it need internet, ads or an account?", "هل يحتاج إلى اتصال بالإنترنت أو حساب؟ وهل يحتوي على إعلانات؟"),
     ("p_a3", "No. There is no internet access, no ads and no account, and the settings sit behind a parent gate.", "لا. لا يتصل بالإنترنت، ولا يعرض إعلانات، ولا يحتاج إلى حساب، والإعدادات محمية بخطوة تحقّق للأهل."),
     ("p_q4", "Is there an iPhone version?", "هل توجد نسخة للآيفون؟"),
-    ("p_a4", "Not at the moment. Kevro apps are Android only. For questions about iPhone, write to support@kevroapps.com.", "ليس حاليًا. تطبيقات كيفرو آبس (Kevro Apps) لأجهزة أندرويد فقط. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."),
+    ("p_a4", "Coming soon. For questions about iPhone, write to support@kevroapps.com.", "قريبًا. وللاستفسار عن الآيفون، راسلونا على support@kevroapps.com."),
     ("p_more_ic", "A calm coloring and learning app for children. No ads, no subscription, works offline.", "تطبيق هادئ للتلوين والتعلّم للأطفال. بلا إعلانات وبلا اشتراك، ويعمل دون إنترنت."),
     ("p_more_qc", "For teachers who run a Qur'aan or Arabic class, and for the students and families who learn with them.", "لمن يديرون حلقات لتعليم القرآن أو اللغة العربية، وللطلبة وأسرهم."),
 ])
 
 section("About page (/ar/about/)", [
     ("b_title", "Page title", "عن الاستوديو · كيفرو آبس"),
-    ("b_desc", "Page description", "كيفرو آبس (Kevro Apps) استوديو برمجيات مستقل في الدوحة يبني تطبيقات هادئة وآمنة للعائلات."),
+    ("b_desc", "Page description", "كيفرو آبس (Kevro Apps) استوديو برمجيات مستقل يبني تطبيقات هادئة وآمنة للعائلات."),
     ("b_eyebrow", "About", "عن الاستوديو"),
     ("b_h1", "About Kevro Apps", "عن كيفرو آبس (Kevro Apps)"),
-    ("b_lead", "An independent software studio based in Doha, building thoughtful apps, websites, and automation for people and small businesses.", "استوديو برمجيات مستقل مقرّه الدوحة، يطوّر تطبيقات ومواقع وحلول أتمتة مصمّمة بعناية للأفراد وأصحاب الأعمال الصغيرة."),
+    ("b_lead", "An independent software studio building thoughtful apps, websites, and automation for people and small businesses.", "استوديو برمجيات مستقل يطوّر تطبيقات ومواقع وحلول أتمتة مصمّمة بعناية للأفراد وأصحاب الأعمال الصغيرة."),
     ("b_p1", "Kevro Apps is a small independent studio founded on the idea that software should be calm, focused, and respectful of your time. We release slowly and deliberately, and each product is built to do one thing well, with no ads, no tracking, and no clutter.", "كيفرو آبس استوديو مستقل صغير تأسّس على فكرة أن البرمجيات ينبغي أن تكون هادئة ومركّزة وتحترم وقتكم. نطرح منتجاتنا بتأنٍّ، ويُصمَّم كل منتج لأداء مهمة واحدة بإتقان، بلا إعلانات ولا تتبّع ولا ازدحام."),
     ("b_p2", "Our first release, Islamic Coloring for Kids, is live on Google Play. It brings Islamic coloring pages, Arabic letters, numbers, Islamic months, and picture puzzles into a calm child-friendly app with no ads. Qur'aan Class, for Qur'aan teachers and the families who learn with them, is in closed testing on Google Play, and Ayah Play, a quiet Qur'aan app for the youngest children, is coming to Google Play.", "أول إصداراتنا، تلوين إسلامي للأطفال (Islamic Coloring for Kids)، متوفر على Google Play. ويجمع صفحات التلوين الإسلامية والحروف العربية والأرقام والأشهر الهجرية وألغاز الصور في تطبيق هادئ مناسب للأطفال بلا إعلانات. أما حلقة القرآن، للمعلّمين والمعلّمات والأسر التي تتعلّم معهم، فهو قيد الاختبار المغلق على Google Play. وسيُطرح تطبيق آيات للصغار (Ayah Play)، وهو تطبيق قرآني هادئ لأصغر الأطفال، على Google Play."),
     ("b_p3", "We have also built websites, landing pages, and automation for small businesses. We are not taking new website clients at the moment.", "وقد بنينا أيضًا مواقع وصفحات هبوط وحلول أتمتة لأصحاب الأعمال الصغيرة. ولا نستقبل حاليًا مشاريع مواقع جديدة."),
@@ -245,16 +243,13 @@ section("About page (/ar/about/)", [
 
 section("Contact page (/ar/contact/)", [
     ("c_title", "Page title", "التواصل معنا · كيفرو آبس"),
-    ("c_desc", "Page description", "تواصلوا مع كيفرو آبس (Kevro Apps)، ومقرّها الدوحة. راسلونا على support@kevroapps.com ونرد خلال يوم عمل واحد."),
+    ("c_desc", "Page description", "تواصلوا مع كيفرو آبس (Kevro Apps). راسلونا على support@kevroapps.com ونرد خلال يوم عمل واحد."),
     ("c_eyebrow", "Contact", "التواصل معنا"),
     ("c_h1", "Get in touch", "تواصلوا معنا"),
     # c_lead is kept (it is one of the 74 corrections) but the page now uses cx_lead, below.
-    ("c_lead", "Based in Doha. Write to us and we will reply within one business day.", "مقرّنا في الدوحة. راسلونا ونرد خلال يوم عمل واحد."),
+    ("c_lead", "Write to us and we will reply within one business day.", "راسلونا ونرد خلال يوم عمل واحد."),
     ("c_h2", "Ways to reach us", "طرق التواصل"),
     ("c_email", "Email", "البريد الإلكتروني"),
-    ("c_phone", "Phone", "الهاتف"),
-    ("c_loc", "Location", "الموقع"),
-    ("c_loc_v", "Doha, Qatar", "الدوحة، قطر"),
     ("c_resp", "Response time", "مدة الرد"),
     ("c_resp_v", "We reply within one business day.", "نرد خلال يوم عمل واحد."),
 ])
@@ -294,7 +289,18 @@ section("Addendum: image descriptions (alt text) and small labels", [
     ("alt_shot2", "The Mosques collection with pages to choose from", "مجموعة المساجد مع صفحات للاختيار منها"),
     ("alt_shot3", "The Arabic Numbers collection with pages to choose from", "مجموعة الأرقام العربية مع صفحات للاختيار منها"),
     ("lang_aria", "Language (accessible label of the language link)", "اللغة"),
-    ("whatsapp", "Chat on WhatsApp", "تحدثوا معنا عبر واتساب"),
+])
+
+section("Parent reviews on the Arabic home page (approved by Chody 14 Nov 2026; the reviews themselves stay in the parents' own English)", [
+    ("rv_eyebrow", "Loved by families", "تحبه العائلات"),
+    ("rv_h2", "What parents are saying", "ماذا يقول الأهل"),
+    ("rv_note", "Real Google Play reviews of Islamic Coloring for Kids, in the parents' own words, in English.", "مراجعات حقيقية على Google Play لتطبيق تلوين إسلامي للأطفال، بكلمات الأهل كما كتبوها بالإنجليزية."),
+    ("rv_prev", "Previous review (button label)", "المراجعة السابقة"),
+    ("rv_next", "Next review (button label)", "المراجعة التالية"),
+    ("rv_choose", "Choose a review (label of the dots)", "اختيار مراجعة"),
+    ("rv_pause", "Pause reviews (button, first state)", "إيقاف العرض مؤقتًا"),
+    ("rv_play", "Play reviews (button, second state; set in js/reviews.js)", "استئناف العرض"),
+    ("rv_show", "Show review (label of each dot, followed by its number; set in js/reviews.js)", "عرض المراجعة"),
 ])
 
 A = {}
