@@ -91,6 +91,10 @@ test("arabic pages: app names are the Arabic Play listing names, with the Latin 
   }
 });
 
+// Islamic Coloring 1.2.0 (26 Nov 2026): the page and free item counts went up. Chody's locked files keep
+// the wording as read; only these two numbers are moved on when they are compared.
+const withCounts = (text) => text.replace('أكثر من 80', 'أكثر من 90').replace('42 عنصرًا', '43 عنصرًا');
+
 // Retired on purpose, one key, with the reason (Chody's review, 14 Nov 2026): it described the old contact page, which had email and phone only.
 const RETIRED = { c_form_note: 'obsolete contact page arrangement; the Arabic contact page now has a support form',
   h_reviews_note: 'a build note saying the parent reviews stay English-only; the Arabic home page now shows them in English with Arabic labels (Chody, 14 Nov 2026)' };
@@ -120,7 +124,7 @@ test("Chody's 74 corrections are in the Arabic text byte for byte", () => {
       for (const f of Object.keys(AR)) assert.ok(!read(f).includes(original), key + ' is not on ' + f);
       continue;
     }
-    let arabic = withNames(original);
+    let arabic = withCounts(withNames(original));
     if (['h_desc', 'a_desc', 'i_desc', 'p_desc'].includes(key)) {
       // descriptions carry the Latin name in brackets at the first mention (they are not in the page text the builder processes)
       arabic = arabic.replace('تلوين إسلامي للأطفال', 'تلوين إسلامي للأطفال (Islamic Coloring for Kids)').replace('آيات للصغار', 'آيات للصغار (Ayah Play)');
@@ -332,7 +336,7 @@ test("Chody's Google Play wording (15 Nov 2026) is in the Arabic text byte for b
   assert.deepEqual(Object.keys(lock).sort(), ['a_desc', 'a_lead', 'h_p', 'i_desc', 'i_f4', 'i_lead', 'p_desc', 'p_g1']);
   for (const [key, arabic] of Object.entries(lock)) {
     const row = source.split(/\r?\n/).find((l) => l.startsWith(`    (${JSON.stringify(key)}, `));
-    assert.ok(row && row.endsWith(`${JSON.stringify(arabic)}),`), key + ' matches Chody');
+    assert.ok(row && row.endsWith(`${JSON.stringify(withCounts(arabic))}),`), key + ' matches Chody');
   }
   assert.ok(read('ar/apps/index.html').includes('جميع تطبيقاتنا متاحة على'), 'the apps lead is on the page');
 });
