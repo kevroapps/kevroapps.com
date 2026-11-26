@@ -222,3 +222,13 @@ test('the services page is removed for now, and the contact pages carry no phone
     assert.ok(text.includes('mailto:support@kevroapps.com'), f + ' email stays');
   }
 });
+
+test('privacy policy covers iPhone and iPad: App Store purchase, add-only Photos, TestFlight, and keeps the no-account model', () => {
+  const html = read('privacy/index.html');
+  for (const phrase of ["Apple's App Store", 'iPhone and iPad', 'TestFlight', 'add pictures to Photos', 'https://www.apple.com/legal/privacy/', 'IDFA', 'public link', 'content packs', 'Kids Category']) assert.ok(html.includes(phrase), phrase);
+  assert.ok(html.includes('Short Privacy Summary (for the app stores)'));
+  assert.ok(!html.includes('for Play Store'));
+  assert.ok(!/premium/i.test(html), 'several purchases, not one premium unlock');
+  assert.ok(html.includes('The app does not require account registration'));
+  assert.ok(!/Muslim kids|colour/i.test(html));
+});
